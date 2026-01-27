@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RCGO | Paket Usaha Rental RC Offroad Extreme</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script>
+        // Tailwind Configuration for Dark Mode
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        mud: '#3d2b1f',
+                        dirt: '#d4a373',
+                        warning: '#ff6b00',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Russo+One&family=Space+Grotesk:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .font-stencil {
+            font-family: 'Black Ops One', system-ui;
+        }
+
+        .font-rugged {
+            font-family: 'Russo One', sans-serif;
+        }
+
+        /* Dark mode backgrounds */
+        .dark body {
+            background-color: #0f0c0a;
+            background-image: url("https://www.transparenttextures.com/patterns/dark-matter.png");
+        }
+
+        /* Light mode backgrounds */
+        body {
+            background-color: #f5f5f4;
+            background-image: url("https://www.transparenttextures.com/patterns/white-sand.png");
+        }
+
+        .mud-splatter {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0.4;
+            z-index: 0;
+        }
+
+        .rugged-card {
+            background: #ffffff;
+            border: 2px solid #e7e5e4;
+            position: relative;
+            overflow: hidden;
+            clip-path: polygon(0% 0%, 95% 0%, 100% 5%, 100% 100%, 5% 100%, 0% 95%);
+            transition: all 0.3s ease;
+        }
+
+        .dark .rugged-card {
+            background: linear-gradient(145deg, #1a1614, #2d241e);
+            border-color: #3d2b1f;
+        }
+
+        .rugged-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: #ff6b00;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .tire-spin {
+            animation: spin 10s linear infinite;
+        }
+
+        .btn-offroad {
+            background: #ff6b00;
+            color: black;
+            font-weight: 800;
+            text-transform: uppercase;
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+            transition: all 0.3s ease;
+        }
+
+        .btn-offroad:hover {
+            transform: scale(1.05) skewX(-5deg);
+            box-shadow: 0 0 20px rgba(255, 107, 0, 0.4);
+        }
+
+        /* Mobile Menu Toggle Styling */
+        #mobile-menu {
+            transition: transform 0.3s ease-in-out;
+        }
+    </style>
+</head>
+
+<body class="text-stone-900 dark:text-stone-200 overflow-x-hidden">
+
+    <!-- Mud Splashes Decor -->
+    <div class="mud-splatter top-10 -left-10 w-40 h-40 md:w-64 md:h-64 rotate-12">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <path class="fill-stone-400 dark:fill-mud"
+                d="M44.7,-76.4C58.1,-69.2,69.2,-57.4,76.4,-44C83.5,-30.6,86.7,-15.3,85.2,-0.9C83.7,13.6,77.4,27.1,69.5,39.6C61.6,52.1,52,63.5,39.9,71.7C27.9,79.9,13.9,84.9,0.3,84.4C-13.4,83.9,-26.8,77.9,-39.1,69.9C-51.4,61.9,-62.7,51.9,-71.4,39.7C-80.1,27.5,-86.2,13.1,-86.6,-0.3C-87,-13.6,-81.8,-25.9,-73.4,-36.4C-65.1,-46.9,-53.7,-55.6,-41.5,-63.5C-29.3,-71.4,-14.7,-78.4,0.6,-79.4C15.8,-80.4,31.3,-83.6,44.7,-76.4Z"
+                transform="translate(100 100)" />
+        </svg>
+    </div>
+
+    <!-- Navbar -->
+    <nav
+        class="fixed w-full z-50 bg-stone-50/90 dark:bg-[#0f0c0a]/90 border-b-2 border-stone-200 dark:border-mud py-3 px-4 md:px-12 flex justify-between items-center transition-colors">
+        <div class="flex items-center gap-2">
+            <i class="fas fa-truck-monster text-2xl md:text-3xl text-warning"></i>
+            <div class="text-xl md:text-3xl font-stencil tracking-tighter text-warning">
+                RC<span class="text-stone-900 dark:text-stone-100">GO</span>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <!-- Theme Toggle -->
+            <button id="theme-toggle"
+                class="p-2 rounded-lg bg-stone-200 dark:bg-stone-800 text-stone-600 dark:text-stone-300 hover:text-warning transition">
+                <i id="theme-toggle-icon" class="fas fa-moon"></i>
+            </button>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex space-x-6 font-rugged text-sm uppercase italic">
+                <a href="#beranda" class="hover:text-warning transition">Arena</a>
+                <a href="#paket" class="hover:text-warning transition">Amunisi</a>
+                <a href="#galeri" class="hover:text-warning transition">Sirkuit</a>
+                <a href="#testimoni" class="hover:text-warning transition">Basecamp</a>
+            </div>
+
+            <button id="menu-btn" class="md:hidden text-2xl text-stone-900 dark:text-white">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu"
+        class="fixed inset-0 z-40 bg-stone-50 dark:bg-[#0f0c0a] transform translate-x-full md:hidden flex flex-col items-center justify-center space-y-8 font-rugged text-2xl uppercase">
+        <a href="#beranda" class="mobile-link hover:text-warning">Arena</a>
+        <a href="#paket" class="mobile-link hover:text-warning">Amunisi</a>
+        <a href="#galeri" class="mobile-link hover:text-warning">Sirkuit</a>
+        <a href="#testimoni" class="mobile-link hover:text-warning">Basecamp</a>
+        <button class="btn-offroad px-8 py-4 text-sm" onclick="toggleMenu()">TUTUP</button>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="beranda" class="relative min-h-[90vh] md:min-h-screen flex items-center pt-16 md:pt-20">
+        <div class="absolute inset-0 z-0 overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1594787318286-3d835c1d207f?auto=format&fit=crop&q=80&w=1500"
+                alt="Offroad Background"
+                class="w-full h-full object-cover opacity-20 grayscale dark:grayscale hover:grayscale-0 transition duration-1000">
+            <div
+                class="absolute inset-0 bg-gradient-to-t from-stone-50 dark:from-[#0f0c0a] via-transparent to-stone-50 dark:to-[#0f0c0a]">
+            </div>
+        </div>
+
+        <div class="container mx-auto px-6 relative z-10 text-center md:text-left">
+            <div class="max-w-3xl mx-auto md:mx-0">
+                <span data-aos="fade-right"
+                    class="inline-block bg-warning text-black px-4 py-1 font-bold text-xs md:text-sm mb-4 transform -skew-x-12 uppercase">BISNIS
+                    ANTI-MAINSTREAM</span>
+                <h1 data-aos="zoom-in-up"
+                    class="font-stencil text-4xl sm:text-6xl md:text-9xl mb-4 md:mb-6 leading-none text-stone-900 dark:text-white drop-shadow-lg">
+                    TRAJANG <br class="hidden md:block"> <span class="text-warning">LUMPUR</span> CUAN!
+                </h1>
+                <p data-aos="fade-up" data-aos-delay="200"
+                    class="text-stone-600 dark:text-stone-400 text-base md:text-2xl mb-8 md:mb-10 border-stone-300 dark:border-mud md:border-l-4 md:pl-6 italic">
+                    Bangun kerajaan rental mobil RC Offroad. Kami sediakan unit "Badak" dan strategi bisnis paling
+                    gahar!
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center md:justify-start gap-4" data-aos="fade-up"
+                    data-aos-delay="400">
+                    <button class="btn-offroad text-lg py-3 px-6 md:py-4 md:px-10">CEK PAKET AMUNISI</button>
+                    <button
+                        class="px-8 py-3 md:py-4 border-2 border-stone-300 dark:border-stone-700 font-rugged rounded hover:bg-stone-200 dark:hover:bg-stone-800 transition">VIDEO
+                        DEMO</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Paket Usaha -->
+    <section id="paket" class="py-16 md:py-24 relative bg-stone-100 dark:bg-[#151210]">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 text-center md:text-left">
+                <div>
+                    <h2 class="font-stencil text-3xl md:text-5xl text-warning mb-2 uppercase">PAKET AMUNISI</h2>
+                    <p class="text-stone-500 font-bold uppercase tracking-widest text-xs md:text-sm">Pilih kekuatanmu
+                        untuk menguasai medan</p>
+                </div>
+                <div class="bg-stone-200 dark:bg-stone-800/50 p-4 rounded-lg border-2 border-stone-300 dark:border-mud">
+                    <p class="text-[10px] font-black text-stone-500 uppercase">PROMO TERBATAS:</p>
+                    <p class="text-warning font-rugged italic underline text-sm">FREE TRAINING PERAWATAN!</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
+                <!-- Paket Scout -->
+                <div data-aos="fade-up" class="rugged-card p-8 md:p-10 group">
+                    <i class="fas fa-compass text-5xl text-warning mb-6"></i>
+                    <h3 class="font-stencil text-2xl md:text-3xl mb-4 uppercase">SCOUT MISSION</h3>
+                    <div class="text-3xl md:text-4xl font-bold mb-6">5 <span
+                            class="text-sm text-stone-500 italic">Juta-an</span></div>
+                    <ul class="space-y-3 mb-8 text-stone-600 dark:text-stone-400 text-sm">
+                        <li><i class="fas fa-skull mr-2 opacity-50"></i> 6 Unit RC Rock Crawler 4WD</li>
+                        <li><i class="fas fa-skull mr-2 opacity-50"></i> 12 Baterai High-Torque</li>
+                        <li><i class="fas fa-skull mr-2 opacity-50"></i> Banner "Waspada Cuan"</li>
+                    </ul>
+                    <button
+                        class="w-full py-4 bg-stone-200 dark:bg-stone-800 font-rugged hover:bg-warning hover:text-black transition uppercase">AMBIL
+                        POSISI</button>
+                </div>
+
+                <!-- Paket Tanker (Elite) -->
+                <div data-aos="fade-up" data-aos-delay="200"
+                    class="rugged-card p-8 md:p-10 border-warning dark:bg-gradient-to-br from-[#2d241e] to-[#0f0c0a] ring-4 ring-warning/10 scale-100 md:scale-105">
+                    <div
+                        class="bg-warning text-black text-[10px] font-black px-3 py-1 absolute top-0 right-10 uppercase">
+                        ELITE CHOICE</div>
+                    <i class="fas fa-shield-halved text-5xl text-warning mb-6"></i>
+                    <h3 class="font-stencil text-2xl md:text-3xl mb-4 uppercase">TANKER ELITE</h3>
+                    <div class="text-3xl md:text-4xl font-bold mb-6">12 <span
+                            class="text-sm text-stone-500 italic">Juta-an</span></div>
+                    <ul class="space-y-3 mb-8 font-bold text-sm">
+                        <li><i class="fas fa-check text-warning mr-2"></i> 12 Unit RC Monster Truck</li>
+                        <li><i class="fas fa-check text-warning mr-2"></i> Sirkuit Kayu Portable</li>
+                        <li><i class="fas fa-check text-warning mr-2"></i> Toolbox & Suku Cadang</li>
+                    </ul>
+                    <button class="btn-offroad w-full py-4 shadow-xl uppercase">EKSPEDISI SEKARANG</button>
+                </div>
+
+                <!-- Paket Commander -->
+                <div data-aos="fade-up" data-aos-delay="400" class="rugged-card p-8 md:p-10 group">
+                    <i class="fas fa-crown text-5xl text-warning mb-6"></i>
+                    <h3 class="font-stencil text-2xl md:text-3xl mb-4 uppercase">COMMANDER</h3>
+                    <div class="text-3xl md:text-4xl font-bold mb-6">25 <span
+                            class="text-sm text-stone-500 italic">Juta-an</span></div>
+                    <ul class="space-y-3 mb-8 text-stone-600 dark:text-stone-400 text-sm">
+                        <li><i class="fas fa-skull mr-2 opacity-50"></i> 25 Unit Mixed Arena</li>
+                        <li><i class="fas fa-skull mr-2 opacity-50"></i> Full Arena Design Support</li>
+                        <li><i class="fas fa-skull mr-2 opacity-50"></i> Branding Booth Besi Custom</li>
+                    </ul>
+                    <button
+                        class="w-full py-4 bg-stone-200 dark:bg-stone-800 font-rugged hover:bg-warning hover:text-black transition uppercase">BANGUN
+                        KERAJAAN</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery -->
+    <section id="galeri" class="py-16 md:py-24 bg-stone-50 dark:bg-black relative overflow-hidden">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="font-stencil text-3xl md:text-5xl mb-12 uppercase">DOKUMENTASI <span class="text-warning">MEDAN
+                    PERANG</span></h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="h-64 md:h-80 border-4 border-stone-200 dark:border-mud rotate-1 overflow-hidden group">
+                    <img src="https://images.unsplash.com/photo-1558559472-e58bc2373322?auto=format&fit=crop&q=80&w=600"
+                        class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-500">
+                </div>
+                <div class="h-64 md:h-80 border-4 border-stone-200 dark:border-mud -rotate-1 overflow-hidden group">
+                    <img src="https://images.unsplash.com/photo-1591702226441-0f3511bb9963?auto=format&fit=crop&q=80&w=600"
+                        class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-500">
+                </div>
+                <div class="h-64 md:h-80 border-4 border-stone-200 dark:border-mud rotate-2 overflow-hidden group">
+                    <img src="https://images.unsplash.com/photo-1532330393533-443990a51d10?auto=format&fit=crop&q=80&w=600"
+                        class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-500">
+                </div>
+                <div class="h-64 md:h-80 border-4 border-stone-200 dark:border-mud -rotate-2 overflow-hidden group">
+                    <img src="https://images.unsplash.com/photo-1594787318286-3d835c1d207f?auto=format&fit=crop&q=80&w=600"
+                        class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-500">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 md:py-32 text-center bg-stone-100 dark:bg-transparent">
+        <div class="container mx-auto px-6 relative z-10">
+            <h2 class="font-stencil text-4xl md:text-7xl mb-6 uppercase leading-tight">
+                JANGAN CUMA <span class="text-warning">NONTON!</span>
+            </h2>
+            <p class="text-lg md:text-2xl text-stone-500 font-rugged mb-10 italic uppercase">Saatnya kamu yang pegang
+                kendali remote-nya!</p>
+            <div class="flex flex-col items-center gap-4">
+                <a href="https://wa.me/628123456789"
+                    class="btn-offroad text-xl md:text-3xl px-8 md:px-16 py-5 md:py-6 flex items-center gap-4">
+                    <i class="fab fa-whatsapp"></i> AMBIL PAKET
+                </a>
+                <p class="text-[10px] md:text-xs text-stone-500 font-bold tracking-widest uppercase">PENGIRIMAN SELURUH
+                    INDONESIA <i class="fas fa-plane"></i></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer
+        class="py-12 bg-stone-200 dark:bg-black border-t-2 border-stone-300 dark:border-mud text-center md:text-left">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-truck-monster text-2xl text-warning"></i>
+                    <div class="text-2xl font-stencil text-warning uppercase">RC<span>GO</span></div>
+                </div>
+                <div class="flex gap-6 text-xs font-bold text-stone-500 uppercase">
+                    <a href="#" class="hover:text-warning">Terms</a>
+                    <a href="#" class="hover:text-warning">Warranty</a>
+                    <a href="#" class="hover:text-warning">Login</a>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#"
+                        class="w-10 h-10 border border-stone-400 dark:border-stone-800 flex items-center justify-center hover:bg-warning hover:text-black transition">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#"
+                        class="w-10 h-10 border border-stone-400 dark:border-stone-800 flex items-center justify-center hover:bg-warning hover:text-black transition">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                </div>
+            </div>
+            <div
+                class="mt-8 text-center text-[10px] text-stone-400 dark:text-stone-700 font-bold tracking-[0.3em] uppercase">
+                EST. 2024 • RUGGED PERFORMANCE • RCGO OFFROAD
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+
+        // Dark/Light Mode Logic
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-toggle-icon');
+        const html = document.documentElement;
+
+        // Check for saved preference
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            html.classList.add('dark');
+            themeIcon.classList.replace('fa-moon', 'fa-sun');
+        } else {
+            html.classList.remove('dark');
+            themeIcon.classList.replace('fa-sun', 'fa-moon');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.theme = 'light';
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+            } else {
+                html.classList.add('dark');
+                localStorage.theme = 'dark';
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+            }
+        });
+
+        // Mobile Menu Logic
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const links = document.querySelectorAll('.mobile-link');
+
+        function toggleMenu() {
+            mobileMenu.classList.toggle('translate-x-full');
+        }
+
+        menuBtn.addEventListener('click', toggleMenu);
+        links.forEach(link => link.addEventListener('click', toggleMenu));
+    </script>
+</body>
+
+</html>

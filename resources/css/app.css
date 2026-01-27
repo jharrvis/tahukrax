@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    body {
+        @apply transition-colors duration-300;
+    }
+}
+
+@layer components {
+    .rugged-card {
+        @apply bg-white border-2 border-stone-200 relative overflow-hidden transition-all duration-300;
+        clip-path: polygon(0% 0%, 95% 0%, 100% 5%, 100% 100%, 5% 100%, 0% 95%);
+    }
+
+    .dark .rugged-card {
+        @apply border-stone-800;
+        background: linear-gradient(145deg, #1a1614, #2d241e);
+    }
+
+    .rugged-card::before {
+        content: "";
+        @apply absolute top-0 left-0 w-full h-1 bg-[#ff6b00];
+    }
+
+    .btn-offroad {
+        @apply bg-[#ff6b00] text-black font-extrabold uppercase inline-block text-center transition-all duration-300;
+        clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+    }
+
+    .btn-offroad:hover {
+        @apply scale-105;
+        box-shadow: 0 0 20px rgba(255, 107, 0, 0.4);
+    }
+}
