@@ -56,7 +56,7 @@ class Checkout extends Component
         }
         // Otherwise, packageSlug will be set via JavaScript from localStorage
 
-        $this->allAddons = Addon::where('stock', '>', 0)->get();
+        $this->allAddons = Addon::all();
         $this->provinces = Province::orderBy('name')->get();
 
         if (Auth::check()) {

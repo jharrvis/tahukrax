@@ -36,10 +36,5 @@ class Partnership extends Model
         return $this->hasMany(Order::class);
     }
 
-    public function bonuses()
-    {
-        return $this->belongsToMany(Bonus::class, 'partnership_bonuses')
-            ->withPivot('granted_at', 'expires_at')
-            ->withTimestamps();
-    }
+
 }

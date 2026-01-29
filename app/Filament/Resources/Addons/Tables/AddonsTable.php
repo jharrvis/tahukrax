@@ -43,10 +43,7 @@ class AddonsTable
                     ->label('Harga')
                     ->money('IDR')
                     ->sortable(),
-                TextColumn::make('stock')
-                    ->label('Stok')
-                    ->numeric()
-                    ->sortable(),
+
                 TextColumn::make('weight_kg')
                     ->label('Berat')
                     ->suffix(' kg')

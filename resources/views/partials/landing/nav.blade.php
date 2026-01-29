@@ -7,11 +7,6 @@
                 <i class="fab fa-whatsapp text-green-500"></i>
                 <span>0882 2120 1998</span>
             </a>
-            <span class="text-gray-700">|</span>
-            <span class="flex items-center gap-2">
-                <i class="fas fa-clock text-orange-500/50"></i>
-                <span>Buka 08:00 - 21:00 WIB</span>
-            </span>
         </div>
         <div class="flex items-center gap-4">
             <span class="text-gray-500 text-xs uppercase tracking-wider mr-2">Follow Us</span>

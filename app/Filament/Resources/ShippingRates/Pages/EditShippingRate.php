@@ -10,6 +10,11 @@ class EditShippingRate extends EditRecord
 {
     protected static string $resource = ShippingRateResource::class;
 
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
+
     protected function getHeaderActions(): array
     {
         return [

@@ -48,13 +48,7 @@ class XenditController extends Controller
                 'status' => 'paid',
             ]);
 
-            foreach ($order->orderItems as $item) {
-                if ($item->addon) {
-                    $item->addon->decrement('stock', $item->quantity);
-                }
-            }
-
-            Log::info("Order #{$orderId} has been PAID and stock decremented.");
+            Log::info("Order #{$orderId} has been PAID.");
         } elseif ($status === 'EXPIRED') {
             $order->update([
                 'status' => 'cancelled',

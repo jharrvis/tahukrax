@@ -11,7 +11,6 @@ class Addon extends Model
         'type',
         'image_url',
         'price',
-        'stock',
         'weight_kg',
     ];
 

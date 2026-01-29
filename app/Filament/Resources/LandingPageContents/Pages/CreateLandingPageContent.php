@@ -8,4 +8,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateLandingPageContent extends CreateRecord
 {
     protected static string $resource = LandingPageContentResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

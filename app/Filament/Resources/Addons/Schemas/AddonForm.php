@@ -43,11 +43,7 @@ class AddonForm
                     ->required()
                     ->numeric()
                     ->prefix('Rp'),
-                TextInput::make('stock')
-                    ->label('Stok')
-                    ->required()
-                    ->numeric()
-                    ->default(0),
+
                 TextInput::make('weight_kg')
                     ->label('Berat')
                     ->required()
