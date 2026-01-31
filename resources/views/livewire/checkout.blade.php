@@ -1,11 +1,11 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10" x-data="{ 
         showFacilitiesModal: false, 
         selectedAddon: null,
-        noPackage: {{ $package ? 'false' : 'true' }},
-        loading: {{ $package ? 'false' : 'true' }},
+        noPackage: {{ empty($selectedPackages) ? 'true' : 'false' }},
+        loading: {{ empty($selectedPackages) ? 'true' : 'false' }},
 
         initCheckout() {
-            @if(!$package)
+            @if(empty($selectedPackages))
                 // Try to get from global RCGOCart or directly from localStorage
                 let stored = localStorage.getItem('rcgo_cart_v4');
                 let cart = null;
@@ -15,63 +15,37 @@
                 } else if (stored) {
                     try {
                         let parsed = JSON.parse(stored);
-                        // Normalize structure if needed
                         cart = {
-                            package: (parsed.mainPackages && parsed.mainPackages.length > 0) ? parsed.mainPackages[0] : null,
+                            mainPackages: parsed.mainPackages || [],
                             addons: parsed.addons ? parsed.addons.reduce((acc, curr) => { acc[curr.id] = curr.qty; return acc; }, {}) : {}
                         };
                     } catch(e) { console.error('Checkout init parse error', e); }
                 }
 
-                if (cart && cart.package && (cart.package.slug || cart.package.id)) {
-                    // Use slug if available, otherwise we might need to fetch by ID (but controller expects slug)
-                    // The cart logic saves 'slug' for packages.
-                    let slug = cart.package.slug; 
+                if (cart && cart.mainPackages && cart.mainPackages.length > 0) {
+                    // Send all packages to backend
+                    $wire.setPackages(cart.mainPackages).then(() => {
+                        this.loading = false;
+                        this.noPackage = false;
 
-                    if (slug) {
-                        $wire.loadPackageBySlug(slug).then(() => {
-                            this.loading = false;
-                            this.noPackage = false;
-
-                            // Load Package Qty
-                            let qty = cart.package.qty || 1;
-                            if (qty > 1) {
-                                $wire.setQuantity(qty);
-                            }
-
-                            // Load addons
-                            if (cart.addons && Object.keys(cart.addons).length > 0) {
-                                // Ensure addons formatted as ID => Qty
-                                $wire.loadAddonsFromCart(cart.addons);
-                            }
-                        });
-                    } else {
-                         this.loading = false;
-                         this.noPackage = true;
-                    }
+                        // Load addons
+                        if (cart.addons && Object.keys(cart.addons).length > 0) {
+                            $wire.loadAddonsFromCart(cart.addons);
+                        }
+                    });
                 } else {
                     this.loading = false;
                     this.noPackage = true;
                 }
             @else
-                // Save package to cart (sync from backend to frontend cart if needed, or just let it exist)
-                // For consistenty we might want to update the cart if it's empty, but usually we just load addons
-                let cart = window.RCGOCart ? window.RCGOCart.get() : null;
-                let existingAddons = (cart && cart.addons) ? cart.addons : {};
-
-                // If we want to ensure the current package overwrites the cart, we can do:
-                if (window.RCGOCart) {
-                     window.RCGOCart.set(
-                        { id: {{ $package->id }}, slug: '{{ $package->slug }}', name: '{{ $package->name }}', price: {{ $package->price }} },
-                        existingAddons
-                    );
-                }
-
-                if (Object.keys(existingAddons).length > 0) {
-                    $wire.loadAddonsFromCart(existingAddons);
-                }
+                // Packages already loaded via mount (from route), just sync addons
                 this.loading = false;
                 this.noPackage = false;
+                let cart = window.RCGOCart ? window.RCGOCart.get() : null;
+                if (cart && cart.addons) {
+                    // For single package route, we might want to respect cart addons too
+                     $wire.loadAddonsFromCart(cart.addons.reduce((acc, curr) => { acc[curr.id] = curr.qty; return acc; }, {}));
+                }
             @endif
         }
     }" x-init="initCheckout()" @addons-changed.window="
@@ -95,7 +69,7 @@
         </div>
     </div>
 
-    @if($package)
+    @if(!empty($selectedPackages))
         <div x-show="!noPackage && !loading" x-cloak>
             <!-- Page Header -->
             <div class="mb-10">
@@ -322,20 +296,22 @@
 
                                 <!-- Detailed Breakdown -->
                                 <div class="space-y-4 mb-8">
-                                    <!-- Package -->
-                                    <div class="flex justify-between gap-4">
-                                        <div class="text-gray-400 flex items-center gap-2 min-w-0">
-                                            <i class="fas fa-box text-orange-500 text-xs"></i>
-                                            <span class="truncate">
-                                                Paket Usaha: {{ $package->name }}
-                                                @if($packageQty > 1) <span
-                                                    class="text-orange-500 font-bold ml-1">({{ $packageQty }}x)</span>
-                                                @endif
-                                            </span>
+                                    <!-- Packages -->
+                                    @foreach($selectedPackages as $pkg)
+                                        <div class="flex justify-between gap-4">
+                                            <div class="text-gray-400 flex items-center gap-2 min-w-0">
+                                                <i class="fas fa-box text-orange-500 text-xs"></i>
+                                                <span class="truncate">
+                                                    Paket Usaha: {{ $pkg['name'] }}
+                                                    @if($pkg['qty'] > 1) <span
+                                                        class="text-orange-500 font-bold ml-1">({{ $pkg['qty'] }}x)</span>
+                                                    @endif
+                                                </span>
+                                            </div>
+                                            <span class="text-white font-bold whitespace-nowrap text-sm">Rp
+                                                {{ number_format($pkg['price'] * $pkg['qty'], 0, ',', '.') }}</span>
                                         </div>
-                                        <span class="text-white font-bold whitespace-nowrap text-sm">Rp
-                                            {{ number_format($package->price * $packageQty, 0, ',', '.') }}</span>
-                                    </div>
+                                    @endforeach
 
                                     <!-- Addons -->
                                     @foreach($selectedAddons as $id => $qty)

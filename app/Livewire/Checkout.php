@@ -15,9 +15,8 @@ use Illuminate\Support\Facades\Hash;
 
 class Checkout extends Component
 {
-    public ?Package $package = null;
-    public $packageSlug = null;
-    public $packageQty = 1; // Default 1
+    public $selectedPackages = []; // Format: [['id' => 1, 'qty' => 1, 'slug' => '...']]
+    public $allPackages;
     public $allAddons;
     public $selectedAddons = [];
 
@@ -50,12 +49,20 @@ class Checkout extends Component
 
     public function mount(?Package $package = null)
     {
-        // If package is provided via route, use it
+        $this->allPackages = Package::all(); // Cache all packages for lookup
+
+        // If package is provided via route, add it to selectedPackages
         if ($package && $package->exists) {
-            $this->package = $package;
-            $this->packageSlug = $package->slug;
+            $this->selectedPackages[] = [
+                'id' => $package->id,
+                'slug' => $package->slug,
+                'qty' => 1,
+                'price' => $package->price,
+                'weight_kg' => $package->weight_kg,
+                'name' => $package->name
+            ];
         }
-        // Otherwise, packageSlug will be set via JavaScript from localStorage
+        // Otherwise, selectedPackages will be populated via setPackages/loadPackagesFromCart from JS
 
         $this->allAddons = Addon::all();
         $this->provinces = Province::orderBy('name')->get();
@@ -67,14 +74,27 @@ class Checkout extends Component
         }
     }
 
-    // Called from JavaScript when loading package from localStorage
-    public function loadPackageBySlug($slug)
+    // Called from JavaScript
+    public function setPackages($packages)
     {
-        $package = Package::where('slug', $slug)->first();
-        if ($package) {
-            $this->package = $package;
-            $this->packageSlug = $slug;
+        // Re-verify against DB to prevent price tampering
+        $verifiedPackages = [];
+        foreach ($packages as $p) {
+            $dbPackage = $this->allPackages->firstWhere('slug', $p['slug']);
+            if ($dbPackage) {
+                $verifiedPackages[] = [
+                    'id' => $dbPackage->id,
+                    'slug' => $dbPackage->slug,
+                    'qty' => max(1, intval($p['qty'] ?? 1)),
+                    'price' => $dbPackage->price,
+                    'weight_kg' => $dbPackage->weight_kg,
+                    'name' => $dbPackage->name
+                ];
+            }
         }
+        $this->selectedPackages = $verifiedPackages;
+
+        // Auto-refresh loading state in frontend handled by Livewire re-render
     }
 
     // Load addons from localStorage cart
@@ -123,20 +143,28 @@ class Checkout extends Component
         $this->dispatch('addons-changed', addons: $this->selectedAddons);
     }
 
+    // Legacy setQuantity - kept for interface support but doesn't do much now
     public function setQuantity($qty)
     {
-        $this->packageQty = $qty;
     }
 
     public function getTotalProperty()
     {
-        $packagePrice = ($this->package ? $this->package->price : 0) * $this->packageQty;
+        $packagePrice = 0;
+        $totalWeight = 0;
+
+        foreach ($this->selectedPackages as $pkg) {
+            $packagePrice += $pkg['price'] * $pkg['qty'];
+            $totalWeight += $pkg['weight_kg'] * $pkg['qty'];
+        }
+
         // Addons total
         $addonTotal = 0;
         foreach ($this->selectedAddons as $id => $qty) {
             $addon = $this->allAddons->firstWhere('id', $id);
             if ($addon) {
                 $addonTotal += $addon->price * $qty;
+                $totalWeight += ($addon->weight_kg ?? 0) * $qty;
             }
         }
 
@@ -154,15 +182,6 @@ class Checkout extends Component
                 }
 
                 if ($rate) {
-                    // Calculate total weight including package qty
-                    $totalWeight = ($this->package ? $this->package->weight_kg : 1) * $this->packageQty;
-
-                    foreach ($this->selectedAddons as $id => $qty) {
-                        $addon = $this->allAddons->firstWhere('id', $id);
-                        if ($addon) {
-                            $totalWeight += ($addon->weight_kg ?? 0) * $qty;
-                        }
-                    }
                     // Minimum weight logic
                     $calcWeight = max($totalWeight, $rate->minimum_weight);
                     $shippingCost = $rate->price_per_kg * ceil($calcWeight);
@@ -188,6 +207,11 @@ class Checkout extends Component
             'postal_code' => 'required|string|max:10',
             'address' => 'required|string|max:500',
         ];
+
+        if (empty($this->selectedPackages)) {
+            $this->addError('package', 'Pilih minimal satu paket.');
+            return;
+        }
 
         if (!Auth::check()) {
             $rules['name'] = 'required|string|max:255';
@@ -216,23 +240,36 @@ class Checkout extends Component
 
         // 2. Calculate Totals
         $totals = $this->total;
+        $primaryPackage = $this->selectedPackages[0] ?? null;
 
         // 3. Create Order
         $order = Order::create([
             'user_id' => $user->id,
-            'package_id' => $this->package->id,
+            'package_id' => $primaryPackage ? $primaryPackage['id'] : null, // Legacy/Primary support
             'total_amount' => $totals['grand_total'],
             'shipping_cost' => $totals['shipping'],
             'status' => 'pending',
             'note' => "Pengiriman ke {$city->name}, {$province->name}. Kode Pos: {$this->postal_code}. CP: {$this->phone_number}. Alamat: {$this->address}",
         ]);
 
-        // 4. Create Order Items (Add-ons)
+        // 4. Create Order Items (Packages)
+        foreach ($this->selectedPackages as $pkg) {
+            OrderItem::create([
+                'order_id' => $order->id,
+                'package_id' => $pkg['id'],
+                'item_type' => 'package',
+                'quantity' => $pkg['qty'],
+                'price' => $pkg['price'],
+            ]);
+        }
+
+        // 5. Create Order Items (Add-ons)
         foreach ($this->selectedAddons as $id => $qty) {
             $addon = $this->allAddons->firstWhere('id', $id);
             OrderItem::create([
                 'order_id' => $order->id,
                 'addon_id' => $id,
+                'item_type' => 'addon',
                 'quantity' => $qty,
                 'price' => $addon->price,
             ]);
@@ -240,11 +277,13 @@ class Checkout extends Component
 
         // 5. Xendit Invoice
         $xenditService = app(\App\Services\XenditService::class);
+        $description = "Pembayaran Paket RCGO: " . count($this->selectedPackages) . " item";
+
         $invoice = $xenditService->createInvoice([
             'external_id' => 'ORDER-' . $order->id . '-' . time(),
             'amount' => $totals['grand_total'],
             'payer_email' => $user->email,
-            'description' => "Pembayaran Unit RCGO: " . $this->package->name,
+            'description' => $description,
             'order_id' => $order->id,
         ]);
 
