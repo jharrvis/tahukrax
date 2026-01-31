@@ -1,0 +1,2343 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RC GO - Sistem Usaha Kendaraan Remote Control</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #000;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #FFA500 0%, #FF8C00 100%);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 165, 0, 0.4);
+        }
+
+        /* Checkerboard Pattern */
+        .checker-bg {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .checker-bg::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background-image:
+                linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%),
+                linear-gradient(-45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, rgba(255, 255, 255, 0.15) 75%),
+                linear-gradient(-45deg, transparent 75%, rgba(255, 255, 255, 0.15) 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+            pointer-events: none;
+            opacity: 0.8;
+            mask-image: linear-gradient(to top, black, transparent);
+        }
+
+        /* Scroll to Top */
+        #scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #FFA500 0%, #FF8C00 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+            box-shadow: 0 4px 15px rgba(255, 165, 0, 0.3);
+        }
+
+        #scroll-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        #scroll-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(255, 165, 0, 0.5);
+        }
+
+        .btn-cta-primary {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF4500 100%);
+            background-size: 200% auto;
+            transition: 0.5s;
+            animation: pulse-orange 2s infinite;
+        }
+
+        .btn-cta-primary:hover {
+            background-position: right center;
+            transform: scale(1.02);
+        }
+
+        @keyframes pulse-orange {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 165, 0, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 20px rgba(255, 165, 0, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 165, 0, 0);
+            }
+        }
+
+        .hero-bg {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)),
+                url('assets/img/stone-texture.png'),
+                url('assets/img/hero-background.webp');
+            background-size: cover, 300px, cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-blend-mode: multiply;
+        }
+
+        .granite-texture {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('assets/img/stone-texture.png');
+            background-size: auto, 400px;
+            background-attachment: fixed;
+        }
+
+        @media (max-width: 768px) {
+
+            .hero-bg,
+            .granite-texture {
+                background-attachment: scroll;
+            }
+        }
+    </style>
+    <style>
+        /* Cart Badge Animation */
+        @keyframes cart-bounce {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.2);
+            }
+        }
+
+        .cart-animate {
+            animation: cart-bounce 0.3s ease-in-out;
+        }
+
+        /* Mobile Menu Transitions */
+        .mobile-menu-enter {
+            transform: translateY(-20px);
+            opacity: 0;
+        }
+
+        .mobile-menu-enter-active {
+            transform: translateY(0);
+            opacity: 1;
+            transition: all 0.3s ease-out;
+        }
+
+        .mobile-menu-exit {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .mobile-menu-exit-active {
+            transform: translateY(-20px);
+            opacity: 0;
+            transition: all 0.2s ease-in;
+        }
+
+        /* Toast Notification */
+        #toast-container {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: none;
+        }
+
+        .toast {
+            background: rgba(20, 20, 20, 0.95);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 165, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            pointer-events: auto;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .toast i {
+            color: #FFA500;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Top Bar - Hidden on mobile -->
+    <div class="bg-black border-b border-gray-800 py-2 md:py-3 hidden md:block">
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center text-xs md:text-sm text-gray-300">
+            <div class="flex gap-3 md:gap-6 flex-wrap">
+                <div class="flex items-center gap-2"><i class="fas fa-phone text-xs"></i><span>0882 2120 1998</span>
+                </div>
+            </div>
+            <div class="flex gap-3 md:gap-4">
+                <a href="#" class="hover:text-orange-500 transition-colors"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="hover:text-orange-500 transition-colors"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="hover:text-orange-500 transition-colors"><i class="fab fa-tiktok"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <!-- Navigation -->
+    <nav class="bg-black/95 backdrop-blur-md sticky top-0 z-50 py-3 md:py-4 border-b border-gray-800" id="main-nav">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center">
+                <!-- Logo -->
+                <a href="#" class="flex-shrink-0">
+                    <img src="assets/img/rcgo-logo.svg" alt="RC GO Logo" class="h-10 md:h-12 lg:h-16">
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="hidden lg:flex gap-6 xl:gap-8 items-center">
+                    <a href="#"
+                        class="text-white hover:text-orange-500 font-medium transition-colors text-sm xl:text-base">Beranda</a>
+                    <a href="#tentang"
+                        class="text-white hover:text-orange-500 font-medium transition-colors text-sm xl:text-base">Tentang</a>
+                    <a href="#keuntungan"
+                        class="text-white hover:text-orange-500 font-medium transition-colors text-sm xl:text-base">Keuntungan</a>
+                    <a href="#paket"
+                        class="text-white hover:text-orange-500 font-medium transition-colors text-sm xl:text-base">Paket
+                        Usaha</a>
+                </div>
+
+                <!-- Right Side Actions -->
+                <div class="flex items-center gap-3 md:gap-4">
+                    <!-- Cart Icon (Desktop & Mobile) -->
+                    <button onclick="openCart()"
+                        class="relative group p-2 rounded-full hover:bg-gray-800 transition-colors">
+                        <i
+                            class="fas fa-shopping-cart text-white text-lg md:text-xl group-hover:text-orange-500 transition-colors"></i>
+                        <span id="cart-badge"
+                            class="absolute top-0 right-0 bg-orange-500 text-white text-[10px] font-bold h-4 w-4 md:h-5 md:w-5 flex items-center justify-center rounded-full opacity-0 transform scale-0 transition-all duration-300">0</span>
+                    </button>
+
+                    <!-- CTA Button (Desktop) -->
+                    <a href="#paket"
+                        class="hidden md:inline-flex btn-primary px-4 md:px-6 lg:px-8 py-2 md:py-3 rounded-full text-white font-semibold text-sm md:text-base items-center gap-2">
+                        <i class="fas fa-tag"></i> Cek Harga
+                    </a>
+
+                    <!-- Mobile Menu Button -->
+                    <button class="lg:hidden text-white p-2 hover:text-orange-500 transition-colors focus:outline-none"
+                        onclick="toggleMobileMenu()">
+                        <i class="fas fa-bars text-xl" id="mobile-menu-icon"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu Dropdown -->
+            <div id="mobile-menu" class="hidden lg:hidden mt-4 pt-4 border-t border-gray-800">
+                <div class="flex flex-col space-y-4">
+                    <a href="#" class="text-white hover:text-orange-500 font-medium py-2 border-b border-gray-800/50"
+                        onclick="toggleMobileMenu()">Beranda</a>
+                    <a href="#tentang"
+                        class="text-white hover:text-orange-500 font-medium py-2 border-b border-gray-800/50"
+                        onclick="toggleMobileMenu()">Tentang</a>
+                    <a href="#keuntungan"
+                        class="text-white hover:text-orange-500 font-medium py-2 border-b border-gray-800/50"
+                        onclick="toggleMobileMenu()">Keuntungan</a>
+                    <a href="#paket"
+                        class="text-white hover:text-orange-500 font-medium py-2 border-b border-gray-800/50"
+                        onclick="toggleMobileMenu()">Paket Usaha</a>
+                    <a href="#kontak"
+                        class="text-white hover:text-orange-500 font-medium py-2 border-b border-gray-800/50"
+                        onclick="toggleMobileMenu()">Kontak</a>
+                    <a href="#paket" class="btn-primary py-3 rounded-full text-white font-semibold text-center mt-2"
+                        onclick="toggleMobileMenu()">
+                        Cek Harga Paket
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- SECTION 1: HERO -->
+    <section class="hero-bg h-[85vh] relative overflow-hidden">
+        <!-- Content Left Side -->
+        <div class="max-w-7xl mx-auto px-4 h-full flex items-center relative z-10">
+            <div class="w-full lg:w-1/2 text-white space-y-3 md:space-y-4 text-center lg:text-left -mt-8 md:-mt-12">
+                <div
+                    class="inline-flex items-center gap-2 bg-orange-500/10 border border-orange-500 px-3 py-1.5 rounded-full text-xs md:text-sm">
+                    <i class="fas fa-car text-orange-500"></i>
+                    <span class="text-orange-500 font-semibold">RC Go – Peluang Usaha RC Paling Murah &
+                        Menguntungkan</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight">
+                    Solusi Usaha<br>
+                    Hiburan Kekinian<br>
+                    <span class="text-orange-500">– RC Go</span>
+                </h1>
+                <div
+                    class="text-sm md:text-base lg:text-lg text-gray-300 leading-relaxed max-w-xl mx-auto lg:mx-0 space-y-2">
+                    <p>Usaha permainan kendaraan <strong class="text-white">Remote Control (RC)</strong> yang seru,
+                        fleksibel, dan cepat balik modal.</p>
+                    <p>Cocok untuk <span class="text-orange-400">event, mall, CFD, taman bermain</span>, hingga usaha
+                        rumahan.</p>
+                </div>
+                <!-- Modal Highlight -->
+                <div class="flex items-center gap-2 justify-center lg:justify-start">
+                    <span class="text-xl">👉</span>
+                    <span class="text-lg md:text-xl lg:text-2xl font-bold text-orange-500">MODAL RINGAN, MULAI 1
+                        JUTAAN!</span>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-3 pt-2 justify-center lg:justify-start">
+                    <a href="#paket"
+                        class="btn-primary px-5 md:px-6 py-2.5 md:py-3 rounded-full text-white font-bold text-sm md:text-base transition-all flex items-center justify-center gap-2">
+                        <i class="fas fa-tag"></i> Cek Harga
+                    </a>
+                    <a href="#kontak"
+                        class="bg-transparent border-2 border-white px-5 md:px-6 py-2.5 md:py-3 rounded-full text-white font-bold text-sm md:text-base hover:bg-white/10 transition-all flex items-center justify-center">
+                        Konsultasi Gratis
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- Image Right Side - Absolute positioned at bottom -->
+        <div class="hidden lg:block absolute right-0 bottom-0 w-1/2 h-full">
+            <img src="assets/img/rcgo.webp" alt="RC Car"
+                class="absolute bottom-0 right-0 h-auto w-full max-h-[90%] object-contain object-bottom">
+        </div>
+    </section>
+
+    <!-- SECTION 2: TENTANG KAMI -->
+    <section id="tentang" class="py-16 md:py-24 bg-gray-950">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="relative">
+                    <img src="assets/img/tentang-rcgo.webp" alt="Tentang RC GO" class="rounded-3xl shadow-2xl w-full">
+                    <div class="absolute -bottom-8 -left-8 bg-orange-500 p-6 rounded-2xl shadow-lg hidden md:block">
+                        <p class="text-white text-2xl font-bold leading-tight">
+                            <span class="block text-4xl">100%</span>
+                            Profit untuk Mitra
+                        </p>
+                    </div>
+                </div>
+                <div class="text-white space-y-6">
+                    <h2 class="text-3xl md:text-4xl font-bold leading-tight">
+                        Tentang <span class="text-orange-500">RC GO</span>
+                    </h2>
+                    <p class="text-gray-300 text-lg leading-relaxed">
+                        RC GO adalah platform inovatif yang memungkinkan Anda memulai dan mengembangkan bisnis rental
+                        kendaraan remote control dengan mudah. Kami menyediakan sistem lengkap, mulai dari unit RC
+                        berkualitas tinggi, pelatihan operasional, hingga dukungan pemasaran.
+                    </p>
+                    <p class="text-gray-300 text-lg leading-relaxed">
+                        Dengan RC GO, Anda tidak perlu khawatir tentang stok barang atau perawatan yang rumit. Kami
+                        hadir untuk memastikan bisnis Anda berjalan lancar dan menguntungkan.
+                    </p>
+                    <ul class="space-y-3 text-gray-200 text-lg">
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-orange-500 text-xl"></i>
+                            Sistem Usaha Terintegrasi</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-orange-500 text-xl"></i>
+                            Dukungan Penuh untuk Mitra</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-orange-500 text-xl"></i>
+                            Potensi Keuntungan Maksimal</li>
+                    </ul>
+                    <a href="#paket"
+                        class="btn-primary px-6 py-3 rounded-full text-white font-bold text-lg inline-flex items-center gap-2 mt-4">
+                        <i class="fas fa-arrow-right"></i> Pelajari Lebih Lanjut
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: SISTEM USAHA -->
+    <section class="py-16 md:py-24 bg-black border-y border-gray-900">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-8">
+                    <div>
+                        <div
+                            class="inline-flex items-center gap-2 bg-orange-500/10 border border-orange-500 px-3 py-1.5 rounded-full text-xs md:text-sm mb-4">
+                            <i class="fas fa-microchip text-orange-500"></i>
+                            <span class="text-orange-500 font-semibold text-xs md:text-sm">RC Go – Sistem Usaha
+                                Kendaraan Remote Control</span>
+                        </div>
+                        <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
+                            Sistem Usaha <span class="text-orange-500">Berbasis Modular</span>
+                        </h2>
+                        <p class="text-gray-300 text-lg leading-relaxed mb-6">
+                            RC Go adalah sistem usaha permainan kendaraan RC dengan banyak pilihan unit yang bisa
+                            disesuaikan dengan minat pasar Anda:
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="flex items-center gap-4 bg-gray-900/50 p-4 rounded-xl border border-gray-800">
+                                <div
+                                    class="w-12 h-12 bg-orange-500/10 rounded-lg flex items-center justify-center text-orange-500">
+                                    <i class="fas fa-car-side text-2xl"></i>
+                                </div>
+                                <span class="text-white font-medium">Mobil Drift</span>
+                            </div>
+                            <div class="flex items-center gap-4 bg-gray-900/50 p-4 rounded-xl border border-gray-800">
+                                <div
+                                    class="w-12 h-12 bg-orange-500/10 rounded-lg flex items-center justify-center text-orange-500">
+                                    <i class="fas fa-truck-monster text-2xl"></i>
+                                </div>
+                                <span class="text-white font-medium">Off Road</span>
+                            </div>
+                            <div class="flex items-center gap-4 bg-gray-900/50 p-4 rounded-xl border border-gray-800">
+                                <div
+                                    class="w-12 h-12 bg-orange-500/10 rounded-lg flex items-center justify-center text-orange-500">
+                                    <i class="fas fa-sync-alt text-2xl"></i>
+                                </div>
+                                <span class="text-white font-medium">Stunt Car</span>
+                            </div>
+                            <div class="flex items-center gap-4 bg-gray-900/50 p-4 rounded-xl border border-gray-800">
+                                <div
+                                    class="w-12 h-12 bg-orange-500/10 rounded-lg flex items-center justify-center text-orange-500">
+                                    <i class="fas fa-snowplow text-2xl"></i>
+                                </div>
+                                <span class="text-white font-medium text-sm">Alat Berat RC</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-950 p-6 rounded-2xl border border-orange-500/20">
+                        <p class="text-gray-300 leading-relaxed italic">
+                            "Kami menggunakan sistem <span class="text-white font-bold">paket usaha dasar</span> sebagai
+                            harga dasar agar lebih terjangkau dan fleksibel untuk pemula. Semua paket bisa di-upgrade
+                            kapan saja dengan sistem <span class="text-orange-500 font-bold text-lg">ADD-ON</span>
+                            sesuai kebutuhan usaha Anda."
+                        </p>
+                    </div>
+                </div>
+
+                <div class="relative bg-gray-900 p-8 md:p-12 rounded-3xl border border-gray-800 shadow-2xl">
+                    <h3 class="text-2xl font-bold text-white mb-8 border-l-4 border-orange-500 pl-4">Alur Mulai Usaha RC
+                        Go:</h3>
+
+                    <div class="space-y-6 relative">
+                        <!-- Vertical Line -->
+                        <div class="absolute left-6 top-8 bottom-8 w-0.5 bg-gray-800"></div>
+
+                        <div class="flex items-start gap-6 relative z-10">
+                            <div
+                                class="w-12 h-12 bg-orange-500 text-white rounded-full flex items-center justify-center font-bold text-xl shrink-0 shadow-lg shadow-orange-500/20">
+                                1
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold text-lg mb-1">Pilih Paket Non-Timer</h4>
+                                <p class="text-gray-400 text-sm">Tentukan pondasi usaha Anda dengan paket dasar kami.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-6 relative z-10">
+                            <div
+                                class="w-12 h-12 bg-gray-800 text-white rounded-full flex items-center justify-center font-bold text-xl shrink-0 border border-gray-700">
+                                2
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold text-lg mb-1">Tentukan Jenis RC</h4>
+                                <p class="text-gray-400 text-sm">Pilih unit (Drift, Off Road, Stunt, atau Alat Berat).
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-6 relative z-10">
+                            <div
+                                class="w-12 h-12 bg-gray-800 text-white rounded-full flex items-center justify-center font-bold text-xl shrink-0 border border-gray-700">
+                                3
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold text-lg mb-1">Tambahkan ADD-ON</h4>
+                                <p class="text-gray-400 text-sm">Upgrade fitur dan kapasitas sesuai target pasar.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-6 relative z-10">
+                            <div
+                                class="w-12 h-12 bg-green-500 text-white rounded-full flex items-center justify-center font-bold text-xl shrink-0 shadow-lg shadow-green-500/20">
+                                <i class="fas fa-flag-checkered"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-green-500 font-bold text-lg mb-1">Usaha Siap Jalan</h4>
+                                <p class="text-gray-400 text-sm">Unit siap disewakan dan mulai hasilkan profit.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: KEUNTUNGAN -->
+    <section id="keuntungan" class="py-16 md:py-24 bg-black">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
+                Mengapa Memilih <span class="text-orange-500">RC GO?</span>
+            </h2>
+            <p class="text-gray-300 text-lg max-w-3xl mx-auto mb-12">
+                RC GO – Sistem Usaha RC Fleksibel & Mudah Dikembangkan. Dirancang khusus untuk pemula yang ingin memulai
+                usaha dengan mudah.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Keuntungan 1 -->
+                <div
+                    class="bg-gray-900 p-8 rounded-2xl shadow-lg text-left border border-gray-800 hover:border-orange-500 transition-all duration-300">
+                    <div class="text-orange-500 text-5xl mb-4"><i class="fas fa-tools"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-3">Fleksibel & Bisa Custom</h3>
+                    <p class="text-gray-400">Mulai dari paket dasar yang murah, lalu upgrade sesuai kebutuhan dan
+                        budget.</p>
+                </div>
+                <!-- Keuntungan 2 -->
+                <div
+                    class="bg-gray-900 p-8 rounded-2xl shadow-lg text-left border border-gray-800 hover:border-orange-500 transition-all duration-300">
+                    <div class="text-orange-500 text-5xl mb-4"><i class="fas fa-money-bill-wave"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-3">Modal Ringan</h3>
+                    <p class="text-gray-400">Paket usaha <strong class="text-white">mulai 1 jutaan</strong>, balik modal
+                        auto cepat.</p>
+                </div>
+                <!-- Keuntungan 3 -->
+                <div
+                    class="bg-gray-900 p-8 rounded-2xl shadow-lg text-left border border-gray-800 hover:border-orange-500 transition-all duration-300">
+                    <div class="text-orange-500 text-5xl mb-4"><i class="fas fa-bolt"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-3">Mudah Dijalankan</h3>
+                    <p class="text-gray-400">Tanpa skill khusus, tanpa alat rumit. Siap dimainkan & langsung
+                        menghasilkan.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: PERBANDINGAN USAHA -->
+    <section class="py-16 md:py-24 bg-gray-950">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
+                    Perbandingan <span class="text-orange-500">Usaha RC</span>
+                </h2>
+                <p class="text-gray-300 text-lg max-w-2xl mx-auto">
+                    Lihat perbedaan RC GO dengan usaha RC lainnya dan temukan mengapa RC GO adalah pilihan yang lebih
+                    masuk akal.
+                </p>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table
+                    class="w-full rounded-2xl overflow-hidden border border-gray-700/50 shadow-2xl border-separate border-spacing-0">
+                    <thead>
+                        <tr>
+                            <th
+                                class="px-6 py-6 text-left text-gray-300 font-bold text-lg bg-gray-900 border-b border-gray-800">
+                                Fitur</th>
+                            <th
+                                class="px-6 py-6 text-center bg-orange-500 border-b border-orange-600 relative overflow-hidden">
+                                <div class="relative z-10 flex flex-col items-center">
+                                    <img src="assets/img/rcgo-logo.svg" alt="RC GO" class="h-8 md:h-10">
+                                </div>
+                            </th>
+                            <th
+                                class="px-6 py-6 text-center text-gray-400 font-bold text-lg bg-gray-800 border-b border-gray-700">
+                                Usaha RC Lain</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-gray-900/80">
+                        <tr
+                            class="border-b border-gray-800/30 hover:bg-white/[0.03] transition-colors odd:bg-white/[0.01] even:bg-transparent">
+                            <td class="px-6 py-5 font-medium text-white">Modal Awal</td>
+                            <td class="px-6 py-5 border-x border-gray-800/10 bg-orange-500/[0.02]">
+                                <div class="flex items-start gap-3">
+                                    <i class="fas fa-check-circle text-green-400 mt-1"></i>
+                                    <div>
+                                        <span class="block text-green-400 font-bold">Mulai 1 Jutaan</span>
+                                        <span class="block text-gray-400 text-sm">Ringan untuk pemula</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5">
+                                <div class="flex items-start gap-3">
+                                    <i class="fas fa-times-circle text-red-400/60 mt-1"></i>
+                                    <div>
+                                        <span class="block text-gray-400 font-medium">Mahal di Awal</span>
+                                        <span class="block text-gray-500 text-sm">Butuh modal besar</span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr
+                            class="border-b border-gray-800/30 hover:bg-white/[0.03] transition-colors odd:bg-white/[0.01] even:bg-transparent">
+                            <td class="px-6 py-5 font-medium text-white">Sistem Paket</td>
+                            <td class="px-6 py-5 border-x border-gray-800/10 bg-orange-500/[0.02]">
+                                <div class="flex items-start gap-3">
+                                    <i class="fas fa-check-circle text-green-400 mt-1"></i>
+                                    <div>
+                                        <span class="block text-green-400 font-bold">Paket Usaha Dasar</span>
+                                        <span class="block text-gray-400 text-sm">Bisa upgrade bertahap</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5">
+                                <div class="flex items-start gap-3">
+                                    <i class="fas fa-times-circle text-red-400/60 mt-1"></i>
+                                    <div>
+                                        <span class="block text-gray-400 font-medium">Paket Besar</span>
+                                        <span class="block text-gray-500 text-sm">Harus ambil di awal</span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr
+                            class="border-b border-gray-800/30 hover:bg-white/[0.03] transition-colors odd:bg-white/[0.01] even:bg-transparent">
+                            <td class="px-6 py-5 font-medium text-white">Fleksibilitas Upgrade</td>
+                            <td class="px-6 py-5 border-x border-gray-800/10 bg-orange-500/[0.02]">
+                                <div class="flex items-start gap-3">
+                                    <i class="fas fa-check-circle text-green-400 mt-1"></i>
+                                    <div>
+                                        <span class="block text-green-400 font-bold">ADD-ON Opsional</span>
+                                        <span class="block text-gray-400 text-sm">Tambah sesuai kebutuhan</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5">
+                                <div class="flex items-start gap-3">
+                                    <i class="fas fa-times-circle text-red-400/60 mt-1"></i>
+                                    <div>
+                                        <span class="block text-gray-400 font-medium">Upgrade Terbatas</span>
+                                        <span class="block text-gray-500 text-sm">Kurang fleksibel</span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr
+                            class="border-b border-gray-800/30 hover:bg-white/[0.03] transition-colors odd:bg-white/[0.01] even:bg-transparent">
+                            <td class="px-6 py-5 font-medium text-white">Pilihan Unit RC</td>
+                            <td class="px-6 py-5 border-x border-gray-800/10 bg-orange-500/[0.02]">
+                                <div class="flex items-start gap-3">
+                                    <i class="fas fa-check-circle text-green-400 mt-1"></i>
+                                    <div>
+                                        <span class="block text-green-400 font-bold">Banyak Pilihan</span>
+                                        <span class="block text-gray-400 text-sm">Drift, off-road, stunt, alat
+                                            berat</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5">
+                                <div class="flex items-start gap-3">
+                                    <i class="fas fa-times-circle text-red-400/60 mt-1"></i>
+                                    <div>
+                                        <span class="block text-gray-400 font-medium">Pilihan Terbatas</span>
+                                        <span class="block text-gray-500 text-sm">Opsi unit sedikit</span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr
+                            class="border-b border-gray-800/30 hover:bg-white/[0.03] transition-colors odd:bg-white/[0.01] even:bg-transparent">
+                            <td class="px-6 py-5 font-medium text-white">Kemudahan untuk Pemula</td>
+                            <td class="px-6 py-5 border-x border-gray-800/10 bg-orange-500/[0.02]">
+                                <div class="flex items-start gap-3">
+                                    <i class="fas fa-check-circle text-green-400 mt-1"></i>
+                                    <div>
+                                        <span class="block text-green-400 font-bold">Mudah Dijalankan</span>
+                                        <span class="block text-gray-400 text-sm">Tanpa pengalaman khusus</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5">
+                                <div class="flex items-start gap-3">
+                                    <i class="fas fa-times-circle text-red-400/60 mt-1"></i>
+                                    <div>
+                                        <span class="block text-gray-400 font-medium">Perlu Adaptasi</span>
+                                        <span class="block text-gray-500 text-sm">Modal & pengalaman lebih</span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-white/[0.03] transition-colors odd:bg-white/[0.01] even:bg-transparent">
+                            <td class="px-6 py-5 font-medium text-white">Pengembangan Usaha</td>
+                            <td class="px-6 py-5 border-x border-gray-800/10 bg-orange-500/[0.02]">
+                                <div class="flex items-start gap-3">
+                                    <i class="fas fa-check-circle text-green-400 mt-1"></i>
+                                    <div>
+                                        <span class="block text-green-400 font-bold">Bisa Mulai Kecil</span>
+                                        <span class="block text-gray-400 text-sm">Tumbuh seiring waktu</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5">
+                                <div class="flex items-start gap-3">
+                                    <i class="fas fa-times-circle text-red-400/60 mt-1"></i>
+                                    <div>
+                                        <span class="block text-gray-400 font-medium">Sulit Berkembang</span>
+                                        <span class="block text-gray-500 text-sm">Tanpa modal besar</span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p class="text-center text-gray-500 text-sm mt-6">
+                * Perbandingan berdasarkan riset pasar umum. Hasil dapat bervariasi.
+            </p>
+        </div>
+    </section>
+
+    <!-- SECTION 5: POTENSI KEUNTUNGAN -->
+    <section id="profit" class="py-16 md:py-24 granite-texture border-t border-gray-900">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
+                    Potensi Keuntungan <span class="text-orange-500">Usaha RC GO</span>
+                </h2>
+                <p class="text-gray-300 text-lg max-w-2xl mx-auto">
+                    Analisis transparan dan realistis potensi penghasilan dari bisnis rental unit RC GO. Sistem jasa
+                    hiburan dengan margin keuntungan yang luar biasa.
+                </p>
+            </div>
+
+            <!-- 1. Dasar Perhitungan & Simulasi Per Transaksi -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                <!-- Dasar Perhitungan -->
+                <div class="bg-gray-900/50 p-8 rounded-2xl border border-gray-800">
+                    <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-3">
+                        <i class="fas fa-microchip text-orange-500"></i> Dasar Perhitungan (Transparan)
+                    </h3>
+                    <div class="space-y-6">
+                        <div>
+                            <p class="text-white font-semibold mb-3 text-sm uppercase tracking-wider text-orange-500">
+                                Biaya Listrik Pengisian Baterai:</p>
+                            <ul class="text-gray-400 text-sm space-y-2">
+                                <li class="flex justify-between"><span>Kapasitas Baterai</span> <span>500 mAh × 3.7 V ≈
+                                        1.85 Wh</span></li>
+                                <li class="flex justify-between"><span>Tarif Listrik</span> <span>± Rp 1.700 /
+                                        kWh</span></li>
+                                <li class="flex justify-between border-t border-gray-800 pt-2 font-bold text-green-400">
+                                    <span>Biaya Listrik Riil</span> <span>± Rp 3 - 5 / Charge</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="bg-orange-500/5 p-5 rounded-xl border-l-4 border-orange-500 italic">
+                            <p class="text-gray-300 text-sm leading-relaxed">
+                                "Untuk perhitungan yang lebih aman & konservatif, seluruh biaya operasional (listrik,
+                                penyusutan baterai, risiko) dibulatkan menjadi <span class="text-white font-bold">Rp
+                                    1.000 per permainan</span>."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Simulasi Per Transaksi -->
+                <div class="bg-gray-900 p-8 rounded-2xl border border-orange-500/30 relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <i class="fas fa-hand-holding-usd text-8xl text-orange-500"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-6">Perhitungan Per 1x Permainan</h3>
+                    <div class="space-y-4 relative z-10">
+                        <div class="flex justify-between items-center py-3 border-b border-gray-800">
+                            <span class="text-gray-400">Harga Sewa (15 Menit)</span>
+                            <span class="text-white font-bold text-xl text-orange-500">Rp 10.000</span>
+                        </div>
+                        <div class="flex justify-between items-center py-3 border-b border-gray-800">
+                            <span class="text-gray-400">Biaya Ops (HPP)</span>
+                            <span class="text-white font-semibold">Rp 1.000</span>
+                        </div>
+                        <div
+                            class="flex justify-between items-center py-4 bg-green-500/10 px-4 rounded-xl border border-green-500/20">
+                            <span class="text-white font-bold">Laba Bersih</span>
+                            <div class="text-right">
+                                <p class="text-green-500 font-bold text-2xl">Rp 9.000</p>
+                                <p class="text-xs text-green-400/70 italic">Mark Up Keuntungan ± 900%</p>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-500 italic text-center leading-tight">
+                            Artinya, setiap biaya Rp 1.000 yang dikeluarkan berpotensi menghasilkan Rp 9.000 keuntungan.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Simulasi Harian & Kenapa Mark Up Tinggi -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+                <!-- Simulasi Harian -->
+                <div class="lg:col-span-2 bg-gray-900 p-8 rounded-2xl border border-gray-800 shadow-xl overflow-hidden">
+                    <h3 class="text-xl font-bold text-white mb-6 text-center lg:text-left">Simulasi Realisasi Penjualan
+                        (1 Unit RC)</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead>
+                                <tr class="text-gray-400 border-b border-gray-800 text-center">
+                                    <th class="pb-3 font-semibold text-left">Level Trafik</th>
+                                    <th class="pb-3 font-semibold">Transaksi/Hari</th>
+                                    <th class="pb-3 font-semibold text-right">Omzet</th>
+                                    <th class="pb-3 font-semibold text-right">HPP</th>
+                                    <th class="pb-3 font-semibold text-right text-orange-500">Laba Bersih</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-gray-300 text-center">
+                                <tr class="border-b border-gray-800/50 hover:bg-gray-800/30 transition-colors">
+                                    <td class="py-4 text-left font-medium text-white italic">Sepi</td>
+                                    <td class="py-4">10</td>
+                                    <td class="py-4 text-right">Rp 100.000</td>
+                                    <td class="py-4 text-right">Rp 10.000</td>
+                                    <td class="py-4 text-right text-green-400 font-bold text-base">Rp 90.000</td>
+                                </tr>
+                                <tr
+                                    class="border-b border-gray-800/50 hover:bg-gray-800/30 transition-colors bg-white/[0.02]">
+                                    <td class="py-4 text-left font-medium text-white italic">Normal</td>
+                                    <td class="py-4">20</td>
+                                    <td class="py-4 text-right">Rp 200.000</td>
+                                    <td class="py-4 text-right">Rp 20.000</td>
+                                    <td class="py-4 text-right text-green-400 font-bold text-base">Rp 180.000</td>
+                                </tr>
+                                <tr class="hover:bg-gray-800/30 transition-colors">
+                                    <td class="py-4 text-left font-medium text-white italic">Rame</td>
+                                    <td class="py-4">30</td>
+                                    <td class="py-4 text-right">Rp 300.000</td>
+                                    <td class="py-4 text-right">Rp 30.000</td>
+                                    <td class="py-4 text-right text-green-400 font-bold text-base">Rp 270.000</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mt-6 flex items-center gap-3 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+                        <i class="fas fa-info-circle text-blue-400"></i>
+                        <p class="text-[11px] md:text-xs text-blue-300 leading-relaxed italic">
+                            Pada kondisi lokasi ramai, struktur biaya yang ringan memungkinkan <strong
+                                class="text-blue-200">mark up tetap terjaga hingga ± 900%</strong> di setiap transaksi.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Kenapa Mark Up Tinggi? -->
+                <div class="bg-gray-900 p-8 rounded-2xl border border-gray-800 border-t-4 border-t-orange-500">
+                    <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                        <i class="fas fa-lightbulb text-orange-500 text-sm"></i> Kenapa Bisa?
+                    </h3>
+                    <ul class="space-y-4 text-left">
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-bolt text-orange-500 mt-1 text-xs"></i>
+                            <span class="text-gray-300 text-xs md:text-sm">Biaya listrik nyaris nol (ribuan kali lipat
+                                dibanding omzet)</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-battery-half text-orange-500 mt-1 text-xs"></i>
+                            <span class="text-gray-300 text-xs md:text-sm">Satu baterai digunakan untuk beberapa sesi
+                                permainan</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-clock text-orange-500 mt-1 text-xs"></i>
+                            <span class="text-gray-300 text-xs md:text-sm">Sistem sewa per durasi mempercepat perputaran
+                                transaksi</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-star text-orange-500 mt-1 text-xs"></i>
+                            <span class="text-gray-300 text-xs md:text-sm">Usaha berbasis hiburan, bukan barang habis
+                                pakai</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Interactive Calculator -->
+            <div class="mt-12 bg-gray-900 p-8 rounded-3xl border border-gray-800 shadow-2xl">
+                <h3 class="text-2xl font-bold text-white mb-8 text-center flex items-center justify-center gap-3">
+                    <i class="fas fa-calculator text-orange-500"></i> Hitung Sendiri <span
+                        class="text-orange-500">Keuntunganmu</span>
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 text-left">
+                    <div class="space-y-2">
+                        <label class="block text-gray-400 text-xs uppercase tracking-wider font-semibold">Jumlah Unit
+                            RC</label>
+                        <input type="number" id="calc-units" value="1" min="1"
+                            class="w-full bg-black border border-gray-700 rounded-xl p-3 text-white focus:border-orange-500 outline-none transition-all">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-gray-400 text-xs uppercase tracking-wider font-semibold">Harga Sewa /
+                            Sesi</label>
+                        <input type="number" id="calc-price" value="10000" step="500"
+                            class="w-full bg-black border border-gray-700 rounded-xl p-3 text-white focus:border-orange-500 outline-none transition-all">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-gray-400 text-xs uppercase tracking-wider font-semibold">HPP (Biaya) /
+                            Sesi</label>
+                        <input type="number" id="calc-hpp" value="1000" step="100"
+                            class="w-full bg-black border border-gray-700 rounded-xl p-3 text-white focus:border-orange-500 outline-none transition-all">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-gray-400 text-xs uppercase tracking-wider font-semibold">Transaksi /
+                            Hari / Unit</label>
+                        <input type="number" id="calc-trx" value="20" min="1"
+                            class="w-full bg-black border border-gray-700 rounded-xl p-3 text-white focus:border-orange-500 outline-none transition-all">
+                    </div>
+                </div>
+                <div
+                    class="bg-gradient-to-br from-gray-800 to-black p-8 rounded-2xl border border-gray-700 text-center">
+                    <p class="text-gray-400 mb-2">Estimasi Laba Bersih <span class="text-white font-bold">Per
+                            Bulan</span></p>
+                    <div id="calc-result"
+                        class="text-4xl md:text-5xl font-extrabold text-orange-500 tracking-tight mb-2">
+                        Rp 5.400.000
+                    </div>
+                    <p class="text-gray-500 text-xs italic">* Asumsi 30 hari operasional penuh</p>
+                </div>
+            </div>
+
+            <!-- Disclaimer -->
+            <div class="bg-gray-900/50 border border-gray-800 rounded-xl p-4 text-center">
+                <p class="text-gray-400 text-xs">
+                    <i class="fas fa-info-circle text-orange-500 mr-1"></i>
+                    <strong>Simulasi Transparan:</strong> Perhitungan HPP Rp 1.000 sudah termasuk pembulatan risiko
+                    teknis untuk hasil yang lebih realistis bagi mitra.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 6: PAKET USAHA -->
+    <section id="paket" class="py-16 md:py-24 bg-black">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
+                Pilih <span class="text-orange-500">Paket Usaha</span> Anda
+            </h2>
+            <p class="text-gray-300 text-lg max-w-3xl mx-auto mb-12">
+                Tersedia berbagai jenis paket RC sesuai kebutuhan dan target pasar Anda. Semua paket dilengkapi dengan
+                pelatihan dan dukungan penuh.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Paket 1: Drift -->
+                <div
+                    class="bg-gray-900 p-6 rounded-2xl shadow-lg text-left border border-gray-800 hover:border-orange-500 transition-all duration-300 flex flex-col h-full group checker-bg">
+
+                    <h3 class="text-xl font-bold text-white mb-4">
+                        <img src="assets/img/paket-drift.svg" alt="Paket Drift"
+                            class="w-full h-48 object-contain rounded-xl mb-2">
+                    </h3>
+                    <p class="text-gray-400 text-sm mb-4 flex-grow">Mobil RC drift dengan handling presisi. Cocok untuk
+                        area indoor dengan permukaan halus.</p>
+                    <div class="mb-6">
+                        <p class="text-gray-400 text-xs uppercase tracking-wider mb-1">Mulai Dari</p>
+                        <p class="text-sm line-through text-gray-500">Rp 3.800.000</p>
+                        <div class="text-3xl font-bold text-white">Rp 1,9 Jt</div>
+                    </div>
+                    <ul class="space-y-2 text-gray-300 text-sm mb-6">
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-orange-500 text-xs"></i> 5 Unit
+                            RC Drift Premium</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-orange-500 text-xs"></i> Charger
+                            & Baterai Ori</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-orange-500 text-xs"></i> 30
+                            Traffic Cones</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-orange-500 text-xs"></i> Banner
+                            Eksklusif</li>
+                    </ul>
+                    <div class="flex gap-3 mt-auto">
+                        <button onclick="openModal('modal-drift')"
+                            class="flex-1 border border-orange-500 text-orange-500 px-4 py-2.5 rounded-full font-semibold text-sm hover:bg-orange-500/10 transition-all">
+                            <i class="fas fa-list-ul mr-1"></i> Fasilitas
+                        </button>
+                        <button onclick="addToCart('drift', 'Drift', 1900000, 'package')"
+                            class="flex-1 btn-primary px-4 py-2.5 rounded-full text-white font-semibold text-sm text-center hover:shadow-lg transition-all flex items-center justify-center gap-2">
+                            <i class="fas fa-cart-plus"></i> Masuk Keranjang
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Paket 2: Off-road -->
+                <div
+                    class="bg-gray-900 p-6 rounded-2xl shadow-lg text-left border border-gray-800 hover:border-orange-500 transition-all duration-300 flex flex-col h-full group checker-bg">
+
+                    <h3 class="text-xl font-bold text-white mb-4">
+                        <img src="assets/img/paket-offroad.svg" alt="Paket Off-road"
+                            class="w-full h-48 object-contain rounded-xl mb-2">
+                    </h3>
+                    <p class="text-gray-400 text-sm mb-4 flex-grow">Mobil RC off-road tangguh untuk segala medan. Ideal
+                        untuk area outdoor seperti taman dan lapangan.</p>
+                    <div class="mb-6">
+                        <p class="text-gray-400 text-xs uppercase tracking-wider mb-1">Mulai Dari</p>
+                        <p class="text-sm line-through text-gray-500">Rp 5.200.000</p>
+                        <div class="text-3xl font-bold text-white">Rp 2,6 Jt</div>
+                    </div>
+                    <ul class="space-y-2 text-gray-300 text-sm mb-6">
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-orange-500 text-xs"></i> 5 Unit
+                            RC Off-road 4WD</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-orange-500 text-xs"></i> Charger
+                            & Baterai Ori</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-orange-500 text-xs"></i> Power
+                            Supply Fast Charging</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-orange-500 text-xs"></i> Banner
+                            Rental</li>
+                    </ul>
+                    <div class="flex gap-3 mt-auto">
+                        <button onclick="openModal('modal-offroad')"
+                            class="flex-1 border border-orange-500 text-orange-500 px-4 py-2.5 rounded-full font-semibold text-sm hover:bg-orange-500/10 transition-all">
+                            <i class="fas fa-list-ul mr-1"></i> Fasilitas
+                        </button>
+                        <button onclick="addToCart('offroad', 'Off-road', 2600000, 'package')"
+                            class="flex-1 btn-primary px-4 py-2.5 rounded-full text-white font-semibold text-sm text-center hover:shadow-lg transition-all flex items-center justify-center gap-2">
+                            <i class="fas fa-cart-plus"></i> Masuk Keranjang
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Paket 3: Stunt -->
+                <div
+                    class="bg-gray-900 p-6 rounded-2xl shadow-lg text-left border border-gray-800 hover:border-orange-500 transition-all duration-300 flex flex-col h-full group checker-bg">
+
+                    <h3 class="text-xl font-bold text-white mb-4">
+                        <img src="assets/img/paket-stunt.svg" alt="Paket Stunt"
+                            class="w-full h-48 object-contain rounded-xl mb-2">
+                    </h3>
+                    <p class="text-gray-400 text-sm mb-4 flex-grow">Mobil RC akrobatik dengan gerakan 360°. Paling
+                        diminati anak-anak untuk atraksi seru.</p>
+                    <div class="mb-6">
+                        <p class="text-gray-400 text-xs uppercase tracking-wider mb-1">Mulai Dari</p>
+                        <p class="text-sm line-through text-gray-500">Rp 5.400.000</p>
+                        <div class="text-3xl font-bold text-white">Rp 2,7 Jt</div>
+                    </div>
+                    <ul class="space-y-2 text-gray-300 text-sm mb-6">
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-orange-500 text-xs"></i> 5 Unit
+                            RC Stunt 4WD</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-orange-500 text-xs"></i> Charger
+                            & Baterai Ori</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-orange-500 text-xs"></i> Baterai
+                            Cadangan Rakitan</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-orange-500 text-xs"></i> Banner
+                            Rental</li>
+                    </ul>
+                    <div class="flex gap-3 mt-auto">
+                        <button onclick="openModal('modal-stunt')"
+                            class="flex-1 border border-orange-500 text-orange-500 px-4 py-2.5 rounded-full font-semibold text-sm hover:bg-orange-500/10 transition-all">
+                            <i class="fas fa-list-ul mr-1"></i> Fasilitas
+                        </button>
+                        <button onclick="addToCart('stunt', 'Stunt', 2700000, 'package')"
+                            class="flex-1 btn-primary px-4 py-2.5 rounded-full text-white font-semibold text-sm text-center hover:shadow-lg transition-all flex items-center justify-center gap-2">
+                            <i class="fas fa-cart-plus"></i> Masuk Keranjang
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Paket 4: Mix RC Car -->
+                <div
+                    class="bg-gray-900 p-6 rounded-2xl shadow-lg text-left border-2 border-orange-500 flex flex-col h-full group relative checker-bg">
+                    <span
+                        class="absolute -top-3 left-1/2 -translate-x-1/2 bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">Populer</span>
+
+                    <h3 class="text-xl font-bold text-white mb-4">
+                        <img src="assets/img/paket-mixcar.webp" alt="Paket Mix RC Car"
+                            class="w-full h-48 object-contain rounded-xl mb-2">
+                    </h3>
+                    <p class="text-gray-400 text-sm mb-4 flex-grow">Kombinasi berbagai jenis mobil RC (Drift, Off-road,
+                        Stunt). Lebih variatif untuk menarik pelanggan.</p>
+                    <div class="mb-6">
+                        <p class="text-gray-400 text-xs uppercase tracking-wider mb-1">Mulai Dari</p>
+                        <p class="text-sm line-through text-gray-500">Rp 5.000.000</p>
+                        <div class="text-3xl font-bold text-white">Rp 2,5 Jt</div>
+                    </div>
+                    <ul class="space-y-2 text-gray-300 text-sm mb-6">
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-orange-500 text-xs"></i> 5 Unit
+                            RC (Drift, Offroad, Stunt)</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-orange-500 text-xs"></i> Charger
+                            & Baterai Ori</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-orange-500 text-xs"></i> Ban
+                            Serep & Baterai Cadangan</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-orange-500 text-xs"></i> Banner
+                            & Alas Drift</li>
+                    </ul>
+                    <div class="flex gap-3 mt-auto">
+                        <button onclick="openModal('modal-mixcar')"
+                            class="flex-1 border border-orange-500 text-orange-500 px-4 py-2.5 rounded-full font-semibold text-sm hover:bg-orange-500/10 transition-all">
+                            <i class="fas fa-list-ul mr-1"></i> Fasilitas
+                        </button>
+                        <button onclick="addToCart('mixcar', 'Mix RC Car', 2500000, 'package')"
+                            class="flex-1 btn-primary px-4 py-2.5 rounded-full text-white font-semibold text-sm text-center hover:shadow-lg transition-all flex items-center justify-center gap-2">
+                            <i class="fas fa-cart-plus"></i> Masuk Keranjang
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Paket 5: Excavator -->
+                <div
+                    class="bg-gray-900 p-6 rounded-2xl shadow-lg text-left border border-gray-800 hover:border-orange-500 transition-all duration-300 flex flex-col h-full group checker-bg">
+
+                    <h3 class="text-xl font-bold text-white mb-4">
+                        <img src="assets/img/paket-excavator.webp" alt="Paket Excavator"
+                            class="w-full h-48 object-contain rounded-xl mb-2">
+                    </h3>
+                    <p class="text-gray-400 text-sm mb-4 flex-grow">RC Excavator dengan fungsi beko realistis. Unik dan
+                        edukatif, cocok untuk anak-anak.</p>
+                    <div class="mb-6">
+                        <p class="text-gray-400 text-xs uppercase tracking-wider mb-1">Mulai Dari</p>
+                        <p class="text-sm line-through text-gray-500">Rp 6.400.000</p>
+                        <div class="text-3xl font-bold text-white">Rp 3,2 Jt</div>
+                    </div>
+                    <ul class="space-y-2 text-gray-300 text-sm mb-6">
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-orange-500 text-xs"></i> 5 Unit
+                            RC Excavator Premium</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-orange-500 text-xs"></i> Remote
+                            & Baterai Ori</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-orange-500 text-xs"></i> Fast
+                            Charging Power Supply</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-orange-500 text-xs"></i> Banner
+                            Eksklusif</li>
+                    </ul>
+                    <div class="flex gap-3 mt-auto">
+                        <button onclick="openModal('modal-excavator')"
+                            class="flex-1 border border-orange-500 text-orange-500 px-4 py-2.5 rounded-full font-semibold text-sm hover:bg-orange-500/10 transition-all">
+                            <i class="fas fa-list-ul mr-1"></i> Fasilitas
+                        </button>
+                        <button onclick="addToCart('excavator', 'Excavator', 3200000, 'package')"
+                            class="flex-1 btn-primary px-4 py-2.5 rounded-full text-white font-semibold text-sm text-center hover:shadow-lg transition-all flex items-center justify-center gap-2">
+                            <i class="fas fa-cart-plus"></i> Masuk Keranjang
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Paket 6: Alat Berat Mix -->
+                <div
+                    class="bg-gray-900 p-6 rounded-2xl shadow-lg text-left border border-gray-800 hover:border-orange-500 transition-all duration-300 flex flex-col h-full group checker-bg">
+
+                    <h3 class="text-xl font-bold text-white mb-4">
+                        <img src="assets/img/paket-alatberat-mix.webp" alt="Paket Alat Berat Mix"
+                            class="w-full h-48 object-contain rounded-xl mb-2">
+                    </h3>
+                    <p class="text-gray-400 text-sm mb-4 flex-grow">Kombinasi RC alat berat (Excavator, Bulldozer, Dump
+                        Truck). Tema konstruksi yang menarik.</p>
+                    <div class="mb-6">
+                        <p class="text-gray-400 text-xs uppercase tracking-wider mb-1">Mulai Dari</p>
+                        <p class="text-sm line-through text-gray-500">Rp 7.400.000</p>
+                        <div class="text-3xl font-bold text-white">Rp 3,7 Jt</div>
+                    </div>
+                    <ul class="space-y-2 text-gray-300 text-sm mb-6">
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-orange-500 text-xs"></i> 5 Unit
+                            Mix (Excavator, Truck, Dozer)</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-orange-500 text-xs"></i> Baterai
+                            Ori & Rakitan</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-orange-500 text-xs"></i> Fast
+                            Charger (10 Baterai)</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-orange-500 text-xs"></i> Banner
+                            Rental</li>
+                    </ul>
+                    <div class="flex gap-3 mt-auto">
+                        <button onclick="openModal('modal-alatberat')"
+                            class="flex-1 border border-orange-500 text-orange-500 px-4 py-2.5 rounded-full font-semibold text-sm hover:bg-orange-500/10 transition-all">
+                            <i class="fas fa-list-ul mr-1"></i> Fasilitas
+                        </button>
+                        <button onclick="addToCart('alatberat', 'Alat Berat Mix', 3700000, 'package')"
+                            class="flex-1 btn-primary px-4 py-2.5 rounded-full text-white font-semibold text-sm text-center hover:shadow-lg transition-all flex items-center justify-center gap-2">
+                            <i class="fas fa-cart-plus"></i> Masuk Keranjang
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <p class="text-gray-500 text-sm mt-8">
+                <i class="fas fa-info-circle text-orange-500 mr-2"></i>
+                Hubungi kami untuk konsultasi paket yang sesuai dengan lokasi dan target pasar Anda.
+            </p>
+        </div>
+    </section>
+
+    <!-- SECTION 6.5: ADD-ONS -->
+    <section id="addons" class="py-16 md:py-24 bg-gray-950">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
+                Tingkatkan <span class="text-orange-500">Potensi Usaha</span> Anda
+            </h2>
+            <p class="text-gray-300 text-lg max-w-3xl mx-auto mb-12">
+                Tambahkan aksesoris dan fasilitas pendukung untuk memaksimalkan pengalaman pelanggan dan keuntungan
+                bisnis Anda.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Add-on 1: Sistem Timer -->
+                <div
+                    class="bg-gray-900 p-6 rounded-2xl shadow-lg text-left border border-gray-800 hover:border-orange-500 transition-all duration-300 flex flex-col h-full group">
+                    <h3 class="text-xl font-bold text-white mb-4">Sistem Timer Digital</h3>
+                    <img src="assets/img/addon-timer.webp" alt="Sistem Timer Digital"
+                        class="w-full h-48 object-contain rounded-xl mb-2">
+                    <p class="text-gray-400 text-sm mb-4 flex-grow">Atur durasi sewa secara otomatis dengan timer
+                        digital.
+                        Lebih efisien dan transparan.</p>
+                    <div class="mb-6">
+                        <p class="text-gray-400 text-xs uppercase tracking-wider mb-1">Harga</p>
+                        <div class="text-3xl font-bold text-white">Rp 350.000</div>
+                    </div>
+                    <button onclick="addToCart('addon-timer', 'Sistem Timer Digital', 350000, 'addon')"
+                        class="btn-primary px-4 py-2.5 rounded-full text-white font-semibold text-sm text-center hover:shadow-lg transition-all flex items-center justify-center gap-2 mt-auto">
+                        <i class="fas fa-cart-plus"></i> Tambah ke Keranjang
+                    </button>
+                </div>
+
+                <!-- Add-on 2: Power Supply Fast Charging -->
+                <div
+                    class="bg-gray-900 p-6 rounded-2xl shadow-lg text-left border border-gray-800 hover:border-orange-500 transition-all duration-300 flex flex-col h-full group">
+                    <h3 class="text-xl font-bold text-white mb-4">Power Supply Fast Charging</h3>
+                    <img src="assets/img/addon-powersupply.webp" alt="Power Supply Fast Charging"
+                        class="w-full h-48 object-contain rounded-xl mb-2">
+                    <p class="text-gray-400 text-sm mb-4 flex-grow">Isi daya baterai lebih cepat dan efisien. Minimalkan
+                        waktu tunggu pelanggan.</p>
+                    <div class="mb-6">
+                        <p class="text-gray-400 text-xs uppercase tracking-wider mb-1">Harga</p>
+                        <div class="text-3xl font-bold text-white">Rp 200.000</div>
+                    </div>
+                    <button onclick="addToCart('addon-powersupply', 'Power Supply Fast Charging', 200000, 'addon')"
+                        class="btn-primary px-4 py-2.5 rounded-full text-white font-semibold text-sm text-center hover:shadow-lg transition-all flex items-center justify-center gap-2 mt-auto">
+                        <i class="fas fa-cart-plus"></i> Tambah ke Keranjang
+                    </button>
+                </div>
+
+                <!-- Add-on 3: Baterai Cadangan Rakitan -->
+                <div
+                    class="bg-gray-900 p-6 rounded-2xl shadow-lg text-left border border-gray-800 hover:border-orange-500 transition-all duration-300 flex flex-col h-full group">
+                    <h3 class="text-xl font-bold text-white mb-4">Baterai Cadangan Rakitan</h3>
+                    <img src="assets/img/addon-baterai.webp" alt="Baterai Cadangan Rakitan"
+                        class="w-full h-48 object-contain rounded-xl mb-2">
+                    <p class="text-gray-400 text-sm mb-4 flex-grow">Pastikan operasional tanpa henti dengan stok baterai
+                        cadangan yang cukup.</p>
+                    <div class="mb-6">
+                        <p class="text-gray-400 text-xs uppercase tracking-wider mb-1">Harga</p>
+                        <div class="text-3xl font-bold text-white">Rp 150.000</div>
+                    </div>
+                    <button onclick="addToCart('addon-baterai', 'Baterai Cadangan Rakitan', 150000, 'addon')"
+                        class="btn-primary px-4 py-2.5 rounded-full text-white font-semibold text-sm text-center hover:shadow-lg transition-all flex items-center justify-center gap-2 mt-auto">
+                        <i class="fas fa-cart-plus"></i> Tambah ke Keranjang
+                    </button>
+                </div>
+
+                <!-- Add-on 4: Asisten AI Marketing -->
+                <div
+                    class="bg-gray-900 p-6 rounded-2xl shadow-lg text-left border border-gray-800 hover:border-orange-500 transition-all duration-300 flex flex-col h-full group">
+                    <h3 class="text-xl font-bold text-white mb-4">Asisten AI Marketing</h3>
+                    <img src="assets/img/addon-ai.webp" alt="Asisten AI Marketing"
+                        class="w-full h-48 object-contain rounded-xl mb-2">
+                    <p class="text-gray-400 text-sm mb-4 flex-grow">Bantu buat konten promosi, caption, dan ide
+                        marketing
+                        dengan dukungan AI.</p>
+                    <div class="mb-6">
+                        <p class="text-gray-400 text-xs uppercase tracking-wider mb-1">Harga</p>
+                        <div class="text-3xl font-bold text-white">Rp 100.000</div>
+                    </div>
+                    <button onclick="addToCart('addon-ai', 'Asisten AI Marketing', 100000, 'addon')"
+                        class="btn-primary px-4 py-2.5 rounded-full text-white font-semibold text-sm text-center hover:shadow-lg transition-all flex items-center justify-center gap-2 mt-auto">
+                        <i class="fas fa-cart-plus"></i> Tambah ke Keranjang
+                    </button>
+                </div>
+
+                <!-- Add-on 5: Banner Promosi Custom -->
+                <div
+                    class="bg-gray-900 p-6 rounded-2xl shadow-lg text-left border border-gray-800 hover:border-orange-500 transition-all duration-300 flex flex-col h-full group">
+                    <h3 class="text-xl font-bold text-white mb-4">Banner Promosi Custom</h3>
+                    <img src="assets/img/addon-banner.webp" alt="Banner Promosi Custom"
+                        class="w-full h-48 object-contain rounded-xl mb-2">
+                    <p class="text-gray-400 text-sm mb-4 flex-grow">Desain banner promosi sesuai kebutuhan lokasi Anda.
+                        Tarik perhatian lebih banyak pelanggan.</p>
+                    <div class="mb-6">
+                        <p class="text-gray-400 text-xs uppercase tracking-wider mb-1">Harga</p>
+                        <div class="text-3xl font-bold text-white">Rp 75.000</div>
+                    </div>
+                    <button onclick="addToCart('addon-banner', 'Banner Promosi Custom', 75000, 'addon')"
+                        class="btn-primary px-4 py-2.5 rounded-full text-white font-semibold text-sm text-center hover:shadow-lg transition-all flex items-center justify-center gap-2 mt-auto">
+                        <i class="fas fa-cart-plus"></i> Tambah ke Keranjang
+                    </button>
+                </div>
+
+                <!-- Add-on 6: Traffic Cones Tambahan -->
+                <div
+                    class="bg-gray-900 p-6 rounded-2xl shadow-lg text-left border border-gray-800 hover:border-orange-500 transition-all duration-300 flex flex-col h-full group">
+                    <h3 class="text-xl font-bold text-white mb-4">Traffic Cones Tambahan (10 Pcs)</h3>
+                    <img src="assets/img/addon-cones.webp" alt="Traffic Cones Tambahan"
+                        class="w-full h-48 object-contain rounded-xl mb-2">
+                    <p class="text-gray-400 text-sm mb-4 flex-grow">Perluas area bermain atau buat rintangan lebih
+                        menantang dengan cones tambahan.</p>
+                    <div class="mb-6">
+                        <p class="text-gray-400 text-xs uppercase tracking-wider mb-1">Harga</p>
+                        <div class="text-3xl font-bold text-white">Rp 50.000</div>
+                    </div>
+                    <button onclick="addToCart('addon-cones', 'Traffic Cones Tambahan', 50000, 'addon')"
+                        class="btn-primary px-4 py-2.5 rounded-full text-white font-semibold text-sm text-center hover:shadow-lg transition-all flex items-center justify-center gap-2 mt-auto">
+                        <i class="fas fa-cart-plus"></i> Tambah ke Keranjang
+                    </button>
+                </div>
+            </div>
+
+            <p class="text-gray-500 text-sm mt-8">
+                <i class="fas fa-info-circle text-orange-500 mr-2"></i>
+                Semua add-on bersifat opsional dan dapat ditambahkan kapan saja sesuai kebutuhan.
+            </p>
+        </div>
+    </section>
+
+    <!-- SECTION 6: TESTIMONI -->
+    <section class="py-16 md:py-24 bg-gray-950">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
+                Apa Kata <span class="text-orange-500">Mitra Kami?</span>
+            </h2>
+            <p class="text-gray-300 text-lg max-w-3xl mx-auto mb-12">
+                Dengarkan pengalaman nyata dari para mitra RC GO yang telah sukses mengembangkan bisnis rental RC
+                mereka.
+            </p>
+
+            <!-- SWIPER TESTIMONIALS -->
+            <div class="swiper swiper-testimonials pb-12">
+                <div class="swiper-wrapper">
+                    <!-- Testimoni 1 -->
+                    <div class="swiper-slide">
+                        <div class="bg-gray-900 p-8 rounded-2xl shadow-lg text-left border border-gray-800 h-full">
+                            <div class="flex items-center mb-6">
+                                <div
+                                    class="w-14 h-14 bg-orange-500/20 rounded-full flex items-center justify-center mr-4 shrink-0 border border-orange-500/30">
+                                    <i class="fas fa-user text-orange-500 text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="text-white font-bold text-lg">Andi</p>
+                                    <p class="text-gray-400 text-sm">Usaha RC di CFD</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-300 leading-relaxed italic relative">
+                                <span class="text-orange-500 text-4xl absolute -top-4 -left-2 opacity-20">"</span>
+                                "Awalnya cuma coba satu unit drift. Ternyata ramai, anak-anak repeat terus. Sekarang
+                                sudah nambah unit dan pakai sistem timer."
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Testimoni 2 -->
+                    <div class="swiper-slide">
+                        <div class="bg-gray-900 p-8 rounded-2xl shadow-lg text-left border border-gray-800 h-full">
+                            <div class="flex items-center mb-6">
+                                <div
+                                    class="w-14 h-14 bg-orange-500/20 rounded-full flex items-center justify-center mr-4 shrink-0 border border-orange-500/30">
+                                    <i class="fas fa-user text-orange-500 text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="text-white font-bold text-lg">Rina</p>
+                                    <p class="text-gray-400 text-sm">Usaha RC Rumahan</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-300 leading-relaxed italic relative">
+                                <span class="text-orange-500 text-4xl absolute -top-4 -left-2 opacity-20">"</span>
+                                "Saya pemula banget, tapi sistemnya gampang. ADD-ON bisa nyusul belakangan, jadi nggak
+                                berat di awal."
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Testimoni 3 -->
+                    <div class="swiper-slide">
+                        <div class="bg-gray-900 p-8 rounded-2xl shadow-lg text-left border border-gray-800 h-full">
+                            <div class="flex items-center mb-6">
+                                <div
+                                    class="w-14 h-14 bg-orange-500/20 rounded-full flex items-center justify-center mr-4 shrink-0 border border-orange-500/30">
+                                    <i class="fas fa-user text-orange-500 text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="text-white font-bold text-lg">Budi</p>
+                                    <p class="text-gray-400 text-sm">Event & Booth RC</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-300 leading-relaxed italic relative">
+                                <span class="text-orange-500 text-4xl absolute -top-4 -left-2 opacity-20">"</span>
+                                "Asisten AI-nya bantu banget buat bikin caption dan promo. Jadi walau nggak jago
+                                marketing, tetap bisa posting."
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Testimoni 4 -->
+                    <div class="swiper-slide">
+                        <div class="bg-gray-900 p-8 rounded-2xl shadow-lg text-left border border-gray-800 h-full">
+                            <div class="flex items-center mb-6">
+                                <div
+                                    class="w-14 h-14 bg-orange-500/20 rounded-full flex items-center justify-center mr-4 shrink-0 border border-orange-500/30">
+                                    <i class="fas fa-user text-orange-500 text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="text-white font-bold text-lg">Dewi</p>
+                                    <p class="text-gray-400 text-sm text-xs">Event Sekolah & Komunitas</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-300 leading-relaxed italic relative">
+                                <span class="text-orange-500 text-4xl absolute -top-4 -left-2 opacity-20">"</span>
+                                "Main di event sekolah, ternyata cepat muter. Anak-anak nggak cuma sekali main, tapi
+                                balik lagi. RC Go cukup bantu buat usaha harian."
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Testimoni 5 -->
+                    <div class="swiper-slide">
+                        <div class="bg-gray-900 p-8 rounded-2xl shadow-lg text-left border border-gray-800 h-full">
+                            <div class="flex items-center mb-6">
+                                <div
+                                    class="w-14 h-14 bg-orange-500/20 rounded-full flex items-center justify-center mr-4 shrink-0 border border-orange-500/30">
+                                    <i class="fas fa-user text-orange-500 text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="text-white font-bold text-lg">Yuni</p>
+                                    <p class="text-gray-400 text-sm">Usaha Keluarga</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-300 leading-relaxed italic relative">
+                                <span class="text-orange-500 text-4xl absolute -top-4 -left-2 opacity-20">"</span>
+                                "Awalnya ragu karena belum pernah usaha mainan. Tapi ternyata sistemnya simpel dan
+                                gampang dijalanin. Anak saya juga ikut bantu jaga booth."
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Testimoni 6 -->
+                    <div class="swiper-slide">
+                        <div class="bg-gray-900 p-8 rounded-2xl shadow-lg text-left border border-gray-800 h-full">
+                            <div class="flex items-center mb-6">
+                                <div
+                                    class="w-14 h-14 bg-orange-500/20 rounded-full flex items-center justify-center mr-4 shrink-0 border border-orange-500/30">
+                                    <i class="fas fa-user text-orange-500 text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="text-white font-bold text-lg">Rizky</p>
+                                    <p class="text-gray-400 text-sm">Usaha RC Taman Kota</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-300 leading-relaxed italic relative">
+                                <span class="text-orange-500 text-4xl absolute -top-4 -left-2 opacity-20">"</span>
+                                "Lokasi saya di taman sore hari. Dengan sistem sewa 15 menit, perputaran cepat. AI-nya
+                                juga bantu bikin teks promo buat WhatsApp."
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Testimoni 7 -->
+                    <div class="swiper-slide">
+                        <div class="bg-gray-900 p-8 rounded-2xl shadow-lg text-left border border-gray-800 h-full">
+                            <div class="flex items-center mb-6">
+                                <div
+                                    class="w-14 h-14 bg-orange-500/20 rounded-full flex items-center justify-center mr-4 shrink-0 border border-orange-500/30">
+                                    <i class="fas fa-user text-orange-500 text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="text-white font-bold text-lg">Arif</p>
+                                    <p class="text-gray-400 text-sm">Usaha RC Keliling</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-300 leading-relaxed italic relative">
+                                <span class="text-orange-500 text-4xl absolute -top-4 -left-2 opacity-20">"</span>
+                                "Saya pilih paket dasar dulu karena modal terbatas. Setelah jalan, baru tambah baterai
+                                dan banner. Enaknya bisa bertahap, nggak dipaksa."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Pagination -->
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 7: FAQ -->
+    <section class="py-16 md:py-24 bg-black">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
+                Pertanyaan yang Sering <span class="text-orange-500">Diajukan</span>
+            </h2>
+            <p class="text-gray-300 text-lg max-w-3xl mx-auto mb-12">
+                Temukan jawaban atas pertanyaan umum seputar bisnis rental RC GO dan bagaimana kami dapat membantu Anda.
+            </p>
+
+            <div class="max-w-3xl mx-auto space-y-4 text-left">
+                <!-- FAQ Item 1 -->
+                <div class="bg-gray-900 p-6 rounded-xl border border-gray-800">
+                    <details class="group">
+                        <summary class="flex justify-between items-center font-bold text-white text-lg cursor-pointer">
+                            Apakah paket usaha RC Go bisa langsung dijalankan?
+                            <span class="transition group-open:rotate-180">
+                                <i class="fas fa-chevron-down text-orange-500"></i>
+                            </span>
+                        </summary>
+                        <p class="text-gray-300 mt-4 leading-relaxed">
+                            Ya. Paket usaha dasar <strong class="text-white">sudah siap dimainkan</strong> tanpa ADD-ON
+                            tambahan.
+                        </p>
+                    </details>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="bg-gray-900 p-6 rounded-xl border border-gray-800">
+                    <details class="group">
+                        <summary class="flex justify-between items-center font-bold text-white text-lg cursor-pointer">
+                            Apakah saya harus langsung beli semua ADD-ON?
+                            <span class="transition group-open:rotate-180">
+                                <i class="fas fa-chevron-down text-orange-500"></i>
+                            </span>
+                        </summary>
+                        <p class="text-gray-300 mt-4 leading-relaxed">
+                            Tidak. ADD-ON <strong class="text-white">bersifat opsional</strong> dan bisa ditambahkan
+                            kapan saja sesuai kebutuhan dan budget.
+                        </p>
+                    </details>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="bg-gray-900 p-6 rounded-xl border border-gray-800">
+                    <details class="group">
+                        <summary class="flex justify-between items-center font-bold text-white text-lg cursor-pointer">
+                            Apakah usaha ini cocok untuk pemula?
+                            <span class="transition group-open:rotate-180">
+                                <i class="fas fa-chevron-down text-orange-500"></i>
+                            </span>
+                        </summary>
+                        <p class="text-gray-300 mt-4 leading-relaxed">
+                            Sangat cocok. RC Go dirancang agar <strong class="text-white">mudah dijalankan tanpa
+                                pengalaman khusus</strong>.
+                        </p>
+                    </details>
+                </div>
+
+                <!-- FAQ Item 4 -->
+                <div class="bg-gray-900 p-6 rounded-xl border border-gray-800">
+                    <details class="group">
+                        <summary class="flex justify-between items-center font-bold text-white text-lg cursor-pointer">
+                            Bagaimana jika saya ingin upgrade atau menambah unit?
+                            <span class="transition group-open:rotate-180">
+                                <i class="fas fa-chevron-down text-orange-500"></i>
+                            </span>
+                        </summary>
+                        <p class="text-gray-300 mt-4 leading-relaxed">
+                            Anda bisa melakukan upgrade atau penambahan unit <strong class="text-white">kapan
+                                saja</strong>, cukup hubungi tim RC Go.
+                        </p>
+                    </details>
+                </div>
+
+                <!-- FAQ Item 5 -->
+                <div class="bg-gray-900 p-6 rounded-xl border border-gray-800">
+                    <details class="group">
+                        <summary class="flex justify-between items-center font-bold text-white text-lg cursor-pointer">
+                            Apakah Asisten AI wajib digunakan?
+                            <span class="transition group-open:rotate-180">
+                                <i class="fas fa-chevron-down text-orange-500"></i>
+                            </span>
+                        </summary>
+                        <p class="text-gray-300 mt-4 leading-relaxed">
+                            Tidak wajib. Asisten AI adalah <strong class="text-white">bonus pendamping usaha</strong>
+                            untuk membantu operasional dan promosi agar lebih praktis.
+                        </p>
+                    </details>
+                </div>
+
+                <!-- FAQ Item 6 -->
+                <div class="bg-gray-900 p-6 rounded-xl border border-gray-800">
+                    <details class="group">
+                        <summary class="flex justify-between items-center font-bold text-white text-lg cursor-pointer">
+                            Apakah RC Go bisa untuk event atau pindah-pindah lokasi?
+                            <span class="transition group-open:rotate-180">
+                                <i class="fas fa-chevron-down text-orange-500"></i>
+                            </span>
+                        </summary>
+                        <p class="text-gray-300 mt-4 leading-relaxed">
+                            Bisa. RC Go <strong class="text-white">fleksibel digunakan</strong> untuk event, CFD, mall,
+                            maupun usaha menetap.
+                        </p>
+                    </details>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 8: CTA -->
+    <section class="py-16 md:py-24 granite-texture border-t border-gray-800">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <div class="space-y-8">
+                <div class="space-y-4">
+                    <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight">
+                        🚀 Siap Mulai Usaha RC Go?
+                    </h2>
+                    <p class="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+                        Jangan tunggu sampai peluang diambil orang lain. Mulai dari paket usaha dasar, kembangkan secara
+                        bertahap sesuai ritme Anda.
+                    </p>
+                </div>
+
+                <div class="flex flex-col items-center gap-8 pt-4">
+                    <div class="w-full max-w-md">
+                        <a href="https://wa.me/6288221201998" target="_blank"
+                            class="w-full btn-cta-primary text-white py-5 px-8 rounded-full font-black text-xl flex items-center justify-center gap-3 transition-all shadow-xl hover:shadow-orange-500/40">
+                            <i class="fas fa-play"></i>
+                            MULAI USAHA RC GO SEKARANG
+                        </a>
+                        <p class="text-gray-500 text-sm mt-3 italic">Mulai dari paket dasar, bisa upgrade kapan saja</p>
+                    </div>
+
+                    <div class="w-full max-w-md">
+                        <a href="https://wa.me/6288221201998" target="_blank"
+                            class="w-full border-2 border-orange-500 text-orange-500 py-4 px-8 rounded-full font-bold text-lg flex items-center justify-center gap-3 hover:bg-orange-500 hover:text-white transition-all">
+                            <i class="fas fa-comment-dots"></i>
+                            KONSULTASI GRATIS
+                        </a>
+                        <p class="text-gray-400 text-sm mt-3">Dibantu pilih paket sesuai kebutuhan & lokasi</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black border-t border-gray-800 py-8 md:py-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6 md:gap-8 text-center md:text-left">
+                <img src="assets/img/rcgo-logo.svg" alt="RC GO Logo" class="h-10 md:h-12">
+                <p class="text-xs md:text-sm text-gray-400">&copy; 2025 RC GO. Seluruh Hak Cipta Dilindungi.</p>
+                <div class="flex gap-4 md:gap-6 text-lg md:text-xl">
+                    <a href="#" class="text-gray-400 hover:text-orange-500 transition-colors"><i
+                            class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-orange-500 transition-colors"><i
+                            class="fab fa-tiktok"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-orange-500 transition-colors"><i
+                            class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Initialize Swiper Testimonials
+        const swiperTestimonials = new Swiper('.swiper-testimonials', {
+            slidesPerView: 1,
+            spaceBetween: 20,
+            loop: true,
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            breakpoints: {
+                640: {
+                    slidesPerView: 2,
+                    spaceBetween: 20,
+                },
+                1024: {
+                    slidesPerView: 3,
+                    spaceBetween: 30,
+                },
+            },
+        });
+    </script>
+    <style>
+        .swiper-pagination-bullet {
+            background: #fff;
+            opacity: 0.5;
+        }
+
+        .swiper-pagination-bullet-active {
+            background: #FFA500 !important;
+            opacity: 1;
+        }
+    </style>
+
+    <!-- MODALS FASILITAS -->
+    <!-- Modal Drift -->
+    <div id="modal-drift" class="fixed inset-0 bg-black/80 z-50 hidden items-center justify-center p-4">
+        <div class="bg-gray-900 rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto border border-gray-700">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-white">Fasilitas Paket Drift</h3>
+                    <button onclick="closeModal('modal-drift')"
+                        class="text-gray-400 hover:text-white text-2xl">&times;</button>
+                </div>
+                <img src="assets/img/paket-drift.svg" alt="Paket Drift" class="w-full h-40 object-contain mb-4">
+                <p class="text-orange-500 font-bold text-2xl mb-4">Rp 1,9 Jt</p>
+                <h4 class="text-white font-semibold mb-3">Yang Anda Dapatkan:</h4>
+                <ul class="space-y-2 text-gray-300 text-sm mb-6">
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> 5 Unit RC Drift
+                        Premium</li>
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> 5 Remote
+                        (Sesuai Unit)</li>
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> Charger &
+                        Baterai Original</li>
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> 5 Baterai
+                        Cadangan (Rakitan)</li>
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> 30 Traffic
+                        Cones & Obeng Mini</li>
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> Banner
+                        Eksklusif</li>
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> Pelatihan
+                        Operasional (Free)</li>
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> Strategi Bisnis
+                        & Perawatan (Free)</li>
+                </ul>
+                <button onclick="addToCart('drift', 'Drift', 1900000, 'package'); closeModal('modal-drift')"
+                    class="w-full btn-primary py-3 rounded-full text-white font-semibold text-center block">
+                    <i class="fas fa-cart-plus mr-2"></i>Masuk Keranjang
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Off-road -->
+    <div id="modal-offroad" class="fixed inset-0 bg-black/80 z-50 hidden items-center justify-center p-4">
+        <div class="bg-gray-900 rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto border border-gray-700">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-white">Fasilitas Paket Off-road</h3>
+                    <button onclick="closeModal('modal-offroad')"
+                        class="text-gray-400 hover:text-white text-2xl">&times;</button>
+                </div>
+                <img src="assets/img/paket-offroad.svg" alt="Paket Off-road" class="w-full h-40 object-contain mb-4">
+                <p class="text-orange-500 font-bold text-2xl mb-4">Rp 2,6 Jt</p>
+                <h4 class="text-white font-semibold mb-3">Yang Anda Dapatkan:</h4>
+                <ul class="space-y-2 text-gray-300 text-sm mb-6">
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> 5 Unit RC
+                        Offroad 4WD</li>
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> 5 Remote
+                        (Sesuai Unit)</li>
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> Charger &
+                        Baterai Original</li>
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> 5 Baterai
+                        Cadangan (Rakitan)</li>
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> Power Supply
+                        Fast Charging</li>
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> Banner Rental
+                    </li>
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> Pelatihan
+                        Operasional (Free)</li>
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> Strategi Bisnis
+                        & Perawatan (Free)</li>
+                </ul>
+                <button onclick="addToCart('offroad', 'Off-road', 2600000, 'package'); closeModal('modal-offroad')"
+                    class="w-full btn-primary py-3 rounded-full text-white font-semibold text-center block">
+                    <i class="fas fa-cart-plus mr-2"></i>Masuk Keranjang
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Stunt -->
+    <div id="modal-stunt" class="fixed inset-0 bg-black/80 z-50 hidden items-center justify-center p-4">
+        <div class="bg-gray-900 rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto border border-gray-700">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-white">Fasilitas Paket Stunt</h3>
+                    <button onclick="closeModal('modal-stunt')"
+                        class="text-gray-400 hover:text-white text-2xl">&times;</button>
+                </div>
+                <img src="assets/img/paket-stunt.svg" alt="Paket Stunt" class="w-full h-40 object-contain mb-4">
+                <p class="text-orange-500 font-bold text-2xl mb-4">Rp 2,7 Jt</p>
+                <h4 class="text-white font-semibold mb-3">Yang Anda Dapatkan:</h4>
+                <ul class="space-y-2 text-gray-300 text-sm mb-6">
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> 5 Unit RC Stunt
+                        4WD</li>
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> 5 Remote
+                        (Sesuai Unit)</li>
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> Charger &
+                        Baterai Original</li>
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> Baterai
+                        Cadangan (Rakitan)</li>
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> Power Supply
+                        Fast Charging</li>
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> Banner Rental
+                    </li>
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> Pelatihan
+                        Operasional (Free)</li>
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> Strategi Bisnis
+                        & Perawatan (Free)</li>
+                </ul>
+                <button onclick="addToCart('stunt', 'Stunt', 2700000, 'package'); closeModal('modal-stunt')"
+                    class="w-full btn-primary py-3 rounded-full text-white font-semibold text-center block">
+                    <i class="fas fa-cart-plus mr-2"></i>Masuk Keranjang
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Mix RC Car -->
+    <div id="modal-mixcar" class="fixed inset-0 bg-black/80 z-50 hidden items-center justify-center p-4">
+        <div class="bg-gray-900 rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto border border-gray-700">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-white">Fasilitas Paket Mix RC Car</h3>
+                    <button onclick="closeModal('modal-mixcar')"
+                        class="text-gray-400 hover:text-white text-2xl">&times;</button>
+                </div>
+                <img src="assets/img/paket-mixcar.webp" alt="Paket Mix RC Car" class="w-full h-40 object-contain mb-4">
+                <p class="text-orange-500 font-bold text-2xl mb-4">Rp 2,5 Jt</p>
+                <h4 class="text-white font-semibold mb-3">Yang Anda Dapatkan:</h4>
+                <ul class="space-y-2 text-gray-300 text-sm mb-6">
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> 5 Unit RC
+                        (Drift, Offroad, Stunt)</li>
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> 5 Remote
+                        (Sesuai Unit)</li>
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> Charger &
+                        Baterai Original</li>
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> Ban Serep
+                        (Khusus Drift)</li>
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> Baterai
+                        Cadangan (Rakitan)</li>
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> Banner & Alas
+                        Drift</li>
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> Pelatihan
+                        Operasional (Free)</li>
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> Strategi Bisnis
+                        & Perawatan (Free)</li>
+                </ul>
+                <button onclick="addToCart('mixcar', 'Mix RC Car', 2500000, 'package'); closeModal('modal-mixcar')"
+                    class="w-full btn-primary py-3 rounded-full text-white font-semibold text-center block">
+                    <i class="fas fa-cart-plus mr-2"></i>Masuk Keranjang
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Excavator -->
+    <div id="modal-excavator" class="fixed inset-0 bg-black/80 z-50 hidden items-center justify-center p-4">
+        <div class="bg-gray-900 rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto border border-gray-700">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-white">Fasilitas Paket Excavator</h3>
+                    <button onclick="closeModal('modal-excavator')"
+                        class="text-gray-400 hover:text-white text-2xl">&times;</button>
+                </div>
+                <img src="assets/img/paket-excavator.webp" alt="Paket Excavator"
+                    class="w-full h-40 object-contain mb-4">
+                <p class="text-orange-500 font-bold text-2xl mb-4">Rp 3,2 Jt</p>
+                <h4 class="text-white font-semibold mb-3">Yang Anda Dapatkan:</h4>
+                <ul class="space-y-2 text-gray-300 text-sm mb-6">
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> 5 Unit RC
+                        Excavator Premium</li>
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> 5 Remote
+                        (Sesuai Unit)</li>
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> Charger &
+                        Baterai Original</li>
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> Baterai
+                        Cadangan (Rakitan)</li>
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> Fast Charging
+                        Power Supply</li>
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> Banner
+                        Eksklusif</li>
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> Pelatihan
+                        Operasional (Free)</li>
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> Strategi Bisnis
+                        & Perawatan (Free)</li>
+                </ul>
+                <button onclick="addToCart('excavator', 'Excavator', 3200000, 'package'); closeModal('modal-excavator')"
+                    class="w-full btn-primary py-3 rounded-full text-white font-semibold text-center block">
+                    <i class="fas fa-cart-plus mr-2"></i>Masuk Keranjang
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Alat Berat Mix -->
+    <div id="modal-alatberat" class="fixed inset-0 bg-black/80 z-50 hidden items-center justify-center p-4">
+        <div class="bg-gray-900 rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto border border-gray-700">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-white">Fasilitas Paket Alat Berat Mix</h3>
+                    <button onclick="closeModal('modal-alatberat')"
+                        class="text-gray-400 hover:text-white text-2xl">&times;</button>
+                </div>
+                <img src="assets/img/paket-alatberat-mix.webp" alt="Paket Alat Berat Mix"
+                    class="w-full h-40 object-contain mb-4">
+                <p class="text-orange-500 font-bold text-2xl mb-4">Rp 3,7 Jt</p>
+                <h4 class="text-white font-semibold mb-3">Yang Anda Dapatkan:</h4>
+                <ul class="space-y-2 text-gray-300 text-sm mb-6">
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> 5 Unit Mix
+                        (Excavator, Truck, Dozer)</li>
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> 5 Remote
+                        (Sesuai Unit)</li>
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> Baterai
+                        Original & Rakitan</li>
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> Fast Charger
+                        (Bisa 10 Baterai)</li>
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> Banner Rental
+                    </li>
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> Pelatihan
+                        Operasional (Free)</li>
+                    <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> Strategi Bisnis
+                        & Perawatan (Free)</li>
+                </ul>
+                <button
+                    onclick="addToCart('alatberat', 'Alat Berat Mix', 3700000, 'package'); closeModal('modal-alatberat')"
+                    class="w-full btn-primary py-3 rounded-full text-white font-semibold text-center block">
+                    <i class="fas fa-cart-plus mr-2"></i>Masuk Keranjang
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside
+        document.querySelectorAll('[id^="modal-"]').forEach(modal => {
+            modal.addEventListener('click', function (e) {
+                if (e.target === this) {
+                    closeModal(this.id);
+                }
+            });
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('[id^="modal-"]').forEach(modal => {
+                    if (!modal.classList.contains('hidden')) {
+                        closeModal(modal.id);
+                    }
+                });
+            }
+        });
+
+        // Calculator Logic
+        const unitsInput = document.getElementById('calc-units');
+        const priceInput = document.getElementById('calc-price');
+        const hppInput = document.getElementById('calc-hpp');
+        const trxInput = document.getElementById('calc-trx');
+        const resultDisplay = document.getElementById('calc-result');
+
+        function calculateProfit() {
+            if (!unitsInput || !priceInput || !hppInput || !trxInput || !resultDisplay) return;
+
+            const units = parseInt(unitsInput.value) || 0;
+            const price = parseInt(priceInput.value) || 0;
+            const hpp = parseInt(hppInput.value) || 0;
+            const trx = parseInt(trxInput.value) || 0;
+
+            const labaBersihPerSesi = price - hpp;
+            const totalLabaBersihPerBulan = labaBersihPerSesi * trx * units * 30;
+
+            resultDisplay.innerText = new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                maximumFractionDigits: 0
+            }).format(totalLabaBersihPerBulan);
+        }
+
+        if (unitsInput) {
+            [unitsInput, priceInput, hppInput, trxInput].forEach(input => {
+                input.addEventListener('input', calculateProfit);
+            });
+            // Initialize calculator
+            calculateProfit();
+        }
+    </script>
+
+    <!-- Scroll to Top Button -->
+    <div id="scroll-top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Scroll to Top Functionality
+            const scrollTopBtn = document.getElementById('scroll-top');
+            if (scrollTopBtn) {
+                window.addEventListener('scroll', () => {
+                    if (window.pageYOffset > 300) {
+                        scrollTopBtn.classList.add('show');
+                    } else {
+                        scrollTopBtn.classList.remove('show');
+                    }
+                });
+
+                scrollTopBtn.addEventListener('click', () => {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+        });
+    </script>
+
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <!-- Cart Drawer/Modal -->
+    <div id="cart-modal" class="fixed inset-0 bg-black/80 z-[60] hidden justify-end transition-opacity duration-300">
+        <div class="w-full max-w-md bg-gray-900 h-full shadow-2xl overflow-y-auto transform translate-x-full transition-transform duration-300"
+            id="cart-content">
+            <div class="p-6 h-full flex flex-col">
+                <div class="flex justify-between items-center mb-6 border-b border-gray-800 pb-4">
+                    <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                        <i class="fas fa-shopping-cart text-orange-500"></i> Keranjang
+                    </h2>
+                    <div class="flex items-center gap-3">
+                        <button onclick="clearCart()"
+                            class="text-xs text-red-500 hover:text-red-400 font-medium transition-colors"
+                            title="Hapus Semua">
+                            <i class="fas fa-trash-alt mr-1"></i> Reset
+                        </button>
+                        <button onclick="closeCart()" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="cart-items" class="flex-grow space-y-4 overflow-y-auto mb-6">
+                    <!-- Cart items will be injected here -->
+                    <div class="text-center text-gray-500 py-12 flex flex-col items-center">
+                        <i class="fas fa-shopping-basket text-4xl mb-3 opacity-30"></i>
+                        <p>Keranjang masih kosong</p>
+                    </div>
+                </div>
+
+                <div class="border-t border-gray-800 pt-4 mt-auto">
+                    <div class="flex justify-between items-center mb-4 text-white">
+                        <span class="text-gray-400">Total</span>
+                        <span class="text-xl font-bold text-orange-500" id="cart-total">Rp 0</span>
+                    </div>
+                    <a href="checkout.html"
+                        class="block w-full btn-primary py-3.5 rounded-full text-white font-bold text-center mb-3 hover:shadow-lg hover:shadow-orange-500/20 transition-all">
+                        Checkout Sekarang
+                    </a>
+                    <button onclick="closeCart()"
+                        class="block w-full border border-gray-700 text-gray-300 py-3 rounded-full font-medium hover:bg-gray-800 transition-colors">
+                        Lanjut Belanja
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts for Cart & UI -->
+    <script>
+        // === Mobile Menu Logic ===
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuIcon = document.getElementById('mobile-menu-icon');
+        let isMobileMenuOpen = false;
+
+        function toggleMobileMenu() {
+            isMobileMenuOpen = !isMobileMenuOpen;
+            if (isMobileMenuOpen) {
+                mobileMenu.classList.remove('hidden');
+                mobileMenuIcon.classList.remove('fa-bars');
+                mobileMenuIcon.classList.add('fa-times');
+            } else {
+                mobileMenu.classList.add('hidden');
+                mobileMenuIcon.classList.remove('fa-times');
+                mobileMenuIcon.classList.add('fa-bars');
+            }
+        }
+
+        // === Cart System Logic ===
+        const cartState = {
+            mainPackages: [], // Changed from single object to array
+            addons: [],
+            total: 0
+        };
+
+        // Initialize Cart from LocalStorage
+        function initCart() {
+            const stored = localStorage.getItem('rcgo_cart_v4'); // Storage Key Updated
+            if (stored) {
+                try {
+                    const parsed = JSON.parse(stored);
+                    cartState.mainPackages = parsed.mainPackages || (parsed.mainPackage ? [parsed.mainPackage] : []); // Fallback for old data
+                    cartState.addons = parsed.addons || [];
+                    updateCartUI();
+                } catch (e) { console.error('Cart parse error', e); }
+            }
+            updateBadge();
+        }
+
+        // Add Item to Cart
+        function addToCart(id, name, price, type = 'addon') {
+            if (type === 'package') {
+                const existing = cartState.mainPackages.find(item => item.id === id);
+                if (existing) {
+                    existing.qty += 1;
+                    showToast(`${name} qty bertambah`);
+                } else {
+                    cartState.mainPackages.push({ id, name, price, qty: 1, type });
+                    showToast(`${name} ditambahkan!`);
+                }
+            } else {
+                // Addon logic
+                const existing = cartState.addons.find(item => item.id === id);
+                if (existing) {
+                    existing.qty += 1;
+                    showToast(`${name} qty bertambah`);
+                } else {
+                    cartState.addons.push({ id, name, price, qty: 1, type });
+                    showToast(`${name} ditambahkan!`);
+                }
+            }
+
+            saveCart();
+            updateCartUI();
+            updateBadge();
+
+            // Auto open cart drawer
+            openCart();
+
+            // Bounce animation logic
+            const badge = document.getElementById('cart-badge');
+            badge.classList.add('cart-animate');
+            setTimeout(() => badge.classList.remove('cart-animate'), 300);
+        }
+
+        // Remove Item
+        function removeFromCart(id, type) {
+            if (type === 'package') {
+                cartState.mainPackages = cartState.mainPackages.filter(item => item.id !== id);
+            } else {
+                cartState.addons = cartState.addons.filter(item => item.id !== id);
+            }
+            saveCart();
+            updateCartUI();
+            updateBadge();
+        }
+
+        // Clear Cart
+        function clearCart() {
+            if (confirm('Apakah Anda yakin ingin mengosongkan keranjang?')) {
+                cartState.mainPackages = [];
+                cartState.addons = [];
+                saveCart();
+                updateCartUI();
+                updateBadge();
+                showToast('Keranjang telah dikosongkan');
+            }
+        }
+
+        // Update Qty
+        function updateQty(id, change, type) {
+            if (type === 'package') {
+                const existing = cartState.mainPackages.find(item => item.id === id);
+                if (existing) {
+                    existing.qty += change;
+                    if (existing.qty <= 0) {
+                        removeFromCart(id, 'package');
+                    }
+                }
+            } else {
+                const item = cartState.addons.find(i => i.id === id);
+                if (item) {
+                    item.qty += change;
+                    if (item.qty <= 0) removeFromCart(id, 'addon');
+                }
+            }
+            saveCart();
+            updateCartUI();
+            updateBadge();
+        }
+
+        // Save to LocalStorage
+        function saveCart() {
+            // Calc Total
+            let total = 0;
+            cartState.mainPackages.forEach(p => total += p.price * p.qty);
+            cartState.addons.forEach(a => total += a.price * a.qty);
+
+            cartState.total = total;
+            localStorage.setItem('rcgo_cart_v4', JSON.stringify(cartState));
+        }
+
+        // Update Badge Count
+        function updateBadge() {
+            const badge = document.getElementById('cart-badge');
+            let totalQty = 0;
+            cartState.mainPackages.forEach(p => totalQty += p.qty);
+            cartState.addons.forEach(a => totalQty += a.qty);
+
+            badge.innerText = totalQty;
+            if (totalQty > 0) {
+                badge.classList.remove('scale-0', 'opacity-0');
+                badge.classList.add('scale-100', 'opacity-100');
+            } else {
+                badge.classList.add('scale-0', 'opacity-0');
+                badge.classList.remove('scale-100', 'opacity-100');
+            }
+        }
+
+        // Update Cart Drawer UI
+        function updateCartUI() {
+            const container = document.getElementById('cart-items');
+            const totalDisplay = document.getElementById('cart-total');
+
+            // Recalc total just for display accuracy
+            let total = 0;
+            cartState.mainPackages.forEach(p => total += p.price * p.qty);
+            cartState.addons.forEach(a => total += a.price * a.qty);
+            totalDisplay.innerText = formatRupiah(total);
+
+            if (cartState.mainPackages.length === 0 && cartState.addons.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center text-gray-500 py-12 flex flex-col items-center">
+                        <i class="fas fa-shopping-basket text-4xl mb-3 opacity-30"></i>
+                        <p>Keranjang masih kosong</p>
+                    </div>`;
+                return;
+            }
+
+            let html = '';
+
+            // Section Main Packages
+            if (cartState.mainPackages.length > 0) {
+                html += `<div class="mb-4">
+                    <h5 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-2">Paket Usaha</h5>
+                    ${cartState.mainPackages.map(p => renderCartItem(p)).join('')}
+                </div>`;
+            }
+
+            // Section Addons
+            if (cartState.addons.length > 0) {
+                html += `<div>
+                    <h5 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-2">Add-ons (Aksesoris)</h5>
+                    ${cartState.addons.map(a => renderCartItem(a)).join('')}
+                </div>`;
+            }
+
+            container.innerHTML = html;
+        }
+
+        function renderCartItem(item) {
+            return `
+                 <div class="bg-gray-800 p-3 rounded-xl flex items-center justify-between border border-gray-700 mb-2">
+                    <div>
+                        <h4 class="text-white font-semibold text-sm line-clamp-1">${item.name}</h4>
+                        <p class="text-orange-500 text-xs font-bold">${formatRupiah(item.price)}</p>
+                    </div>
+                    <div class="flex items-center gap-3 bg-gray-900 rounded-lg p-1">
+                        <button onclick="updateQty('${item.id}', -1, '${item.type}')" class="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-white transition-colors">-</button>
+                        <span class="text-white text-sm font-medium w-4 text-center">${item.qty}</span>
+                        <button onclick="updateQty('${item.id}', 1, '${item.type}')" class="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-white transition-colors">+</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Format Rupiah
+        function formatRupiah(amount) {
+            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(amount);
+        }
+
+        // Open/Close Cart
+        function openCart() {
+            const modal = document.getElementById('cart-modal');
+            const content = document.getElementById('cart-content');
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            // Small delay for animation
+            setTimeout(() => {
+                content.classList.remove('translate-x-full');
+            }, 10);
+            document.body.style.overflow = 'hidden';
+            updateCartUI();
+        }
+
+        function closeCart() {
+            const modal = document.getElementById('cart-modal');
+            const content = document.getElementById('cart-content');
+
+            content.classList.add('translate-x-full');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close cart when clicking outside
+        document.getElementById('cart-modal').addEventListener('click', function (e) {
+            if (e.target === this) closeCart();
+        });
+
+        // Toast Notification
+        function showToast(message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = `<i class="fas fa-check-circle"></i> <span>${message}</span>`;
+
+            container.appendChild(toast);
+
+            // Trigger animation
+            setTimeout(() => toast.classList.add('show'), 10);
+
+            // Remove after 3s
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Init
+        document.addEventListener('DOMContentLoaded', initCart);
+    </script>
+</body>
+
+</html>
