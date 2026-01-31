@@ -85,7 +85,17 @@
                             {{ number_format($order->orderItems->sum(fn($i) => $i->price * $i->quantity), 0, ',', '.') }}</span>
                     </div>
                     <div class="flex justify-between text-slate-600 border-b border-slate-100 py-2 mb-2">
-                        <span>Ongkos Kirim</span>
+                        @php
+                            $calculatedWeight = $order->orderItems->sum(function ($item) {
+                                $weight = 0;
+                                if ($item->item_type == 'package' && $item->package)
+                                    $weight = $item->package->weight_kg;
+                                elseif ($item->addon)
+                                    $weight = $item->addon->weight_kg ?? 0;
+                                return $weight * $item->quantity;
+                            });
+                        @endphp
+                        <span>Ongkos Kirim ({{ $calculatedWeight }} kg)</span>
                         <span>Rp {{ number_format($order->shipping_cost, 0, ',', '.') }}</span>
                     </div>
                     <div class="flex justify-between font-bold text-lg text-brand-600">
@@ -150,9 +160,62 @@
             <div
                 class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm p-6">
                 <h3 class="font-bold text-lg mb-4">Alamat Pengiriman</h3>
-                <p class="text-sm text-slate-600 leading-relaxed">
-                    {{ $order->note ?? 'Alamat tidak tersedia' }}
-                </p>
+                @php
+                    $note = $order->note;
+                    $address = '';
+                    $cityProv = '';
+                    $phone = '';
+
+                    // Parse the note string
+                    if (preg_match('/Alamat: (.*)/', $note, $match)) {
+                        $address = $match[1];
+                    }
+                    if (preg_match('/Pengiriman ke (.*?)\./', $note, $match)) {
+                        $cityProv = $match[1];
+                    }
+                    if (preg_match('/CP: (.*?)\./', $note, $match)) {
+                        $phone = $match[1];
+                    }
+
+                    // Fallback if parsing fails (for old format)
+                    if (empty($address))
+                        $address = $note;
+
+                    // Full formatted string for copy
+                    $fullAddress = "Alamat: {$address}, {$cityProv}\nCP: {$order->user->name}\nHP: {$phone}";
+                @endphp
+
+                <div class="relative group">
+                    <div class="space-y-3 text-sm text-slate-700 dark:text-slate-300">
+                        <div>
+                            <p class="text-xs font-bold text-slate-400 uppercase">Alamat</p>
+                            <p class="leading-relaxed font-medium">{{ $address }}</p>
+                            <p class="text-slate-500">{{ $cityProv }}</p>
+                        </div>
+                        <div class="flex gap-8">
+                            <div>
+                                <p class="text-xs font-bold text-slate-400 uppercase">CP (Contact Person)</p>
+                                <p class="font-medium">{{ $order->user->name }}</p>
+                            </div>
+                            <div>
+                                <p class="text-xs font-bold text-slate-400 uppercase">HP / WhatsApp</p>
+                                <p class="font-mono font-medium text-brand-600">{{ $phone }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="navigator.clipboard.writeText(`{{ $fullAddress }}`)"
+                        class="absolute top-0 right-0 p-2 text-slate-400 hover:text-brand-500 transition-colors"
+                        title="Copy Alamat Lengkap">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                    <div class="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800">
+                        <button onclick="navigator.clipboard.writeText(`{{ $fullAddress }}`)"
+                            class="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-bold rounded-lg transition-colors flex items-center justify-center gap-2">
+                            <i class="fas fa-copy"></i> Copy Detail Pengiriman
+                        </button>
+                    </div>
+                </div>
                 <!-- Courier info if available in future -->
             </div>
         </div>

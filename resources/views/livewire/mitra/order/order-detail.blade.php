@@ -8,6 +8,9 @@
                 <span>#{{ $order->id }}</span>
             </div>
             <h1 class="text-2xl font-bold tracking-tight">Detail Pesanan #{{ $order->id }}</h1>
+            <p class="text-slate-500 text-sm mt-1">
+                <i class="far fa-calendar-alt mr-1"></i> {{ $order->created_at->format('d M Y, H:i') }} WIB
+            </p>
         </div>
         <div>
             <span
@@ -60,7 +63,7 @@
                 <div class="mt-6 pt-6 border-t border-slate-100 dark:border-slate-700 space-y-2">
                     <div class="flex justify-between text-sm text-slate-500">
                         <span>Subtotal Item</span>
-                        <span>Rp {{ number_format($order->orderItems->sum('subtotal'), 0, ',', '.') }}</span>
+                        <span>Rp {{ number_format($order->orderItems->sum(fn($item) => $item->price * $item->quantity), 0, ',', '.') }}</span>
                     </div>
                     <div class="flex justify-between text-sm text-slate-500">
                         @php
