@@ -12,6 +12,12 @@ class Addon extends Model
         'image_url',
         'price',
         'weight_kg',
+        'description',
+    ];
+
+    protected $casts = [
+        'price' => 'decimal:2',
+        'weight_kg' => 'float',
     ];
 
     public function orderItems()

@@ -11,6 +11,12 @@
 @endphp
 
 @foreach($modalData as $m)
+    @php
+        $extension = in_array($m['id'], ['drift', 'offroad', 'stunt']) ? 'svg' : 'webp';
+        $imgName = 'paket-' . $m['id'] . '.' . $extension;
+        if ($m['id'] == 'alatberat')
+            $imgName = 'paket-alatberat-mix.webp';
+    @endphp
     <div id="modal-{{ $m['id'] }}" class="fixed inset-0 bg-black/80 z-[60] hidden items-center justify-center p-4">
         <div class="bg-gray-900 rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto border border-gray-700">
             <div class="p-6">
@@ -19,8 +25,8 @@
                     <button onclick="closeModal('modal-{{ $m['id'] }}')"
                         class="text-gray-400 hover:text-white text-2xl">&times;</button>
                 </div>
-                <img src="{{ asset('assets/img/' . $m['img']) }}" alt="Paket {{ $m['name'] }}"
-                    class="w-full h-40 object-contain mb-4">
+                <img src="{{ asset('assets/img/' . $imgName) }}" onerror="this.src='{{ asset("assets/img/rcgo.webp") }}'"
+                    alt="Paket {{ $m['name'] }}" class="w-full h-40 object-contain mb-4">
                 <p class="text-orange-500 font-bold text-2xl mb-4">{{ $m['price'] }}</p>
                 <h4 class="text-white font-semibold mb-3">Yang Anda Dapatkan:</h4>
                 <ul class="space-y-2 text-gray-300 text-sm mb-6">

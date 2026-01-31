@@ -16,7 +16,7 @@
 
                     <div class="relative mb-3">
                         <img src="{{ asset('assets/img/addon-' . \Illuminate\Support\Str::slug($addon->name) . '.webp') }}"
-                            onerror="this.src='{{ asset("assets/img/addon-timer.webp") }}'" alt="{{ $addon->name }}"
+                            onerror="this.src='{{ asset("assets/img/rcgo.webp") }}'" alt="{{ $addon->name }}"
                             class="w-full h-32 md:h-40 object-contain rounded-lg bg-gray-950/50 p-2">
                         <div class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
                             <span class="bg-orange-500 text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-lg">
@@ -26,7 +26,8 @@
                     </div>
 
                     <h3 class="text-sm md:text-base font-bold text-white mb-1 line-clamp-1" title="{{ $addon->name }}">
-                        {{ $addon->name }}</h3>
+                        {{ $addon->name }}
+                    </h3>
 
                     <p class="text-gray-500 text-xs mb-3 flex-grow line-clamp-2 leading-relaxed">
                         {{ $addon->description }}
@@ -36,7 +37,8 @@
                         <div class="mb-3">
                             <p class="text-gray-600 text-[10px] uppercase tracking-wider font-semibold">Harga</p>
                             <div class="text-base md:text-lg font-bold text-orange-400">Rp
-                                {{ number_format($addon->price, 0, ',', '.') }}</div>
+                                {{ number_format($addon->price, 0, ',', '.') }}
+                            </div>
                         </div>
 
                         <button onclick="addToCart('{{ $addon->id }}', '{{ $addon->name }}', {{ $addon->price }}, 'addon')"

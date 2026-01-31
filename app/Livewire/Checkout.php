@@ -17,6 +17,7 @@ class Checkout extends Component
 {
     public ?Package $package = null;
     public $packageSlug = null;
+    public $packageQty = 1; // Default 1
     public $allAddons;
     public $selectedAddons = [];
 
@@ -122,9 +123,15 @@ class Checkout extends Component
         $this->dispatch('addons-changed', addons: $this->selectedAddons);
     }
 
+    public function setQuantity($qty)
+    {
+        $this->packageQty = $qty;
+    }
+
     public function getTotalProperty()
     {
-        $packagePrice = $this->package->price;
+        $packagePrice = ($this->package ? $this->package->price : 0) * $this->packageQty;
+        // Addons total
         $addonTotal = 0;
         foreach ($this->selectedAddons as $id => $qty) {
             $addon = $this->allAddons->firstWhere('id', $id);
@@ -136,18 +143,29 @@ class Checkout extends Component
         // Calculate shipping based on city
         $shippingCost = 0;
         if ($this->city_id) {
-            $city = City::find($this->city_id);
+            $city = City::where('code', $this->city_id)->first();
             if ($city) {
+                // Try exact match first
                 $rate = ShippingRate::where('destination_city', $city->name)->first();
+
+                // Fallback: search for city name in destination_city (case-insensitive)
+                if (!$rate) {
+                    $rate = ShippingRate::where('destination_city', 'like', '%' . $city->name . '%')->first();
+                }
+
                 if ($rate) {
-                    $totalWeight = $this->package->weight_kg;
+                    // Calculate total weight including package qty
+                    $totalWeight = ($this->package ? $this->package->weight_kg : 1) * $this->packageQty;
+
                     foreach ($this->selectedAddons as $id => $qty) {
                         $addon = $this->allAddons->firstWhere('id', $id);
                         if ($addon) {
-                            $totalWeight += $addon->weight_kg * $qty;
+                            $totalWeight += ($addon->weight_kg ?? 0) * $qty;
                         }
                     }
-                    $shippingCost = $rate->price_per_kg * max($totalWeight, $rate->minimum_weight);
+                    // Minimum weight logic
+                    $calcWeight = max($totalWeight, $rate->minimum_weight);
+                    $shippingCost = $rate->price_per_kg * ceil($calcWeight);
                 }
             }
         }

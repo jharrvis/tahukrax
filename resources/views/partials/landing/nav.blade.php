@@ -103,12 +103,14 @@
         <!-- Right Section: Auth & CTA -->
         <div class="flex items-center gap-3 md:gap-4">
 
-            <!-- Cart Icon -->
+            <!-- Cart Icon (Hidden on Checkout) -->
+            @if(!request()->routeIs('checkout*'))
             <button onclick="openCart()" class="relative text-white hover:text-orange-500 transition-colors mr-2">
                 <i class="fas fa-shopping-cart text-xl"></i>
                 <span id="cart-badge"
                     class="absolute -top-2 -right-2 bg-orange-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full scale-0 opacity-0 transition-all duration-300">0</span>
             </button>
+            @endif
 
             @auth
                 <!-- Logged In User Dropdown -->
@@ -174,13 +176,15 @@
                 </a>
             @endauth
 
-            <!-- CTA Button -->
+            <!-- CTA Button (Hidden on Checkout) -->
+            @if(!request()->routeIs('checkout*'))
             <a id="nav-cta-btn" href="{{ route('home') }}#paket"
                 class="btn-primary flex items-center gap-2 px-5 md:px-6 py-2.5 md:py-3 rounded-full text-white font-bold text-sm shadow-lg shadow-orange-500/20 hover:shadow-orange-500/30 transition-all whitespace-nowrap">
                 <i class="fas fa-rocket"></i>
                 <span class="hidden sm:inline">Mulai Usaha</span>
                 <span class="sm:hidden">Daftar</span>
             </a>
+            @endif
 
             <!-- Mobile Menu Button -->
             <button @click="mobileMenu = !mobileMenu" class="lg:hidden text-white p-2">
@@ -357,7 +361,7 @@
     }
 
     // Add Item to Cart
-    function addToCart(id, name, price, type = 'addon') {
+    function addToCart(id, name, price, type = 'addon', slug = null) {
         if (type === 'package') {
             const existing = cartState.mainPackages.find(item => item.id === id);
             if (existing) {
@@ -369,7 +373,8 @@
                     name,
                     price,
                     qty: 1,
-                    type
+                    type,
+                    slug: slug || id  // Save slug for checkout page
                 });
                 showToast(`${name} ditambahkan!`);
             }
@@ -472,19 +477,27 @@
         const badge = document.getElementById('cart-badge');
         const ctaBtn = document.getElementById('nav-cta-btn');
         
+        // Compute total even if elements are missing (good for debugging or other logic)
         let totalQty = 0;
         cartState.mainPackages.forEach(p => totalQty += p.qty);
         cartState.addons.forEach(a => totalQty += a.qty);
 
-        // Badge
-        badge.innerText = totalQty;
-        if (totalQty > 0) {
-            badge.classList.remove('scale-0', 'opacity-0');
-            badge.classList.add('scale-100', 'opacity-100');
-            
-            // Dynamic CTA: Transform to Checkout
-            if (ctaBtn) {
-                // Calc Total for Button
+        // Update Badge if exists
+        if (badge) {
+            badge.innerText = totalQty;
+            if (totalQty > 0) {
+                badge.classList.remove('scale-0', 'opacity-0');
+                badge.classList.add('scale-100', 'opacity-100');
+            } else {
+                badge.classList.add('scale-0', 'opacity-0');
+                badge.classList.remove('scale-100', 'opacity-100');
+            }
+        }
+
+        // Update CTA if exists
+        if (ctaBtn) {
+            if (totalQty > 0) {
+                 // Calc Total for Button
                 let total = 0;
                 cartState.mainPackages.forEach(p => total += p.price * p.qty);
                 cartState.addons.forEach(a => total += a.price * a.qty);
@@ -498,16 +511,11 @@
                 ctaBtn.setAttribute('onclick', 'validateCheckout(event)');
                 
                 // Change Style to Green/Emerald to signify "Go/Finish"
-                ctaBtn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)'; // Emerald-500 to Emerald-600
+                ctaBtn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)'; 
                 ctaBtn.classList.remove('shadow-orange-500/20', 'hover:shadow-orange-500/30');
                 ctaBtn.classList.add('shadow-emerald-500/20', 'hover:shadow-emerald-500/30');
-            }
-        } else {
-            badge.classList.add('scale-0', 'opacity-0');
-            badge.classList.remove('scale-100', 'opacity-100');
-
-            // Dynamic CTA: Revert to Default
-            if (ctaBtn) {
+            } else {
+                 // Dynamic CTA: Revert to Default
                 ctaBtn.innerHTML = `
                     <i class="fas fa-rocket"></i>
                     <span class="hidden sm:inline">Mulai Usaha</span>
@@ -517,7 +525,7 @@
                 ctaBtn.removeAttribute('onclick');
                 
                 // Revert Style
-                ctaBtn.style.background = ''; // Revert to CSS class bg
+                ctaBtn.style.background = ''; 
                 ctaBtn.classList.add('shadow-orange-500/20', 'hover:shadow-orange-500/30');
                 ctaBtn.classList.remove('shadow-emerald-500/20', 'hover:shadow-emerald-500/30');
             }

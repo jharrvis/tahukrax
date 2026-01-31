@@ -132,6 +132,86 @@
             }
         }
     </style>
+    <style>
+        /* Cart Badge Animation */
+        @keyframes cart-bounce {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.2);
+            }
+        }
+
+        .cart-animate {
+            animation: cart-bounce 0.3s ease-in-out;
+        }
+
+        /* Mobile Menu Transitions */
+        .mobile-menu-enter {
+            transform: translateY(-20px);
+            opacity: 0;
+        }
+
+        .mobile-menu-enter-active {
+            transform: translateY(0);
+            opacity: 1;
+            transition: all 0.3s ease-out;
+        }
+
+        .mobile-menu-exit {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .mobile-menu-exit-active {
+            transform: translateY(-20px);
+            opacity: 0;
+            transition: all 0.2s ease-in;
+        }
+
+        /* Toast Notification */
+        #toast-container {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: none;
+        }
+
+        .toast {
+            background: rgba(20, 20, 20, 0.95);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 165, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            pointer-events: auto;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .toast i {
+            color: #FFA500;
+        }
+    </style>
 </head>
 
 <body>
@@ -151,25 +231,76 @@
     </div>
 
     <!-- Navigation -->
-    <nav class="bg-black/95 backdrop-blur-md sticky top-0 z-50 py-3 md:py-4 border-b border-gray-800">
-        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
-            <img src="assets/img/rcgo-logo.svg" alt="RC GO Logo" class="h-10 md:h-12 lg:h-16">
-            <div class="hidden lg:flex gap-6 xl:gap-8">
-                <a href="#"
-                    class="text-white hover:text-orange-500 font-medium transition-colors text-sm xl:text-base">Beranda</a>
-                <a href="#tentang"
-                    class="text-white hover:text-orange-500 font-medium transition-colors text-sm xl:text-base">Tentang</a>
-                <a href="#keuntungan"
-                    class="text-white hover:text-orange-500 font-medium transition-colors text-sm xl:text-base">Keuntungan</a>
-                <a href="#paket"
-                    class="text-white hover:text-orange-500 font-medium transition-colors text-sm xl:text-base">Paket
-                    Usaha</a>
-                <a href="#kontak"
-                    class="text-white hover:text-orange-500 font-medium transition-colors text-sm xl:text-base">Kontak</a>
+    <!-- Navigation -->
+    <nav class="bg-black/95 backdrop-blur-md sticky top-0 z-50 py-3 md:py-4 border-b border-gray-800" id="main-nav">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center">
+                <!-- Logo -->
+                <a href="#" class="flex-shrink-0">
+                    <img src="assets/img/rcgo-logo.svg" alt="RC GO Logo" class="h-10 md:h-12 lg:h-16">
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="hidden lg:flex gap-6 xl:gap-8 items-center">
+                    <a href="#"
+                        class="text-white hover:text-orange-500 font-medium transition-colors text-sm xl:text-base">Beranda</a>
+                    <a href="#tentang"
+                        class="text-white hover:text-orange-500 font-medium transition-colors text-sm xl:text-base">Tentang</a>
+                    <a href="#keuntungan"
+                        class="text-white hover:text-orange-500 font-medium transition-colors text-sm xl:text-base">Keuntungan</a>
+                    <a href="#paket"
+                        class="text-white hover:text-orange-500 font-medium transition-colors text-sm xl:text-base">Paket
+                        Usaha</a>
+                </div>
+
+                <!-- Right Side Actions -->
+                <div class="flex items-center gap-3 md:gap-4">
+                    <!-- Cart Icon (Desktop & Mobile) -->
+                    <button onclick="openCart()"
+                        class="relative group p-2 rounded-full hover:bg-gray-800 transition-colors">
+                        <i
+                            class="fas fa-shopping-cart text-white text-lg md:text-xl group-hover:text-orange-500 transition-colors"></i>
+                        <span id="cart-badge"
+                            class="absolute top-0 right-0 bg-orange-500 text-white text-[10px] font-bold h-4 w-4 md:h-5 md:w-5 flex items-center justify-center rounded-full opacity-0 transform scale-0 transition-all duration-300">0</span>
+                    </button>
+
+                    <!-- CTA Button (Desktop) -->
+                    <a href="#paket"
+                        class="hidden md:inline-flex btn-primary px-4 md:px-6 lg:px-8 py-2 md:py-3 rounded-full text-white font-semibold text-sm md:text-base items-center gap-2">
+                        <i class="fas fa-tag"></i> Cek Harga
+                    </a>
+
+                    <!-- Mobile Menu Button -->
+                    <button class="lg:hidden text-white p-2 hover:text-orange-500 transition-colors focus:outline-none"
+                        onclick="toggleMobileMenu()">
+                        <i class="fas fa-bars text-xl" id="mobile-menu-icon"></i>
+                    </button>
+                </div>
             </div>
-            <a href="#paket"
-                class="btn-primary px-4 md:px-6 lg:px-8 py-2 md:py-3 rounded-full text-white font-semibold text-sm md:text-base">Cek
-                Harga</a>
+
+            <!-- Mobile Menu Dropdown -->
+            <div id="mobile-menu" class="hidden lg:hidden mt-4 pt-4 border-t border-gray-800">
+                <div class="flex flex-col space-y-4">
+                    <a href="#" class="text-white hover:text-orange-500 font-medium py-2 border-b border-gray-800/50"
+                        onclick="toggleMobileMenu()">Beranda</a>
+                    <a href="#tentang"
+                        class="text-white hover:text-orange-500 font-medium py-2 border-b border-gray-800/50"
+                        onclick="toggleMobileMenu()">Tentang</a>
+                    <a href="#keuntungan"
+                        class="text-white hover:text-orange-500 font-medium py-2 border-b border-gray-800/50"
+                        onclick="toggleMobileMenu()">Keuntungan</a>
+                    <a href="#paket"
+                        class="text-white hover:text-orange-500 font-medium py-2 border-b border-gray-800/50"
+                        onclick="toggleMobileMenu()">Paket Usaha</a>
+                    <a href="#kontak"
+                        class="text-white hover:text-orange-500 font-medium py-2 border-b border-gray-800/50"
+                        onclick="toggleMobileMenu()">Kontak</a>
+                    <a href="#paket" class="btn-primary py-3 rounded-full text-white font-semibold text-center mt-2"
+                        onclick="toggleMobileMenu()">
+                        Cek Harga Paket
+                    </a>
+                </div>
+            </div>
         </div>
     </nav>
 
@@ -852,10 +983,10 @@
                             class="flex-1 border border-orange-500 text-orange-500 px-4 py-2.5 rounded-full font-semibold text-sm hover:bg-orange-500/10 transition-all">
                             <i class="fas fa-list-ul mr-1"></i> Fasilitas
                         </button>
-                        <a href="checkout.html?paket=drift"
-                            class="flex-1 btn-primary px-4 py-2.5 rounded-full text-white font-semibold text-sm text-center hover:shadow-lg transition-all">
-                            Beli Sekarang
-                        </a>
+                        <button onclick="addToCart('drift', 'Drift', 1900000, 'package')"
+                            class="flex-1 btn-primary px-4 py-2.5 rounded-full text-white font-semibold text-sm text-center hover:shadow-lg transition-all flex items-center justify-center gap-2">
+                            <i class="fas fa-cart-plus"></i> Masuk Keranjang
+                        </button>
                     </div>
                 </div>
 
@@ -889,10 +1020,10 @@
                             class="flex-1 border border-orange-500 text-orange-500 px-4 py-2.5 rounded-full font-semibold text-sm hover:bg-orange-500/10 transition-all">
                             <i class="fas fa-list-ul mr-1"></i> Fasilitas
                         </button>
-                        <a href="checkout.html?paket=offroad"
-                            class="flex-1 btn-primary px-4 py-2.5 rounded-full text-white font-semibold text-sm text-center hover:shadow-lg transition-all">
-                            Beli Sekarang
-                        </a>
+                        <button onclick="addToCart('offroad', 'Off-road', 2600000, 'package')"
+                            class="flex-1 btn-primary px-4 py-2.5 rounded-full text-white font-semibold text-sm text-center hover:shadow-lg transition-all flex items-center justify-center gap-2">
+                            <i class="fas fa-cart-plus"></i> Masuk Keranjang
+                        </button>
                     </div>
                 </div>
 
@@ -926,10 +1057,10 @@
                             class="flex-1 border border-orange-500 text-orange-500 px-4 py-2.5 rounded-full font-semibold text-sm hover:bg-orange-500/10 transition-all">
                             <i class="fas fa-list-ul mr-1"></i> Fasilitas
                         </button>
-                        <a href="checkout.html?paket=stunt"
-                            class="flex-1 btn-primary px-4 py-2.5 rounded-full text-white font-semibold text-sm text-center hover:shadow-lg transition-all">
-                            Beli Sekarang
-                        </a>
+                        <button onclick="addToCart('stunt', 'Stunt', 2700000, 'package')"
+                            class="flex-1 btn-primary px-4 py-2.5 rounded-full text-white font-semibold text-sm text-center hover:shadow-lg transition-all flex items-center justify-center gap-2">
+                            <i class="fas fa-cart-plus"></i> Masuk Keranjang
+                        </button>
                     </div>
                 </div>
 
@@ -965,10 +1096,10 @@
                             class="flex-1 border border-orange-500 text-orange-500 px-4 py-2.5 rounded-full font-semibold text-sm hover:bg-orange-500/10 transition-all">
                             <i class="fas fa-list-ul mr-1"></i> Fasilitas
                         </button>
-                        <a href="checkout.html?paket=mixcar"
-                            class="flex-1 btn-primary px-4 py-2.5 rounded-full text-white font-semibold text-sm text-center hover:shadow-lg transition-all">
-                            Beli Sekarang
-                        </a>
+                        <button onclick="addToCart('mixcar', 'Mix RC Car', 2500000, 'package')"
+                            class="flex-1 btn-primary px-4 py-2.5 rounded-full text-white font-semibold text-sm text-center hover:shadow-lg transition-all flex items-center justify-center gap-2">
+                            <i class="fas fa-cart-plus"></i> Masuk Keranjang
+                        </button>
                     </div>
                 </div>
 
@@ -1002,10 +1133,10 @@
                             class="flex-1 border border-orange-500 text-orange-500 px-4 py-2.5 rounded-full font-semibold text-sm hover:bg-orange-500/10 transition-all">
                             <i class="fas fa-list-ul mr-1"></i> Fasilitas
                         </button>
-                        <a href="checkout.html?paket=excavator"
-                            class="flex-1 btn-primary px-4 py-2.5 rounded-full text-white font-semibold text-sm text-center hover:shadow-lg transition-all">
-                            Beli Sekarang
-                        </a>
+                        <button onclick="addToCart('excavator', 'Excavator', 3200000, 'package')"
+                            class="flex-1 btn-primary px-4 py-2.5 rounded-full text-white font-semibold text-sm text-center hover:shadow-lg transition-all flex items-center justify-center gap-2">
+                            <i class="fas fa-cart-plus"></i> Masuk Keranjang
+                        </button>
                     </div>
                 </div>
 
@@ -1039,10 +1170,10 @@
                             class="flex-1 border border-orange-500 text-orange-500 px-4 py-2.5 rounded-full font-semibold text-sm hover:bg-orange-500/10 transition-all">
                             <i class="fas fa-list-ul mr-1"></i> Fasilitas
                         </button>
-                        <a href="checkout.html?paket=alatberat"
-                            class="flex-1 btn-primary px-4 py-2.5 rounded-full text-white font-semibold text-sm text-center hover:shadow-lg transition-all">
-                            Beli Sekarang
-                        </a>
+                        <button onclick="addToCart('alatberat', 'Alat Berat Mix', 3700000, 'package')"
+                            class="flex-1 btn-primary px-4 py-2.5 rounded-full text-white font-semibold text-sm text-center hover:shadow-lg transition-all flex items-center justify-center gap-2">
+                            <i class="fas fa-cart-plus"></i> Masuk Keranjang
+                        </button>
                     </div>
                 </div>
             </div>
@@ -1050,6 +1181,136 @@
             <p class="text-gray-500 text-sm mt-8">
                 <i class="fas fa-info-circle text-orange-500 mr-2"></i>
                 Hubungi kami untuk konsultasi paket yang sesuai dengan lokasi dan target pasar Anda.
+            </p>
+        </div>
+    </section>
+
+    <!-- SECTION 6.5: ADD-ONS -->
+    <section id="addons" class="py-16 md:py-24 bg-gray-950">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
+                Tingkatkan <span class="text-orange-500">Potensi Usaha</span> Anda
+            </h2>
+            <p class="text-gray-300 text-lg max-w-3xl mx-auto mb-12">
+                Tambahkan aksesoris dan fasilitas pendukung untuk memaksimalkan pengalaman pelanggan dan keuntungan
+                bisnis Anda.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Add-on 1: Sistem Timer -->
+                <div
+                    class="bg-gray-900 p-6 rounded-2xl shadow-lg text-left border border-gray-800 hover:border-orange-500 transition-all duration-300 flex flex-col h-full group">
+                    <h3 class="text-xl font-bold text-white mb-4">Sistem Timer Digital</h3>
+                    <img src="assets/img/addon-timer.webp" alt="Sistem Timer Digital"
+                        class="w-full h-48 object-contain rounded-xl mb-2">
+                    <p class="text-gray-400 text-sm mb-4 flex-grow">Atur durasi sewa secara otomatis dengan timer
+                        digital.
+                        Lebih efisien dan transparan.</p>
+                    <div class="mb-6">
+                        <p class="text-gray-400 text-xs uppercase tracking-wider mb-1">Harga</p>
+                        <div class="text-3xl font-bold text-white">Rp 350.000</div>
+                    </div>
+                    <button onclick="addToCart('addon-timer', 'Sistem Timer Digital', 350000, 'addon')"
+                        class="btn-primary px-4 py-2.5 rounded-full text-white font-semibold text-sm text-center hover:shadow-lg transition-all flex items-center justify-center gap-2 mt-auto">
+                        <i class="fas fa-cart-plus"></i> Tambah ke Keranjang
+                    </button>
+                </div>
+
+                <!-- Add-on 2: Power Supply Fast Charging -->
+                <div
+                    class="bg-gray-900 p-6 rounded-2xl shadow-lg text-left border border-gray-800 hover:border-orange-500 transition-all duration-300 flex flex-col h-full group">
+                    <h3 class="text-xl font-bold text-white mb-4">Power Supply Fast Charging</h3>
+                    <img src="assets/img/addon-powersupply.webp" alt="Power Supply Fast Charging"
+                        class="w-full h-48 object-contain rounded-xl mb-2">
+                    <p class="text-gray-400 text-sm mb-4 flex-grow">Isi daya baterai lebih cepat dan efisien. Minimalkan
+                        waktu tunggu pelanggan.</p>
+                    <div class="mb-6">
+                        <p class="text-gray-400 text-xs uppercase tracking-wider mb-1">Harga</p>
+                        <div class="text-3xl font-bold text-white">Rp 200.000</div>
+                    </div>
+                    <button onclick="addToCart('addon-powersupply', 'Power Supply Fast Charging', 200000, 'addon')"
+                        class="btn-primary px-4 py-2.5 rounded-full text-white font-semibold text-sm text-center hover:shadow-lg transition-all flex items-center justify-center gap-2 mt-auto">
+                        <i class="fas fa-cart-plus"></i> Tambah ke Keranjang
+                    </button>
+                </div>
+
+                <!-- Add-on 3: Baterai Cadangan Rakitan -->
+                <div
+                    class="bg-gray-900 p-6 rounded-2xl shadow-lg text-left border border-gray-800 hover:border-orange-500 transition-all duration-300 flex flex-col h-full group">
+                    <h3 class="text-xl font-bold text-white mb-4">Baterai Cadangan Rakitan</h3>
+                    <img src="assets/img/addon-baterai.webp" alt="Baterai Cadangan Rakitan"
+                        class="w-full h-48 object-contain rounded-xl mb-2">
+                    <p class="text-gray-400 text-sm mb-4 flex-grow">Pastikan operasional tanpa henti dengan stok baterai
+                        cadangan yang cukup.</p>
+                    <div class="mb-6">
+                        <p class="text-gray-400 text-xs uppercase tracking-wider mb-1">Harga</p>
+                        <div class="text-3xl font-bold text-white">Rp 150.000</div>
+                    </div>
+                    <button onclick="addToCart('addon-baterai', 'Baterai Cadangan Rakitan', 150000, 'addon')"
+                        class="btn-primary px-4 py-2.5 rounded-full text-white font-semibold text-sm text-center hover:shadow-lg transition-all flex items-center justify-center gap-2 mt-auto">
+                        <i class="fas fa-cart-plus"></i> Tambah ke Keranjang
+                    </button>
+                </div>
+
+                <!-- Add-on 4: Asisten AI Marketing -->
+                <div
+                    class="bg-gray-900 p-6 rounded-2xl shadow-lg text-left border border-gray-800 hover:border-orange-500 transition-all duration-300 flex flex-col h-full group">
+                    <h3 class="text-xl font-bold text-white mb-4">Asisten AI Marketing</h3>
+                    <img src="assets/img/addon-ai.webp" alt="Asisten AI Marketing"
+                        class="w-full h-48 object-contain rounded-xl mb-2">
+                    <p class="text-gray-400 text-sm mb-4 flex-grow">Bantu buat konten promosi, caption, dan ide
+                        marketing
+                        dengan dukungan AI.</p>
+                    <div class="mb-6">
+                        <p class="text-gray-400 text-xs uppercase tracking-wider mb-1">Harga</p>
+                        <div class="text-3xl font-bold text-white">Rp 100.000</div>
+                    </div>
+                    <button onclick="addToCart('addon-ai', 'Asisten AI Marketing', 100000, 'addon')"
+                        class="btn-primary px-4 py-2.5 rounded-full text-white font-semibold text-sm text-center hover:shadow-lg transition-all flex items-center justify-center gap-2 mt-auto">
+                        <i class="fas fa-cart-plus"></i> Tambah ke Keranjang
+                    </button>
+                </div>
+
+                <!-- Add-on 5: Banner Promosi Custom -->
+                <div
+                    class="bg-gray-900 p-6 rounded-2xl shadow-lg text-left border border-gray-800 hover:border-orange-500 transition-all duration-300 flex flex-col h-full group">
+                    <h3 class="text-xl font-bold text-white mb-4">Banner Promosi Custom</h3>
+                    <img src="assets/img/addon-banner.webp" alt="Banner Promosi Custom"
+                        class="w-full h-48 object-contain rounded-xl mb-2">
+                    <p class="text-gray-400 text-sm mb-4 flex-grow">Desain banner promosi sesuai kebutuhan lokasi Anda.
+                        Tarik perhatian lebih banyak pelanggan.</p>
+                    <div class="mb-6">
+                        <p class="text-gray-400 text-xs uppercase tracking-wider mb-1">Harga</p>
+                        <div class="text-3xl font-bold text-white">Rp 75.000</div>
+                    </div>
+                    <button onclick="addToCart('addon-banner', 'Banner Promosi Custom', 75000, 'addon')"
+                        class="btn-primary px-4 py-2.5 rounded-full text-white font-semibold text-sm text-center hover:shadow-lg transition-all flex items-center justify-center gap-2 mt-auto">
+                        <i class="fas fa-cart-plus"></i> Tambah ke Keranjang
+                    </button>
+                </div>
+
+                <!-- Add-on 6: Traffic Cones Tambahan -->
+                <div
+                    class="bg-gray-900 p-6 rounded-2xl shadow-lg text-left border border-gray-800 hover:border-orange-500 transition-all duration-300 flex flex-col h-full group">
+                    <h3 class="text-xl font-bold text-white mb-4">Traffic Cones Tambahan (10 Pcs)</h3>
+                    <img src="assets/img/addon-cones.webp" alt="Traffic Cones Tambahan"
+                        class="w-full h-48 object-contain rounded-xl mb-2">
+                    <p class="text-gray-400 text-sm mb-4 flex-grow">Perluas area bermain atau buat rintangan lebih
+                        menantang dengan cones tambahan.</p>
+                    <div class="mb-6">
+                        <p class="text-gray-400 text-xs uppercase tracking-wider mb-1">Harga</p>
+                        <div class="text-3xl font-bold text-white">Rp 50.000</div>
+                    </div>
+                    <button onclick="addToCart('addon-cones', 'Traffic Cones Tambahan', 50000, 'addon')"
+                        class="btn-primary px-4 py-2.5 rounded-full text-white font-semibold text-sm text-center hover:shadow-lg transition-all flex items-center justify-center gap-2 mt-auto">
+                        <i class="fas fa-cart-plus"></i> Tambah ke Keranjang
+                    </button>
+                </div>
+            </div>
+
+            <p class="text-gray-500 text-sm mt-8">
+                <i class="fas fa-info-circle text-orange-500 mr-2"></i>
+                Semua add-on bersifat opsional dan dapat ditambahkan kapan saja sesuai kebutuhan.
             </p>
         </div>
     </section>
@@ -1464,9 +1725,10 @@
                     <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> Strategi Bisnis
                         & Perawatan (Free)</li>
                 </ul>
-                <a href="checkout.html?paket=drift"
-                    class="w-full btn-primary py-3 rounded-full text-white font-semibold text-center block">Beli
-                    Sekarang</a>
+                <button onclick="addToCart('drift', 'Drift', 1900000, 'package'); closeModal('modal-drift')"
+                    class="w-full btn-primary py-3 rounded-full text-white font-semibold text-center block">
+                    <i class="fas fa-cart-plus mr-2"></i>Masuk Keranjang
+                </button>
             </div>
         </div>
     </div>
@@ -1501,9 +1763,10 @@
                     <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> Strategi Bisnis
                         & Perawatan (Free)</li>
                 </ul>
-                <a href="checkout.html?paket=offroad"
-                    class="w-full btn-primary py-3 rounded-full text-white font-semibold text-center block">Beli
-                    Sekarang</a>
+                <button onclick="addToCart('offroad', 'Off-road', 2600000, 'package'); closeModal('modal-offroad')"
+                    class="w-full btn-primary py-3 rounded-full text-white font-semibold text-center block">
+                    <i class="fas fa-cart-plus mr-2"></i>Masuk Keranjang
+                </button>
             </div>
         </div>
     </div>
@@ -1538,9 +1801,10 @@
                     <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> Strategi Bisnis
                         & Perawatan (Free)</li>
                 </ul>
-                <a href="checkout.html?paket=stunt"
-                    class="w-full btn-primary py-3 rounded-full text-white font-semibold text-center block">Beli
-                    Sekarang</a>
+                <button onclick="addToCart('stunt', 'Stunt', 2700000, 'package'); closeModal('modal-stunt')"
+                    class="w-full btn-primary py-3 rounded-full text-white font-semibold text-center block">
+                    <i class="fas fa-cart-plus mr-2"></i>Masuk Keranjang
+                </button>
             </div>
         </div>
     </div>
@@ -1575,9 +1839,10 @@
                     <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> Strategi Bisnis
                         & Perawatan (Free)</li>
                 </ul>
-                <a href="checkout.html?paket=mixcar"
-                    class="w-full btn-primary py-3 rounded-full text-white font-semibold text-center block">Beli
-                    Sekarang</a>
+                <button onclick="addToCart('mixcar', 'Mix RC Car', 2500000, 'package'); closeModal('modal-mixcar')"
+                    class="w-full btn-primary py-3 rounded-full text-white font-semibold text-center block">
+                    <i class="fas fa-cart-plus mr-2"></i>Masuk Keranjang
+                </button>
             </div>
         </div>
     </div>
@@ -1613,9 +1878,10 @@
                     <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> Strategi Bisnis
                         & Perawatan (Free)</li>
                 </ul>
-                <a href="checkout.html?paket=excavator"
-                    class="w-full btn-primary py-3 rounded-full text-white font-semibold text-center block">Beli
-                    Sekarang</a>
+                <button onclick="addToCart('excavator', 'Excavator', 3200000, 'package'); closeModal('modal-excavator')"
+                    class="w-full btn-primary py-3 rounded-full text-white font-semibold text-center block">
+                    <i class="fas fa-cart-plus mr-2"></i>Masuk Keranjang
+                </button>
             </div>
         </div>
     </div>
@@ -1649,9 +1915,11 @@
                     <li class="flex items-start gap-2"><i class="fas fa-check text-orange-500 mt-1"></i> Strategi Bisnis
                         & Perawatan (Free)</li>
                 </ul>
-                <a href="checkout.html?paket=alatberat"
-                    class="w-full btn-primary py-3 rounded-full text-white font-semibold text-center block">Beli
-                    Sekarang</a>
+                <button
+                    onclick="addToCart('alatberat', 'Alat Berat Mix', 3700000, 'package'); closeModal('modal-alatberat')"
+                    class="w-full btn-primary py-3 rounded-full text-white font-semibold text-center block">
+                    <i class="fas fa-cart-plus mr-2"></i>Masuk Keranjang
+                </button>
             </div>
         </div>
     </div>
@@ -1751,6 +2019,324 @@
                 });
             }
         });
+    </script>
+
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <!-- Cart Drawer/Modal -->
+    <div id="cart-modal" class="fixed inset-0 bg-black/80 z-[60] hidden justify-end transition-opacity duration-300">
+        <div class="w-full max-w-md bg-gray-900 h-full shadow-2xl overflow-y-auto transform translate-x-full transition-transform duration-300"
+            id="cart-content">
+            <div class="p-6 h-full flex flex-col">
+                <div class="flex justify-between items-center mb-6 border-b border-gray-800 pb-4">
+                    <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                        <i class="fas fa-shopping-cart text-orange-500"></i> Keranjang
+                    </h2>
+                    <div class="flex items-center gap-3">
+                        <button onclick="clearCart()"
+                            class="text-xs text-red-500 hover:text-red-400 font-medium transition-colors"
+                            title="Hapus Semua">
+                            <i class="fas fa-trash-alt mr-1"></i> Reset
+                        </button>
+                        <button onclick="closeCart()" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="cart-items" class="flex-grow space-y-4 overflow-y-auto mb-6">
+                    <!-- Cart items will be injected here -->
+                    <div class="text-center text-gray-500 py-12 flex flex-col items-center">
+                        <i class="fas fa-shopping-basket text-4xl mb-3 opacity-30"></i>
+                        <p>Keranjang masih kosong</p>
+                    </div>
+                </div>
+
+                <div class="border-t border-gray-800 pt-4 mt-auto">
+                    <div class="flex justify-between items-center mb-4 text-white">
+                        <span class="text-gray-400">Total</span>
+                        <span class="text-xl font-bold text-orange-500" id="cart-total">Rp 0</span>
+                    </div>
+                    <a href="checkout.html"
+                        class="block w-full btn-primary py-3.5 rounded-full text-white font-bold text-center mb-3 hover:shadow-lg hover:shadow-orange-500/20 transition-all">
+                        Checkout Sekarang
+                    </a>
+                    <button onclick="closeCart()"
+                        class="block w-full border border-gray-700 text-gray-300 py-3 rounded-full font-medium hover:bg-gray-800 transition-colors">
+                        Lanjut Belanja
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts for Cart & UI -->
+    <script>
+        // === Mobile Menu Logic ===
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuIcon = document.getElementById('mobile-menu-icon');
+        let isMobileMenuOpen = false;
+
+        function toggleMobileMenu() {
+            isMobileMenuOpen = !isMobileMenuOpen;
+            if (isMobileMenuOpen) {
+                mobileMenu.classList.remove('hidden');
+                mobileMenuIcon.classList.remove('fa-bars');
+                mobileMenuIcon.classList.add('fa-times');
+            } else {
+                mobileMenu.classList.add('hidden');
+                mobileMenuIcon.classList.remove('fa-times');
+                mobileMenuIcon.classList.add('fa-bars');
+            }
+        }
+
+        // === Cart System Logic ===
+        const cartState = {
+            mainPackages: [], // Changed from single object to array
+            addons: [],
+            total: 0
+        };
+
+        // Initialize Cart from LocalStorage
+        function initCart() {
+            const stored = localStorage.getItem('rcgo_cart_v4'); // Storage Key Updated
+            if (stored) {
+                try {
+                    const parsed = JSON.parse(stored);
+                    cartState.mainPackages = parsed.mainPackages || (parsed.mainPackage ? [parsed.mainPackage] : []); // Fallback for old data
+                    cartState.addons = parsed.addons || [];
+                    updateCartUI();
+                } catch (e) { console.error('Cart parse error', e); }
+            }
+            updateBadge();
+        }
+
+        // Add Item to Cart
+        function addToCart(id, name, price, type = 'addon') {
+            if (type === 'package') {
+                const existing = cartState.mainPackages.find(item => item.id === id);
+                if (existing) {
+                    existing.qty += 1;
+                    showToast(`${name} qty bertambah`);
+                } else {
+                    cartState.mainPackages.push({ id, name, price, qty: 1, type });
+                    showToast(`${name} ditambahkan!`);
+                }
+            } else {
+                // Addon logic
+                const existing = cartState.addons.find(item => item.id === id);
+                if (existing) {
+                    existing.qty += 1;
+                    showToast(`${name} qty bertambah`);
+                } else {
+                    cartState.addons.push({ id, name, price, qty: 1, type });
+                    showToast(`${name} ditambahkan!`);
+                }
+            }
+
+            saveCart();
+            updateCartUI();
+            updateBadge();
+
+            // Auto open cart drawer
+            openCart();
+
+            // Bounce animation logic
+            const badge = document.getElementById('cart-badge');
+            badge.classList.add('cart-animate');
+            setTimeout(() => badge.classList.remove('cart-animate'), 300);
+        }
+
+        // Remove Item
+        function removeFromCart(id, type) {
+            if (type === 'package') {
+                cartState.mainPackages = cartState.mainPackages.filter(item => item.id !== id);
+            } else {
+                cartState.addons = cartState.addons.filter(item => item.id !== id);
+            }
+            saveCart();
+            updateCartUI();
+            updateBadge();
+        }
+
+        // Clear Cart
+        function clearCart() {
+            if (confirm('Apakah Anda yakin ingin mengosongkan keranjang?')) {
+                cartState.mainPackages = [];
+                cartState.addons = [];
+                saveCart();
+                updateCartUI();
+                updateBadge();
+                showToast('Keranjang telah dikosongkan');
+            }
+        }
+
+        // Update Qty
+        function updateQty(id, change, type) {
+            if (type === 'package') {
+                const existing = cartState.mainPackages.find(item => item.id === id);
+                if (existing) {
+                    existing.qty += change;
+                    if (existing.qty <= 0) {
+                        removeFromCart(id, 'package');
+                    }
+                }
+            } else {
+                const item = cartState.addons.find(i => i.id === id);
+                if (item) {
+                    item.qty += change;
+                    if (item.qty <= 0) removeFromCart(id, 'addon');
+                }
+            }
+            saveCart();
+            updateCartUI();
+            updateBadge();
+        }
+
+        // Save to LocalStorage
+        function saveCart() {
+            // Calc Total
+            let total = 0;
+            cartState.mainPackages.forEach(p => total += p.price * p.qty);
+            cartState.addons.forEach(a => total += a.price * a.qty);
+
+            cartState.total = total;
+            localStorage.setItem('rcgo_cart_v4', JSON.stringify(cartState));
+        }
+
+        // Update Badge Count
+        function updateBadge() {
+            const badge = document.getElementById('cart-badge');
+            let totalQty = 0;
+            cartState.mainPackages.forEach(p => totalQty += p.qty);
+            cartState.addons.forEach(a => totalQty += a.qty);
+
+            badge.innerText = totalQty;
+            if (totalQty > 0) {
+                badge.classList.remove('scale-0', 'opacity-0');
+                badge.classList.add('scale-100', 'opacity-100');
+            } else {
+                badge.classList.add('scale-0', 'opacity-0');
+                badge.classList.remove('scale-100', 'opacity-100');
+            }
+        }
+
+        // Update Cart Drawer UI
+        function updateCartUI() {
+            const container = document.getElementById('cart-items');
+            const totalDisplay = document.getElementById('cart-total');
+
+            // Recalc total just for display accuracy
+            let total = 0;
+            cartState.mainPackages.forEach(p => total += p.price * p.qty);
+            cartState.addons.forEach(a => total += a.price * a.qty);
+            totalDisplay.innerText = formatRupiah(total);
+
+            if (cartState.mainPackages.length === 0 && cartState.addons.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center text-gray-500 py-12 flex flex-col items-center">
+                        <i class="fas fa-shopping-basket text-4xl mb-3 opacity-30"></i>
+                        <p>Keranjang masih kosong</p>
+                    </div>`;
+                return;
+            }
+
+            let html = '';
+
+            // Section Main Packages
+            if (cartState.mainPackages.length > 0) {
+                html += `<div class="mb-4">
+                    <h5 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-2">Paket Usaha</h5>
+                    ${cartState.mainPackages.map(p => renderCartItem(p)).join('')}
+                </div>`;
+            }
+
+            // Section Addons
+            if (cartState.addons.length > 0) {
+                html += `<div>
+                    <h5 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-2">Add-ons (Aksesoris)</h5>
+                    ${cartState.addons.map(a => renderCartItem(a)).join('')}
+                </div>`;
+            }
+
+            container.innerHTML = html;
+        }
+
+        function renderCartItem(item) {
+            return `
+                 <div class="bg-gray-800 p-3 rounded-xl flex items-center justify-between border border-gray-700 mb-2">
+                    <div>
+                        <h4 class="text-white font-semibold text-sm line-clamp-1">${item.name}</h4>
+                        <p class="text-orange-500 text-xs font-bold">${formatRupiah(item.price)}</p>
+                    </div>
+                    <div class="flex items-center gap-3 bg-gray-900 rounded-lg p-1">
+                        <button onclick="updateQty('${item.id}', -1, '${item.type}')" class="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-white transition-colors">-</button>
+                        <span class="text-white text-sm font-medium w-4 text-center">${item.qty}</span>
+                        <button onclick="updateQty('${item.id}', 1, '${item.type}')" class="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-white transition-colors">+</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Format Rupiah
+        function formatRupiah(amount) {
+            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(amount);
+        }
+
+        // Open/Close Cart
+        function openCart() {
+            const modal = document.getElementById('cart-modal');
+            const content = document.getElementById('cart-content');
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            // Small delay for animation
+            setTimeout(() => {
+                content.classList.remove('translate-x-full');
+            }, 10);
+            document.body.style.overflow = 'hidden';
+            updateCartUI();
+        }
+
+        function closeCart() {
+            const modal = document.getElementById('cart-modal');
+            const content = document.getElementById('cart-content');
+
+            content.classList.add('translate-x-full');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close cart when clicking outside
+        document.getElementById('cart-modal').addEventListener('click', function (e) {
+            if (e.target === this) closeCart();
+        });
+
+        // Toast Notification
+        function showToast(message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = `<i class="fas fa-check-circle"></i> <span>${message}</span>`;
+
+            container.appendChild(toast);
+
+            // Trigger animation
+            setTimeout(() => toast.classList.add('show'), 10);
+
+            // Remove after 3s
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Init
+        document.addEventListener('DOMContentLoaded', initCart);
     </script>
 </body>
 
