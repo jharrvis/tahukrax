@@ -173,12 +173,24 @@ class Checkout extends Component
         if ($this->city_id) {
             $city = City::where('code', $this->city_id)->first();
             if ($city) {
-                // Try exact match first
+                // 1. Exact match
                 $rate = ShippingRate::where('destination_city', $city->name)->first();
 
-                // Fallback: search for city name in destination_city (case-insensitive)
+                // 2. Cleaned match (Remove prefixes)
                 if (!$rate) {
-                    $rate = ShippingRate::where('destination_city', 'like', '%' . $city->name . '%')->first();
+                    $cleanName = str_replace(['KABUPATEN ', 'KOTA ', 'ADMINISTRASI '], '', strtoupper($city->name));
+                    $cleanName = trim($cleanName);
+
+                    // Search if destination_city matches cleaned name OR looks like it
+                    $rate = ShippingRate::where('destination_city', $cleanName)
+                        ->orWhere('destination_city', 'like', "%$cleanName%")
+                        ->first();
+                }
+
+                // 3. Reverse Like (If CSV has "JAKARTA" but DB has "JAKARTA PUSAT", this might be tricky, usually sticking to specific is safer)
+                // But for "JAKARTA" general entry in CSV row 181, it says "JAKARTA"
+                if (!$rate && str_contains($city->name, 'JAKARTA')) {
+                    $rate = ShippingRate::where('destination_city', 'JAKARTA')->first();
                 }
 
                 if ($rate) {
@@ -193,7 +205,8 @@ class Checkout extends Component
             'package' => $packagePrice,
             'addons' => $addonTotal,
             'shipping' => $shippingCost,
-            'grand_total' => $packagePrice + $addonTotal + $shippingCost
+            'grand_total' => $packagePrice + $addonTotal + $shippingCost,
+            'total_weight' => $totalWeight
         ];
     }
 

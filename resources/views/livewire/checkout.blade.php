@@ -232,55 +232,7 @@
                         </div>
                     </section>
 
-                    <!-- 3. Add-on Extras (Upsell) -->
-                    <section class="bg-gray-900/50 border border-gray-800 rounded-3xl overflow-hidden shadow-sm">
-                        <div class="bg-gray-800/50 px-8 py-6 border-b border-gray-700">
-                            <div class="flex items-center gap-4">
-                                <span
-                                    class="w-10 h-10 rounded-full bg-orange-500 text-black flex items-center justify-center font-black">@auth
-                                    2 @else 3 @endauth</span>
-                                <h3 class="text-xl font-bold text-white uppercase line-clamp-1">Tambahkan Perlengkapan</h3>
-                            </div>
-                        </div>
-                        <div class="p-4 md:p-8">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                @foreach($allAddons as $addon)
-                                    @php $isSelected = isset($selectedAddons[$addon->id]); @endphp
-                                    <div
-                                        class="bg-black/60 rounded-2xl border {{ $isSelected ? 'border-orange-500 bg-orange-500/5' : 'border-gray-800' }} p-4 transition-all hover:border-gray-600 flex items-center gap-4">
-                                        <div
-                                            class="w-16 h-16 bg-gray-900 rounded-xl flex items-center justify-center border border-gray-800 flex-shrink-0">
-                                            <img src="{{ asset('assets/img/addon-' . \Illuminate\Support\Str::slug($addon->name) . '.webp') }}"
-                                                onerror="this.src='{{ asset('assets/img/rcgo.webp') }}'"
-                                                class="w-12 h-12 object-contain" alt="{{ $addon->name }}">
-                                        </div>
-                                        <div class="flex-grow min-w-0">
-                                            <h4 class="text-white font-bold text-sm truncate uppercase">{{ $addon->name }}</h4>
-                                            <p class="text-orange-500 font-bold text-sm">Rp
-                                                {{ number_format($addon->price, 0, ',', '.') }}
-                                            </p>
-                                        </div>
-                                        <div class="flex items-center gap-2">
-                                            @if($isSelected)
-                                                <div class="flex items-center bg-gray-800 rounded-lg p-1 border border-gray-700">
-                                                    <button wire:click="decrementAddon({{ $addon->id }})"
-                                                        class="w-7 h-7 flex items-center justify-center text-gray-400 hover:text-white transition-colors">-</button>
-                                                    <span class="text-white font-bold px-2">{{ $selectedAddons[$addon->id] }}</span>
-                                                    <button wire:click="incrementAddon({{ $addon->id }})"
-                                                        class="w-7 h-7 flex items-center justify-center text-gray-400 hover:text-white transition-colors">+</button>
-                                                </div>
-                                            @else
-                                                <button wire:click="toggleAddon({{ $addon->id }})"
-                                                    class="w-10 h-10 rounded-full bg-gray-800 text-white flex items-center justify-center hover:bg-orange-500 hover:text-black transition-all shadow-lg active:scale-95">
-                                                    <i class="fas fa-plus"></i>
-                                                </button>
-                                            @endif
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-                    </section>
+
                 </div>
 
                 <!-- Right: Order Summary Sidebar -->
@@ -340,6 +292,16 @@
                                         @else
                                             <span class="text-gray-600 italic text-xs">Pilih Kota Dahulu</span>
                                         @endif
+                                    </div>
+
+                                    <!-- Total Weight -->
+                                    <div class="flex justify-between pt-2">
+                                        <div class="text-gray-400 text-sm flex items-center gap-2">
+                                            <i class="fas fa-weight-hanging text-gray-600 text-[10px]"></i>
+                                            <span>Total Berat</span>
+                                        </div>
+                                        <span class="text-white font-bold text-sm">{{ $this->total['total_weight'] }}
+                                            Kg</span>
                                     </div>
                                 </div>
 
