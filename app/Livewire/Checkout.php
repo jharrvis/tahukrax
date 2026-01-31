@@ -276,9 +276,29 @@ class Checkout extends Component
         $totals = $this->total;
         $primaryPackage = $this->selectedPackages[0] ?? null;
 
+        // 2b. Handle Partnership Creation (Check if exists first)
+        $partnership = \App\Models\Partnership::where('user_id', $user->id)->first();
+        if (!$partnership && $primaryPackage) {
+            $partnership = \App\Models\Partnership::create([
+                'user_id' => $user->id,
+                'package_id' => $primaryPackage ? $primaryPackage['id'] : null,
+                'partnership_code' => 'MTR-' . strtoupper(uniqid()),
+                'outlet_name' => 'Mitra ' . $user->name, // Default outlet name
+                'recipient_name' => $this->name ?: $user->name,
+                'phone_number' => $this->phone_number,
+                'address' => $this->address,
+                'city' => $cityName,
+                'province' => $provinceName,
+                'postal_code' => $this->postal_code,
+                'joined_at' => now(),
+                'status' => 'pending', // Pending until payment
+            ]);
+        }
+
         // 3. Create Order
         $order = Order::create([
             'user_id' => $user->id,
+            'partnership_id' => $partnership ? $partnership->id : null,
             'package_id' => $primaryPackage ? $primaryPackage['id'] : null, // Legacy/Primary support
             'total_amount' => $totals['grand_total'],
             'shipping_cost' => $totals['shipping'],

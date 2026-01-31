@@ -48,6 +48,11 @@ class XenditController extends Controller
                 'status' => 'paid',
             ]);
 
+            // Activate Partnership if exists
+            if ($order->partnership) {
+                $order->partnership->update(['status' => 'active']);
+            }
+
             Log::info("Order #{$orderId} has been PAID.");
         } elseif ($status === 'EXPIRED') {
             $order->update([

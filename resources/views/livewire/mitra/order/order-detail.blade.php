@@ -28,22 +28,30 @@
                         <div class="flex gap-4 p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl">
                             <div
                                 class="w-16 h-16 bg-white rounded-lg flex items-center justify-center border border-slate-200 shrink-0">
-                                @if($item->package)
+                                @if($item->item_type == 'package')
                                     <i class="fas fa-box text-brand-500 text-2xl"></i>
-                                @elseif($item->addon)
+                                @else
                                     <i class="fas fa-puzzle-piece text-purple-500 text-2xl"></i>
                                 @endif
                             </div>
                             <div class="flex-1">
                                 <h4 class="font-bold text-slate-800 dark:text-slate-200">
-                                    {{ $item->package ? $item->package->name : ($item->addon ? $item->addon->name : 'Unknown Item') }}
+                                    @if($item->item_type == 'package' && $item->package)
+                                        {{ $item->package->name }}
+                                    @elseif(($item->item_type == 'addon' || $item->addon_id) && $item->addon)
+                                        {{ $item->addon->name }}
+                                    @else
+                                        Unknown Item
+                                    @endif
                                 </h4>
                                 <p class="text-sm text-slate-500">Qty: {{ $item->quantity }} x Rp
-                                    {{ number_format($item->price, 0, ',', '.') }}</p>
+                                    {{ number_format($item->price, 0, ',', '.') }}
+                                </p>
                             </div>
                             <div class="text-right">
                                 <p class="font-bold text-slate-800 dark:text-slate-200">Rp
-                                    {{ number_format($item->subtotal, 0, ',', '.') }}</p>
+                                    {{ number_format($item->price * $item->quantity, 0, ',', '.') }}
+                                </p>
                             </div>
                         </div>
                     @endforeach
@@ -55,7 +63,17 @@
                         <span>Rp {{ number_format($order->orderItems->sum('subtotal'), 0, ',', '.') }}</span>
                     </div>
                     <div class="flex justify-between text-sm text-slate-500">
-                        <span>Ongkos Kirim ({{ $order->total_weight }} kg)</span>
+                        @php
+                            $calculatedWeight = $order->orderItems->sum(function ($item) {
+                                $weight = 0;
+                                if ($item->item_type == 'package' && $item->package)
+                                    $weight = $item->package->weight_kg;
+                                elseif ($item->addon)
+                                    $weight = $item->addon->weight_kg ?? 0;
+                                return $weight * $item->quantity;
+                            });
+                        @endphp
+                        <span>Ongkos Kirim ({{ $calculatedWeight }} kg)</span>
                         <span>Rp {{ number_format($order->shipping_cost, 0, ',', '.') }}</span>
                     </div>
                     <div
@@ -91,7 +109,7 @@
                     <div class="md:col-span-2">
                         <p class="text-xs text-slate-400 uppercase tracking-wider font-bold mb-1">Alamat Tujuan</p>
                         <p class="font-medium text-slate-700 dark:text-slate-300 leading-relaxed">
-                            {{ $order->shipping_address }}
+                            {{ $order->note }}
                         </p>
                     </div>
                 </div>
@@ -112,8 +130,8 @@
                         <p class="text-xs text-slate-400 uppercase tracking-wider font-bold mb-1">Status</p>
                         <div class="flex items-center gap-2">
                             <i
-                                class="fas {{ $order->payment_status === 'paid' ? 'fa-check-circle text-green-500' : 'fa-clock text-yellow-500' }}"></i>
-                            <span class="font-medium capitalize">{{ $order->payment_status }}</span>
+                                class="fas {{ $order->status === 'paid' ? 'fa-check-circle text-green-500' : 'fa-clock text-yellow-500' }}"></i>
+                            <span class="font-medium capitalize">{{ $order->status }}</span>
                         </div>
                     </div>
                     <div>

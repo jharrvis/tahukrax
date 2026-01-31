@@ -101,6 +101,16 @@
         </div>
     </div>
 
+    <script>
+        // Clear cart after successful order
+        document.addEventListener('DOMContentLoaded', function () {
+            localStorage.removeItem('rcgo_cart_v4');
+            if (window.RCGOCart) {
+                // If using global object
+                window.RCGOCart.set([], {});
+            }
+        });
+    </script>
 </body>
 
 </html>

@@ -8,7 +8,8 @@
                 <h1 class="text-2xl font-bold tracking-tight">Detail Pesanan #{{ $order->id }}</h1>
             </div>
             <p class="text-slate-500 text-sm ml-7">Invoice: {{ $order->xendit_invoice_id ?? '-' }} | Tanggal:
-                {{ $order->created_at->format('d M Y H:i') }}</p>
+                {{ $order->created_at->format('d M Y H:i') }}
+            </p>
         </div>
 
         <div class="flex items-center gap-2 ml-7 md:ml-0">
@@ -29,58 +30,49 @@
 
         <!-- Left Column: Order Items -->
         <div class="lg:col-span-2 space-y-8">
-            <!-- Paket Utama -->
+            <!-- Order Items -->
             <div
                 class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm p-6">
-                <h3 class="font-bold text-lg mb-4">Paket Usaha</h3>
-                <div class="flex gap-4">
-                    <div class="w-20 h-20 bg-slate-100 rounded-xl overflow-hidden shrink-0">
-                        @if($order->package->image_url)
-                            <img src="{{ $order->package->image_url }}" class="w-full h-full object-cover">
-                        @else
-                            <div class="w-full h-full flex items-center justify-center text-slate-300">
-                                <i class="fas fa-box text-2xl"></i>
-                            </div>
-                        @endif
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-slate-800 dark:text-slate-200">{{ $order->package->name }}</h4>
-                        <p class="text-sm text-slate-500">{{ $order->package->description }}</p>
-                        <p class="font-mono text-brand-600 font-bold mt-2">Rp
-                            {{ number_format($order->package->price, 0, ',', '.') }}</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Add-ons -->
-            @if($order->orderItems->count() > 0)
-                <div
-                    class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm p-6">
-                    <h3 class="font-bold text-lg mb-4">Item Tambahan (Add-on)</h3>
-                    <div class="space-y-4">
-                        @foreach($order->orderItems as $item)
-                            <div
-                                class="flex justify-between items-center border-b border-slate-50 dark:border-slate-800 last:border-0 pb-4 last:pb-0">
-                                <div class="flex items-center gap-3">
-                                    <span
-                                        class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-xs font-bold text-slate-500">
-                                        {{ $item->quantity }}x
-                                    </span>
-                                    <div>
-                                        <p class="font-medium text-slate-800 dark:text-slate-200">
-                                            {{ $item->addon ? $item->addon->name : 'Item (Deleted)' }}
-                                        </p>
-                                        <p class="text-xs text-slate-400 capitalize">{{ $item->item_type }}</p>
+                <h3 class="font-bold text-lg mb-4">Item Pesanan</h3>
+                <div class="space-y-4">
+                    @foreach($order->orderItems as $item)
+                        <div
+                            class="flex justify-between items-center border-b border-slate-50 dark:border-slate-800 last:border-0 pb-4 last:pb-0">
+                            <div class="flex items-center gap-4">
+                                <div class="w-16 h-16 bg-slate-100 rounded-lg flex items-center justify-center shrink-0">
+                                    @if($item->item_type == 'package')
+                                        <i class="fas fa-box text-brand-500 text-2xl"></i>
+                                    @else
+                                        <i class="fas fa-puzzle-piece text-purple-500 text-xl"></i>
+                                    @endif
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 dark:text-slate-200">
+                                        @if($item->item_type == 'package' && $item->package)
+                                            {{ $item->package->name }}
+                                        @elseif(($item->item_type == 'addon' || $item->addon_id) && $item->addon)
+                                            {{ $item->addon->name }}
+                                        @else
+                                            Unknown Item
+                                        @endif
+                                    </h4>
+                                    <div class="flex items-center gap-2 mt-1">
+                                        <span class="px-2 py-0.5 rounded text-xs font-bold bg-slate-100 text-slate-600">
+                                            {{ $item->quantity }}x
+                                        </span>
+                                        <span class="text-sm text-slate-500">
+                                            @ Rp {{ number_format($item->price, 0, ',', '.') }}
+                                        </span>
                                     </div>
                                 </div>
-                                <div class="font-mono text-sm text-slate-600 dark:text-slate-400">
-                                    Rp {{ number_format($item->price * $item->quantity, 0, ',', '.') }}
-                                </div>
                             </div>
-                        @endforeach
-                    </div>
+                            <div class="font-mono text-sm font-bold text-slate-700 dark:text-slate-300">
+                                Rp {{ number_format($item->price * $item->quantity, 0, ',', '.') }}
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
-            @endif
+            </div>
 
             <!-- Payment Summary -->
             <div
@@ -88,11 +80,7 @@
                 <h3 class="font-bold text-lg mb-4">Rincian Pembayaran</h3>
                 <div class="space-y-2 text-sm">
                     <div class="flex justify-between text-slate-600">
-                        <span>Harga Paket</span>
-                        <span>Rp {{ number_format($order->package->price, 0, ',', '.') }}</span>
-                    </div>
-                    <div class="flex justify-between text-slate-600">
-                        <span>Total Add-ons</span>
+                        <span>Total Items</span>
                         <span>Rp
                             {{ number_format($order->orderItems->sum(fn($i) => $i->price * $i->quantity), 0, ',', '.') }}</span>
                     </div>
@@ -163,12 +151,8 @@
                 class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm p-6">
                 <h3 class="font-bold text-lg mb-4">Alamat Pengiriman</h3>
                 <p class="text-sm text-slate-600 leading-relaxed">
-                    {{ $order->partnership->address ?? 'Alamat tidak tersedia' }}
+                    {{ $order->note ?? 'Alamat tidak tersedia' }}
                 </p>
-                <div class="mt-4 pt-4 border-t border-slate-100 flex justify-between text-sm">
-                    <span class="text-slate-500">Kota</span>
-                    <span class="font-medium">{{ $order->partnership->city ?? '-' }}</span>
-                </div>
                 <!-- Courier info if available in future -->
             </div>
         </div>
