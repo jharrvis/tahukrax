@@ -157,6 +157,17 @@
                         </div>
                         <div class="p-8 space-y-8">
                             @auth
+                                @if(auth()->user()->address)
+                                    <div class="bg-blue-900/30 border border-blue-800 rounded-xl p-4 flex items-start gap-3">
+                                        <i class="fas fa-info-circle text-blue-400 mt-0.5"></i>
+                                        <div>
+                                            <p class="text-sm text-blue-200">Alamat pengiriman otomatis diisi dari profil Anda.</p>
+                                            <p class="text-xs text-blue-400">Silakan ubah formulir di bawah jika ingin mengirim ke
+                                                alamat lain.</p>
+                                        </div>
+                                    </div>
+                                @endif
+
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div class="space-y-2">
                                         <label class="text-xs font-bold text-gray-500 uppercase">Username / Nama</label>

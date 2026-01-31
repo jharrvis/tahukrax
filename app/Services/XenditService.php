@@ -12,7 +12,11 @@ class XenditService
 
     public function __construct()
     {
-        $this->secretKey = config('services.xendit.secret_key');
+        $this->secretKey = config('services.xendit.secret_key') ?? '';
+
+        if (empty($this->secretKey)) {
+            Log::warning('Xendit Secret Key is missing in configuration.');
+        }
     }
 
     public function createInvoice(array $data)

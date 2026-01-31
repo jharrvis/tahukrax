@@ -71,6 +71,24 @@ class Checkout extends Component
             $user = Auth::user();
             $this->name = $user->name;
             $this->email = $user->email;
+
+            // Pre-fill Address from Profile
+            if ($user->phone_number)
+                $this->phone_number = $user->phone_number;
+            if ($user->address)
+                $this->address = $user->address;
+            if ($user->postal_code)
+                $this->postal_code = $user->postal_code;
+
+            if ($user->province_id) {
+                $this->province_id = $user->province_id;
+                // Trigger city loading manually since updatedProvinceId won't fire on mount
+                $this->cities = City::where('province_code', $this->province_id)->orderBy('name')->get();
+
+                if ($user->city_id) {
+                    $this->city_id = $user->city_id;
+                }
+            }
         }
     }
 
@@ -235,8 +253,11 @@ class Checkout extends Component
         $this->validate($rules);
 
         // Get province and city names
-        $province = Province::find($this->province_id);
-        $city = City::find($this->city_id);
+        $province = Province::where('code', $this->province_id)->first();
+        $city = City::where('code', $this->city_id)->first();
+
+        $cityName = $city ? $city->name : '-';
+        $provinceName = $province ? $province->name : '-';
 
         // 1. Handle User Creation/Auth
         if (Auth::check()) {
@@ -262,7 +283,7 @@ class Checkout extends Component
             'total_amount' => $totals['grand_total'],
             'shipping_cost' => $totals['shipping'],
             'status' => 'pending',
-            'note' => "Pengiriman ke {$city->name}, {$province->name}. Kode Pos: {$this->postal_code}. CP: {$this->phone_number}. Alamat: {$this->address}",
+            'note' => "Pengiriman ke {$cityName}, {$provinceName}. Kode Pos: {$this->postal_code}. CP: {$this->phone_number}. Alamat: {$this->address}",
         ]);
 
         // 4. Create Order Items (Packages)

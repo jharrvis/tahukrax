@@ -105,11 +105,11 @@
 
             <!-- Cart Icon (Hidden on Checkout) -->
             @if(!request()->routeIs('checkout*'))
-            <button onclick="openCart()" class="relative text-white hover:text-orange-500 transition-colors mr-2">
-                <i class="fas fa-shopping-cart text-xl"></i>
-                <span id="cart-badge"
-                    class="absolute -top-2 -right-2 bg-orange-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full scale-0 opacity-0 transition-all duration-300">0</span>
-            </button>
+                <button onclick="openCart()" class="relative text-white hover:text-orange-500 transition-colors mr-2">
+                    <i class="fas fa-shopping-cart text-xl"></i>
+                    <span id="cart-badge"
+                        class="absolute -top-2 -right-2 bg-orange-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full scale-0 opacity-0 transition-all duration-300">0</span>
+                </button>
             @endif
 
             @auth
@@ -142,16 +142,34 @@
                             </div>
 
                             <div class="py-2">
-                                <a href="/admin"
-                                    class="flex items-center gap-3 px-4 py-2.5 text-gray-300 hover:text-white hover:bg-gray-800 transition-all">
-                                    <i class="fas fa-columns text-orange-500 w-5 text-center"></i>
-                                    <span class="text-sm">Dashboard Mitra</span>
-                                </a>
-                                <a href="/admin/orders"
-                                    class="flex items-center gap-3 px-4 py-2.5 text-gray-300 hover:text-white hover:bg-gray-800 transition-all">
-                                    <i class="fas fa-shopping-bag text-orange-500 w-5 text-center"></i>
-                                    <span class="text-sm">Pesanan Saya</span>
-                                </a>
+                                @if (auth()->user()->isAdmin())
+                                    <a href="{{ route('admin.dashboard') }}"
+                                        class="flex items-center gap-3 px-4 py-2.5 text-gray-300 hover:text-white hover:bg-gray-800 transition-all">
+                                        <i class="fas fa-chart-line text-orange-500 w-5 text-center"></i>
+                                        <span class="text-sm">Dashboard Admin</span>
+                                    </a>
+                                    <a href="{{ route('admin.orders.index') }}"
+                                        class="flex items-center gap-3 px-4 py-2.5 text-gray-300 hover:text-white hover:bg-gray-800 transition-all">
+                                        <i class="fas fa-shopping-bag text-orange-500 w-5 text-center"></i>
+                                        <span class="text-sm">Kelola Pesanan</span>
+                                    </a>
+                                @else
+                                    <a href="{{ route('mitra.dashboard') }}"
+                                        class="flex items-center gap-3 px-4 py-2.5 text-gray-300 hover:text-white hover:bg-gray-800 transition-all">
+                                        <i class="fas fa-columns text-orange-500 w-5 text-center"></i>
+                                        <span class="text-sm">Dashboard Mitra</span>
+                                    </a>
+                                    <a href="{{ route('mitra.orders.index') }}"
+                                        class="flex items-center gap-3 px-4 py-2.5 text-gray-300 hover:text-white hover:bg-gray-800 transition-all">
+                                        <i class="fas fa-shopping-bag text-orange-500 w-5 text-center"></i>
+                                        <span class="text-sm">Pesanan Saya</span>
+                                    </a>
+                                     <a href="{{ route('mitra.settings') }}"
+                                        class="flex items-center gap-3 px-4 py-2.5 text-gray-300 hover:text-white hover:bg-gray-800 transition-all">
+                                        <i class="fas fa-cog text-orange-500 w-5 text-center"></i>
+                                        <span class="text-sm">Pengaturan Akun</span>
+                                    </a>
+                                @endif
                             </div>
 
                             <div class="border-t border-gray-800 py-2">
@@ -178,12 +196,12 @@
 
             <!-- CTA Button (Hidden on Checkout) -->
             @if(!request()->routeIs('checkout*'))
-            <a id="nav-cta-btn" href="{{ route('home') }}#paket"
-                class="btn-primary flex items-center gap-2 px-5 md:px-6 py-2.5 md:py-3 rounded-full text-white font-bold text-sm shadow-lg shadow-orange-500/20 hover:shadow-orange-500/30 transition-all whitespace-nowrap">
-                <i class="fas fa-rocket"></i>
-                <span class="hidden sm:inline">Mulai Usaha</span>
-                <span class="sm:hidden">Daftar</span>
-            </a>
+                <a id="nav-cta-btn" href="{{ route('home') }}#paket"
+                    class="btn-primary flex items-center gap-2 px-5 md:px-6 py-2.5 md:py-3 rounded-full text-white font-bold text-sm shadow-lg shadow-orange-500/20 hover:shadow-orange-500/30 transition-all whitespace-nowrap">
+                    <i class="fas fa-rocket"></i>
+                    <span class="hidden sm:inline">Mulai Usaha</span>
+                    <span class="sm:hidden">Daftar</span>
+                </a>
             @endif
 
             <!-- Mobile Menu Button -->
@@ -210,9 +228,21 @@
 
             <div class="pt-4 border-t border-gray-800">
                 @auth
-                    <a href="/admin" class="flex items-center gap-2 text-orange-500 font-medium py-2">
-                        <i class="fas fa-columns"></i> Dashboard Mitra
-                    </a>
+                    @if (auth()->user()->isAdmin())
+                        <a href="{{ route('admin.dashboard') }}"
+                            class="flex items-center gap-2 text-orange-500 font-medium py-2">
+                            <i class="fas fa-chart-line"></i> Dashboard Admin
+                        </a>
+                    @else
+                        <a href="{{ route('mitra.dashboard') }}"
+                            class="flex items-center gap-2 text-orange-500 font-medium py-2">
+                            <i class="fas fa-columns"></i> Dashboard Mitra
+                        </a>
+                        <a href="{{ route('mitra.orders.index') }}"
+                            class="flex items-center gap-2 text-orange-500 font-medium py-2">
+                            <i class="fas fa-shopping-bag"></i> Pesanan Saya
+                        </a>
+                    @endif
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button type="submit"
@@ -476,7 +506,7 @@
     function updateBadge() {
         const badge = document.getElementById('cart-badge');
         const ctaBtn = document.getElementById('nav-cta-btn');
-        
+
         // Compute total even if elements are missing (good for debugging or other logic)
         let totalQty = 0;
         cartState.mainPackages.forEach(p => totalQty += p.qty);
@@ -497,7 +527,7 @@
         // Update CTA if exists
         if (ctaBtn) {
             if (totalQty > 0) {
-                 // Calc Total for Button
+                // Calc Total for Button
                 let total = 0;
                 cartState.mainPackages.forEach(p => total += p.price * p.qty);
                 cartState.addons.forEach(a => total += a.price * a.qty);
@@ -509,13 +539,13 @@
                 `;
                 ctaBtn.setAttribute('href', '/checkout');
                 ctaBtn.setAttribute('onclick', 'validateCheckout(event)');
-                
+
                 // Change Style to Green/Emerald to signify "Go/Finish"
-                ctaBtn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)'; 
+                ctaBtn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
                 ctaBtn.classList.remove('shadow-orange-500/20', 'hover:shadow-orange-500/30');
                 ctaBtn.classList.add('shadow-emerald-500/20', 'hover:shadow-emerald-500/30');
             } else {
-                 // Dynamic CTA: Revert to Default
+                // Dynamic CTA: Revert to Default
                 ctaBtn.innerHTML = `
                     <i class="fas fa-rocket"></i>
                     <span class="hidden sm:inline">Mulai Usaha</span>
@@ -523,9 +553,9 @@
                 `;
                 ctaBtn.setAttribute('href', '{{ route("home") }}#paket');
                 ctaBtn.removeAttribute('onclick');
-                
+
                 // Revert Style
-                ctaBtn.style.background = ''; 
+                ctaBtn.style.background = '';
                 ctaBtn.classList.add('shadow-orange-500/20', 'hover:shadow-orange-500/30');
                 ctaBtn.classList.remove('shadow-emerald-500/20', 'hover:shadow-emerald-500/30');
             }
