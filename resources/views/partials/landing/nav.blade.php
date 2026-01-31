@@ -1,3 +1,51 @@
+<style>
+    /* Toast Notification */
+    .toast {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        background: rgba(31, 41, 55, 0.95);
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 1rem;
+        border: 1px solid rgba(249, 115, 22, 0.3);
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        transform: translateY(100px);
+        opacity: 0;
+        transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        z-index: 100;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+    }
+
+    .toast.show {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    .toast i {
+        color: #f97316;
+    }
+
+    /* Cart Badge Animation */
+    @keyframes cart-bounce {
+
+        0%,
+        100% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.3);
+        }
+    }
+
+    .cart-animate {
+        animation: cart-bounce 0.3s ease-in-out;
+    }
+</style>
+
 <!-- Top Bar - Hidden on mobile -->
 <div class="bg-gradient-to-r from-gray-900 to-black border-b border-gray-800 py-2 hidden md:block">
     <div class="max-w-7xl mx-auto px-4 flex justify-between items-center text-xs text-gray-400">
@@ -48,12 +96,20 @@
                 class="text-white hover:text-orange-500 font-medium transition-colors text-sm">Keuntungan</a>
             <a href="{{ route('home') }}#paket"
                 class="text-white hover:text-orange-500 font-medium transition-colors text-sm">Paket Usaha</a>
-            <a href="{{ route('home') }}#kontak"
-                class="text-white hover:text-orange-500 font-medium transition-colors text-sm">Kontak</a>
+            <a href="{{ route('home') }}#addons"
+                class="text-white hover:text-orange-500 font-medium transition-colors text-sm">Add-ons</a>
         </div>
 
         <!-- Right Section: Auth & CTA -->
         <div class="flex items-center gap-3 md:gap-4">
+
+            <!-- Cart Icon -->
+            <button onclick="openCart()" class="relative text-white hover:text-orange-500 transition-colors mr-2">
+                <i class="fas fa-shopping-cart text-xl"></i>
+                <span id="cart-badge"
+                    class="absolute -top-2 -right-2 bg-orange-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full scale-0 opacity-0 transition-all duration-300">0</span>
+            </button>
+
             @auth
                 <!-- Logged In User Dropdown -->
                 <div class="hidden md:flex items-center gap-3" x-data="{ open: false }">
@@ -118,18 +174,13 @@
                 </a>
             @endauth
 
-            <!-- CTA Button - Dynamic based on cart -->
-            <div x-data="ctaButton()" x-init="init()">
-                <a :href="ctaLink"
-                    class="btn-primary flex items-center gap-2 px-5 md:px-6 py-2.5 md:py-3 rounded-full text-white font-bold text-sm shadow-lg shadow-orange-500/20 hover:shadow-orange-500/30 transition-all whitespace-nowrap">
-                    <i class="fas" :class="iconClass"></i>
-                    <span class="hidden sm:inline" x-text="buttonText">Mulai Usaha</span>
-                    <span class="sm:hidden" x-text="buttonTextShort">Daftar</span>
-                    <span x-show="hasCart"
-                        class="bg-white text-orange-500 text-xs font-black rounded-full w-5 h-5 flex items-center justify-center"
-                        style="display: none;">1</span>
-                </a>
-            </div>
+            <!-- CTA Button -->
+            <a id="nav-cta-btn" href="{{ route('home') }}#paket"
+                class="btn-primary flex items-center gap-2 px-5 md:px-6 py-2.5 md:py-3 rounded-full text-white font-bold text-sm shadow-lg shadow-orange-500/20 hover:shadow-orange-500/30 transition-all whitespace-nowrap">
+                <i class="fas fa-rocket"></i>
+                <span class="hidden sm:inline">Mulai Usaha</span>
+                <span class="sm:hidden">Daftar</span>
+            </a>
 
             <!-- Mobile Menu Button -->
             <button @click="mobileMenu = !mobileMenu" class="lg:hidden text-white p-2">
@@ -148,6 +199,8 @@
                 class="block text-white hover:text-orange-500 font-medium py-2">Keuntungan</a>
             <a href="{{ route('home') }}#paket" class="block text-white hover:text-orange-500 font-medium py-2">Paket
                 Usaha</a>
+            <a href="{{ route('home') }}#addons"
+                class="block text-white hover:text-orange-500 font-medium py-2">Add-ons</a>
             <a href="{{ route('home') }}#kontak"
                 class="block text-white hover:text-orange-500 font-medium py-2">Kontak</a>
 
@@ -170,94 +223,424 @@
                     </a>
                 @endauth
             </div>
-
-            <!-- Mobile Social Icons -->
-            <div class="pt-4 border-t border-gray-800 flex gap-3">
-                <a href="#"
-                    class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 text-gray-400 hover:bg-orange-500 hover:text-white transition-all">
-                    <i class="fab fa-facebook-f"></i>
-                </a>
-                <a href="#"
-                    class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 text-gray-400 hover:bg-gradient-to-tr hover:from-purple-600 hover:to-pink-500 hover:text-white transition-all">
-                    <i class="fab fa-instagram"></i>
-                </a>
-                <a href="#"
-                    class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 text-gray-400 hover:bg-black hover:ring-1 hover:ring-white hover:text-white transition-all">
-                    <i class="fab fa-tiktok"></i>
-                </a>
-                <a href="https://wa.me/6288221201998" target="_blank"
-                    class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 text-gray-400 hover:bg-green-500 hover:text-white transition-all">
-                    <i class="fab fa-whatsapp"></i>
-                </a>
-            </div>
         </div>
     </div>
 </nav>
 
+<!-- Toast Container -->
+<div id="toast-container"></div>
+
+<!-- Cart Drawer/Modal -->
+<div id="cart-modal" class="fixed inset-0 bg-black/80 z-[60] hidden justify-end transition-opacity duration-300">
+    <div class="w-full max-w-md bg-gray-900 h-full shadow-2xl overflow-y-auto transform translate-x-full transition-transform duration-300"
+        id="cart-content">
+        <div class="p-6 h-full flex flex-col">
+            <div class="flex justify-between items-center mb-6 border-b border-gray-800 pb-4">
+                <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                    <i class="fas fa-shopping-cart text-orange-500"></i> Keranjang
+                </h2>
+                <div class="flex items-center gap-3">
+                    <button onclick="clearCart()"
+                        class="text-xs text-red-500 hover:text-red-400 font-medium transition-colors"
+                        title="Hapus Semua">
+                        <i class="fas fa-trash-alt mr-1"></i> Reset
+                    </button>
+                    <button onclick="closeCart()" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div id="cart-items" class="flex-grow space-y-4 overflow-y-auto mb-6">
+                <!-- Cart items will be injected here -->
+                <div class="text-center text-gray-500 py-12 flex flex-col items-center">
+                    <i class="fas fa-shopping-basket text-4xl mb-3 opacity-30"></i>
+                    <p>Keranjang masih kosong</p>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-4 mt-auto">
+                <div class="flex justify-between items-center mb-4 text-white">
+                    <span class="text-gray-400">Total</span>
+                    <span class="text-xl font-bold text-orange-500" id="cart-total">Rp 0</span>
+                </div>
+                <a href="/checkout" onclick="validateCheckout(event)"
+                    class="block w-full btn-primary py-3.5 rounded-full text-white font-bold text-center mb-3 hover:shadow-lg hover:shadow-orange-500/20 transition-all">
+                    Checkout Sekarang
+                </a>
+                <button onclick="closeCart()"
+                    class="block w-full border border-gray-700 text-gray-300 py-3 rounded-full font-medium hover:bg-gray-800 transition-colors">
+                    Lanjut Belanja
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
-    // Cart helper functions for global use
-    window.RCGOCart = {
-        get() {
-            var stored = localStorage.getItem('rcgo_cart');
-            if (stored) {
-                try {
-                    var data = JSON.parse(stored);
-                    var hoursDiff = (Date.now() - data.timestamp) / (1000 * 60 * 60);
-                    if (hoursDiff < 24) {
-                        return data;
-                    }
-                    localStorage.removeItem('rcgo_cart');
-                } catch (e) {
-                    localStorage.removeItem('rcgo_cart');
-                }
-            }
-            return null;
-        },
-        set(packageData, addons = {}) {
-            localStorage.setItem('rcgo_cart', JSON.stringify({
-                package: packageData,
-                addons: addons,
-                timestamp: Date.now()
-            }));
-            window.dispatchEvent(new CustomEvent('cart-updated'));
-        },
-        clear() {
-            localStorage.removeItem('rcgo_cart');
-            window.dispatchEvent(new CustomEvent('cart-updated'));
-        },
-        hasItems() {
-            return this.get() !== null;
+    function validateCheckout(e) {
+        e.preventDefault();
+
+        // Check if main package exists
+        if (cartState.mainPackages.length === 0) {
+            openCustomModal('modal-warning-package');
+            return;
         }
+
+        // Check if addons exist (Upsell)
+        if (cartState.addons.length === 0) {
+            openCustomModal('modal-upsell-addon');
+            return;
+        }
+
+        // Add loading state
+        const btn = e.currentTarget;
+        const originalContent = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
+        btn.disabled = true;
+
+        // Proceed to checkout
+        setTimeout(() => {
+            window.location.href = '/checkout';
+        }, 500);
+    }
+
+    function openCustomModal(id) {
+        const modal = document.getElementById(id);
+        if (modal) {
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+
+            // Animation
+            setTimeout(() => {
+                modal.firstElementChild.classList.remove('scale-95', 'opacity-0');
+                modal.firstElementChild.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+    }
+
+    function closeCustomModal(id) {
+        const modal = document.getElementById(id);
+        if (modal) {
+            modal.firstElementChild.classList.add('scale-95', 'opacity-0');
+            modal.firstElementChild.classList.remove('scale-100', 'opacity-100');
+
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+        }
+    }
+</script>
+<script>
+    // === Cart System Logic ===
+    const cartState = {
+        mainPackages: [],
+        addons: [],
+        total: 0
     };
 
-    // CTA Button Alpine component
-    function ctaButton() {
-        return {
-            hasCart: false,
-            ctaLink: '{{ route('home') }}#paket',
-            buttonText: 'Mulai Usaha',
-            buttonTextShort: 'Daftar',
-            iconClass: 'fa-rocket',
-            init() {
-                this.checkCart();
-                window.addEventListener('cart-updated', () => this.checkCart());
-            },
-            checkCart() {
-                var cart = window.RCGOCart ? window.RCGOCart.get() : null;
-                if (cart && cart.package) {
-                    this.hasCart = true;
-                    this.ctaLink = '/checkout';
-                    this.buttonText = 'Keranjang';
-                    this.buttonTextShort = 'Cart';
-                    this.iconClass = 'fa-shopping-cart';
-                } else {
-                    this.hasCart = false;
-                    this.ctaLink = '{{ route('home') }}#paket';
-                    this.buttonText = 'Mulai Usaha';
-                    this.buttonTextShort = 'Daftar';
-                    this.iconClass = 'fa-rocket';
+    // Initialize Cart from LocalStorage
+    function initCart() {
+        const stored = localStorage.getItem('rcgo_cart_v4');
+        if (stored) {
+            try {
+                const parsed = JSON.parse(stored);
+                cartState.mainPackages = parsed.mainPackages || (parsed.mainPackage ? [parsed.mainPackage] : []);
+                cartState.addons = parsed.addons || [];
+                updateCartUI();
+            } catch (e) {
+                console.error('Cart parse error', e);
+            }
+        }
+        updateBadge();
+    }
+
+    // Add Item to Cart
+    function addToCart(id, name, price, type = 'addon') {
+        if (type === 'package') {
+            const existing = cartState.mainPackages.find(item => item.id === id);
+            if (existing) {
+                existing.qty += 1;
+                showToast(`${name} qty bertambah`);
+            } else {
+                cartState.mainPackages.push({
+                    id,
+                    name,
+                    price,
+                    qty: 1,
+                    type
+                });
+                showToast(`${name} ditambahkan!`);
+            }
+        } else {
+            // Addon logic
+            const existing = cartState.addons.find(item => item.id === id);
+            if (existing) {
+                existing.qty += 1;
+                showToast(`${name} qty bertambah`);
+            } else {
+                cartState.addons.push({
+                    id,
+                    name,
+                    price,
+                    qty: 1,
+                    type
+                });
+                showToast(`${name} ditambahkan!`);
+            }
+        }
+
+        saveCart();
+        updateCartUI();
+        updateBadge();
+
+        // Auto open cart drawer
+        openCart();
+
+        // Bounce animation
+        const badge = document.getElementById('cart-badge');
+        badge.classList.add('cart-animate');
+        setTimeout(() => badge.classList.remove('cart-animate'), 300);
+    }
+
+    // Remove Item
+    function removeFromCart(id, type) {
+        if (type === 'package') {
+            cartState.mainPackages = cartState.mainPackages.filter(item => item.id !== id);
+        } else {
+            cartState.addons = cartState.addons.filter(item => item.id !== id);
+        }
+        saveCart();
+        updateCartUI();
+        updateBadge();
+    }
+
+    // Clear Cart
+    function clearCart() {
+        openConfirmModal(
+            'Kosongkan Keranjang?',
+            'Tindakan ini akan menghapus semua item yang telah Anda pilih. Anda yakin ingin melanjutkan?',
+            function () {
+                cartState.mainPackages = [];
+                cartState.addons = [];
+                saveCart();
+                updateCartUI();
+                updateBadge();
+                showToast('Keranjang telah dikosongkan');
+                // Auto close cart drawer if empty
+                setTimeout(closeCart, 500);
+            }
+        );
+    }
+
+    // Update Qty
+    function updateQty(id, change, type) {
+        if (type === 'package') {
+            const existing = cartState.mainPackages.find(item => item.id === id);
+            if (existing) {
+                existing.qty += change;
+                if (existing.qty <= 0) {
+                    removeFromCart(id, 'package');
                 }
+            }
+        } else {
+            const item = cartState.addons.find(i => i.id === id);
+            if (item) {
+                item.qty += change;
+                if (item.qty <= 0) removeFromCart(id, 'addon');
+            }
+        }
+        saveCart();
+        updateCartUI();
+        updateBadge();
+    }
+
+    // Save to LocalStorage
+    function saveCart() {
+        // Calc Total
+        let total = 0;
+        cartState.mainPackages.forEach(p => total += p.price * p.qty);
+        cartState.addons.forEach(a => total += a.price * a.qty);
+
+        cartState.total = total;
+        localStorage.setItem('rcgo_cart_v4', JSON.stringify(cartState));
+    }
+
+    // Update Badge Count & CTA Logic
+    function updateBadge() {
+        const badge = document.getElementById('cart-badge');
+        const ctaBtn = document.getElementById('nav-cta-btn');
+        
+        let totalQty = 0;
+        cartState.mainPackages.forEach(p => totalQty += p.qty);
+        cartState.addons.forEach(a => totalQty += a.qty);
+
+        // Badge
+        badge.innerText = totalQty;
+        if (totalQty > 0) {
+            badge.classList.remove('scale-0', 'opacity-0');
+            badge.classList.add('scale-100', 'opacity-100');
+            
+            // Dynamic CTA: Transform to Checkout
+            if (ctaBtn) {
+                // Calc Total for Button
+                let total = 0;
+                cartState.mainPackages.forEach(p => total += p.price * p.qty);
+                cartState.addons.forEach(a => total += a.price * a.qty);
+
+                ctaBtn.innerHTML = `
+                    <i class="fas fa-shopping-bag animate-pulse"></i>
+                    <span class="hidden sm:inline">Checkout</span>
+                    <span class="bg-white/20 px-2 py-0.5 rounded text-xs ml-1 font-mono">${formatRupiah(total)}</span>
+                `;
+                ctaBtn.setAttribute('href', '/checkout');
+                ctaBtn.setAttribute('onclick', 'validateCheckout(event)');
+                
+                // Change Style to Green/Emerald to signify "Go/Finish"
+                ctaBtn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)'; // Emerald-500 to Emerald-600
+                ctaBtn.classList.remove('shadow-orange-500/20', 'hover:shadow-orange-500/30');
+                ctaBtn.classList.add('shadow-emerald-500/20', 'hover:shadow-emerald-500/30');
+            }
+        } else {
+            badge.classList.add('scale-0', 'opacity-0');
+            badge.classList.remove('scale-100', 'opacity-100');
+
+            // Dynamic CTA: Revert to Default
+            if (ctaBtn) {
+                ctaBtn.innerHTML = `
+                    <i class="fas fa-rocket"></i>
+                    <span class="hidden sm:inline">Mulai Usaha</span>
+                    <span class="sm:hidden">Daftar</span>
+                `;
+                ctaBtn.setAttribute('href', '{{ route("home") }}#paket');
+                ctaBtn.removeAttribute('onclick');
+                
+                // Revert Style
+                ctaBtn.style.background = ''; // Revert to CSS class bg
+                ctaBtn.classList.add('shadow-orange-500/20', 'hover:shadow-orange-500/30');
+                ctaBtn.classList.remove('shadow-emerald-500/20', 'hover:shadow-emerald-500/30');
             }
         }
     }
+
+    // Update Cart Drawer UI
+    function updateCartUI() {
+        const container = document.getElementById('cart-items');
+        const totalDisplay = document.getElementById('cart-total');
+
+        // Recalc total just for display accuracy
+        let total = 0;
+        cartState.mainPackages.forEach(p => total += p.price * p.qty);
+        cartState.addons.forEach(a => total += a.price * a.qty);
+        totalDisplay.innerText = formatRupiah(total);
+
+        if (cartState.mainPackages.length === 0 && cartState.addons.length === 0) {
+            container.innerHTML = `
+                    <div class="text-center text-gray-500 py-12 flex flex-col items-center">
+                        <i class="fas fa-shopping-basket text-4xl mb-3 opacity-30"></i>
+                        <p>Keranjang masih kosong</p>
+                    </div>`;
+            return;
+        }
+
+        let html = '';
+
+        // Section Main Packages
+        if (cartState.mainPackages.length > 0) {
+            html += `<div class="mb-4">
+                    <h5 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-2">Paket Usaha</h5>
+                    ${cartState.mainPackages.map(p => renderCartItem(p)).join('')}
+                </div>`;
+        }
+
+        // Section Addons
+        if (cartState.addons.length > 0) {
+            html += `<div>
+                    <h5 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-2">Add-ons (Aksesoris)</h5>
+                    ${cartState.addons.map(a => renderCartItem(a)).join('')}
+                </div>`;
+        }
+
+        container.innerHTML = html;
+    }
+
+    function renderCartItem(item) {
+        return `
+                 <div class="bg-gray-800 p-3 rounded-xl flex items-center justify-between border border-gray-700 mb-2">
+                    <div>
+                        <h4 class="text-white font-semibold text-sm line-clamp-1">${item.name}</h4>
+                        <p class="text-orange-500 text-xs font-bold">${formatRupiah(item.price)}</p>
+                    </div>
+                    <div class="flex items-center gap-3 bg-gray-900 rounded-lg p-1">
+                        <button onclick="updateQty('${item.id}', -1, '${item.type}')" class="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-white transition-colors">-</button>
+                        <span class="text-white text-sm font-medium w-4 text-center">${item.qty}</span>
+                        <button onclick="updateQty('${item.id}', 1, '${item.type}')" class="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-white transition-colors">+</button>
+                    </div>
+                </div>
+            `;
+    }
+
+    // Format Rupiah
+    function formatRupiah(amount) {
+        return new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            maximumFractionDigits: 0
+        }).format(amount);
+    }
+
+    // Open/Close Cart
+    function openCart() {
+        const modal = document.getElementById('cart-modal');
+        const content = document.getElementById('cart-content');
+
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        // Small delay for animation
+        setTimeout(() => {
+            content.classList.remove('translate-x-full');
+        }, 10);
+        document.body.style.overflow = 'hidden';
+        updateCartUI();
+    }
+
+    function closeCart() {
+        const modal = document.getElementById('cart-modal');
+        const content = document.getElementById('cart-content');
+
+        content.classList.add('translate-x-full');
+        setTimeout(() => {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }, 300);
+        document.body.style.overflow = 'auto';
+    }
+
+    // Close cart when clicking outside
+    document.getElementById('cart-modal').addEventListener('click', function (e) {
+        if (e.target === this) closeCart();
+    });
+
+    // Toast Notification
+    function showToast(message) {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.innerHTML = `<i class="fas fa-check-circle"></i> <span>${message}</span>`;
+
+        container.appendChild(toast);
+
+        // Trigger animation
+        setTimeout(() => toast.classList.add('show'), 10);
+
+        // Remove after 3s
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    }
+
+    // Init
+    document.addEventListener('DOMContentLoaded', initCart);
 </script>

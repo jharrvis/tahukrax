@@ -41,6 +41,9 @@
         <!-- Section 6: Paket Usaha -->
         @include('partials.landing.packages')
 
+        <!-- Section 6.5: Addons -->
+        @include('partials.landing.addons')
+
         <!-- Section 6: Testimoni -->
         @include('partials.landing.testimoni')
 

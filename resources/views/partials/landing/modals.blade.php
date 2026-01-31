@@ -37,3 +37,87 @@
         </div>
     </div>
 @endforeach
+
+<!-- Validation Modals -->
+<!-- 1. No Package Warning -->
+<div id="modal-warning-package"
+    class="fixed inset-0 bg-black/80 z-[80] hidden items-center justify-center p-4 backdrop-blur-sm">
+    <div
+        class="bg-gray-900 rounded-2xl max-w-sm w-full border border-orange-500/30 shadow-2xl transform scale-95 opacity-0 transition-all duration-300">
+        <div class="p-6 text-center">
+            <div
+                class="w-16 h-16 bg-orange-500/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-orange-500/20">
+                <i class="fas fa-box-open text-3xl text-orange-500"></i>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2">Pilih Paket Dulu!</h3>
+            <p class="text-gray-400 text-sm mb-6">Anda belum memilih <b>Paket Usaha</b>. Silakan pilih paket yang sesuai
+                kebutuhan bisnis Anda.</p>
+
+            <button
+                onclick="closeCustomModal('modal-warning-package'); document.getElementById('paket').scrollIntoView({behavior: 'smooth'}); closeCart();"
+                class="w-full py-3 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-lg shadow-orange-500/20 transition-all font-bold">
+                Pilih Paket Sekarang
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- 2. Upsell Add-on -->
+<div id="modal-upsell-addon"
+    class="fixed inset-0 bg-black/80 z-[80] hidden items-center justify-center p-4 backdrop-blur-sm">
+    <div
+        class="bg-gray-900 rounded-2xl max-w-sm w-full border border-blue-500/30 shadow-2xl transform scale-95 opacity-0 transition-all duration-300">
+        <div class="p-6 text-center">
+            <div
+                class="w-16 h-16 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-blue-500/20">
+                <i class="fas fa-plug text-3xl text-blue-500"></i>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2">Lupa Tambah Add-on?</h3>
+            <p class="text-gray-400 text-sm mb-6">Baterai cadangan atau sparepart sangat penting untuk kelancaran
+                operasional. Yakin tidak mau tambah?</p>
+
+            <div class="flex flex-col gap-3">
+                <button
+                    onclick="closeCustomModal('modal-upsell-addon'); document.getElementById('addons').scrollIntoView({behavior: 'smooth'}); closeCart();"
+                    class="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-500/20 transition-all font-bold">
+                    <i class="fas fa-plus-circle mr-2"></i> Lihat Add-on Dulu
+                </button>
+                <button onclick="window.location.href='/checkout'"
+                    class="w-full py-3 rounded-xl border border-gray-700 text-gray-400 hover:text-white hover:bg-gray-800 transition-all font-medium text-sm">
+                    Lanjut Checkout Saja &rarr;
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Confirmation Modal -->
+<div id="confirm-modal"
+    class="fixed inset-0 bg-black/80 z-[70] hidden items-center justify-center p-4 backdrop-blur-sm transition-opacity duration-300 opacity-0"
+    x-show="open" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
+    x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200"
+    x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
+
+    <div class="bg-gray-900 rounded-2xl max-w-sm w-full border border-gray-700 shadow-2xl transform scale-95 transition-all duration-300"
+        id="confirm-modal-content">
+        <div class="p-6 text-center">
+            <div class="w-16 h-16 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-exclamation-triangle text-2xl text-red-500"></i>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2" id="confirm-title">Konfirmasi</h3>
+            <p class="text-gray-400 text-sm mb-6" id="confirm-message">Apakah Anda yakin ingin melakukan tindakan ini?
+            </p>
+
+            <div class="flex gap-3 justify-center">
+                <button onclick="closeConfirmModal(false)"
+                    class="px-5 py-2.5 rounded-xl border border-gray-600 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors text-sm font-medium">
+                    Batal
+                </button>
+                <button id="confirm-yes-btn" onclick="closeConfirmModal(true)"
+                    class="px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white shadow-lg shadow-red-500/20 transition-all text-sm font-bold">
+                    Ya, Bersihkan
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

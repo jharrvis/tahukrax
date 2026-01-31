@@ -6,6 +6,10 @@
         background-color: #000;
     }
 
+    [x-cloak] {
+        display: none !important;
+    }
+
     .btn-primary {
         background: linear-gradient(135deg, #FFA500 0%, #FF8C00 100%);
         transition: all 0.3s ease;

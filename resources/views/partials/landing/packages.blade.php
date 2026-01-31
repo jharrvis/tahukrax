@@ -10,100 +10,45 @@
         </p>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            @php
-                $pakets = [
-                    [
-                        'id' => 'drift',
-                        'name' => 'Drift',
-                        'img' => 'paket-drift.svg',
-                        'desc' => 'Mobil RC drift dengan handling presisi. Cocok untuk area indoor dengan permukaan halus.',
-                        'old_price' => 'Rp 3.800.000',
-                        'price' => 'Rp 1,9 Jt',
-                        'features' => ['5 Unit RC Drift Premium', 'Charger & Baterai Ori', '30 Traffic Cones', 'Banner Eksklusif']
-                    ],
-                    [
-                        'id' => 'offroad',
-                        'name' => 'Off-road',
-                        'img' => 'paket-offroad.svg',
-                        'desc' => 'Mobil RC off-road tangguh untuk segala medan. Ideal untuk area outdoor seperti taman dan lapangan.',
-                        'old_price' => 'Rp 5.200.000',
-                        'price' => 'Rp 2,6 Jt',
-                        'features' => ['5 Unit RC Off-road 4WD', 'Charger & Baterai Ori', 'Power Supply Fast Charging', 'Banner Rental']
-                    ],
-                    [
-                        'id' => 'stunt',
-                        'name' => 'Stunt',
-                        'img' => 'paket-stunt.svg',
-                        'desc' => 'Mobil RC akrobatik dengan gerakan 360°. Paling diminati anak-anak untuk atraksi seru.',
-                        'old_price' => 'Rp 5.400.000',
-                        'price' => 'Rp 2,7 Jt',
-                        'features' => ['5 Unit RC Stunt 4WD', 'Charger & Baterai Ori', 'Baterai Cadangan Rakitan', 'Banner Rental']
-                    ],
-                    [
-                        'id' => 'mixcar',
-                        'name' => 'Mix RC Car',
-                        'img' => 'paket-mixcar.webp',
-                        'desc' => 'Kombinasi berbagai jenis mobil RC (Drift, Off-road, Stunt). Lebih variatif untuk menarik pelanggan.',
-                        'old_price' => 'Rp 5.000.000',
-                        'price' => 'Rp 2,5 Jt',
-                        'popular' => true,
-                        'features' => ['5 Unit RC (Drift, Offroad, Stunt)', 'Charger & Baterai Ori', 'Ban Serep & Baterai Cadangan', 'Banner & Alas Drift']
-                    ],
-                    [
-                        'id' => 'excavator',
-                        'name' => 'Excavator',
-                        'img' => 'paket-excavator.webp',
-                        'desc' => 'RC Excavator dengan fungsi beko realistis. Unik dan edukatif, cocok untuk anak-anak.',
-                        'old_price' => 'Rp 6.400.000',
-                        'price' => 'Rp 3,2 Jt',
-                        'features' => ['5 Unit RC Excavator Premium', 'Remote & Baterai Ori', 'Fast Charging Power Supply', 'Banner Eksklusif']
-                    ],
-                    [
-                        'id' => 'alatberat',
-                        'name' => 'Alat Berat Mix',
-                        'img' => 'paket-alatberat-mix.webp',
-                        'desc' => 'Kombinasi RC alat berat (Excavator, Bulldozer, Dump Truck). Tema konstruksi yang menarik.',
-                        'old_price' => 'Rp 7.400.000',
-                        'price' => 'Rp 3,7 Jt',
-                        'features' => ['5 Unit Mix (Excavator, Truck, Dozer)', 'Baterai Ori & Rakitan', 'Fast Charger (10 Baterai)', 'Banner Rental']
-                    ],
-                ];
-            @endphp
-
-            @foreach($pakets as $p)
+            @foreach($packages as $p)
                 <div
-                    class="bg-gray-900 p-6 rounded-2xl shadow-lg text-left border {{ isset($p['popular']) ? 'border-2 border-orange-500 relative' : 'border-gray-800' }} hover:border-orange-500 transition-all duration-300 flex flex-col h-full group checker-bg">
-                    @if(isset($p['popular']))
+                    class="bg-gray-900 p-6 rounded-2xl shadow-lg text-left border {{ $p->price >= 2500000 && $p->price <= 3000000 ? 'border-2 border-orange-500 relative' : 'border-gray-800' }} hover:border-orange-500 transition-all duration-300 flex flex-col h-full group checker-bg">
+                    @if($p->price >= 2500000 && $p->price <= 3000000)
                         <span
                             class="absolute -top-3 left-1/2 -translate-x-1/2 bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">Populer</span>
                     @endif
 
                     <h3 class="text-xl font-bold text-white mb-4">
-                        <img src="{{ asset('assets/img/' . $p['img']) }}" alt="Paket {{ $p['name'] }}"
+                        <img src="{{ asset('assets/img/paket-' . $p->slug . '.svg') }}"
+                            onerror="this.src='{{ asset("assets/img/paket-drift.svg") }}'" alt="Paket {{ $p->name }}"
                             class="w-full h-48 object-contain rounded-xl mb-2">
                     </h3>
-                    <p class="text-gray-400 text-sm mb-4 flex-grow">{{ $p['desc'] }}</p>
+                    <p class="text-gray-400 text-sm mb-4 flex-grow">{{ $p->description }}</p>
                     <div class="mb-6">
                         <p class="text-gray-400 text-xs uppercase tracking-wider mb-1">Mulai Dari</p>
-                        <p class="text-sm line-through text-gray-500">{{ $p['old_price'] }}</p>
-                        <div class="text-3xl font-bold text-white">{{ $p['price'] }}</div>
+                        <p class="text-sm line-through text-gray-500">Rp {{ number_format($p->price * 1.2, 0, ',', '.') }}
+                        </p>
+                        <div class="text-3xl font-bold text-white">Rp {{ number_format($p->price / 1000000, 1, ',', '.') }}
+                            Jt</div>
                     </div>
                     <ul class="space-y-2 text-gray-300 text-sm mb-6">
-                        @foreach($p['features'] as $f)
-                            <li class="flex items-center gap-2"><i class="fas fa-check text-orange-500 text-xs"></i> {{ $f }}
-                            </li>
-                        @endforeach
+                        @if($p->features && is_array($p->features))
+                            @foreach($p->features as $f)
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-orange-500 text-xs"></i> {{ $f }}
+                                </li>
+                            @endforeach
+                        @endif
                     </ul>
-                    <div class="flex gap-3 mt-auto">
-                        <button onclick="openModal('modal-{{ $p['id'] }}')"
-                            class="flex-1 border border-orange-500 text-orange-500 px-4 py-2.5 rounded-full font-semibold text-sm hover:bg-orange-500/10 transition-all">
-                            <i class="fas fa-list-ul mr-1"></i> Fasilitas
+                    <div class="flex gap-2 mt-auto">
+                        <button onclick="openModal('modal-{{ $p->slug }}')"
+                            class="w-12 h-10 flex items-center justify-center border border-orange-500 text-orange-500 rounded-lg hover:bg-orange-500 hover:text-white transition-all"
+                            title="Lihat Detail Fasilitas">
+                            <i class="fas fa-list-ul"></i>
                         </button>
-                        <a href="{{ route('checkout.cart') }}"
-                            onclick="if(window.RCGOCart) RCGOCart.set({ slug: '{{ $p['id'] }}', name: '{{ $p['name'] }}', price: {{ (int) preg_replace('/[^0-9]/', '', $p['price']) * 1000 }} })"
-                            class="flex-1 btn-primary px-4 py-2.5 rounded-full text-white font-semibold text-sm text-center hover:shadow-lg transition-all">
-                            <i class="fas fa-cart-plus mr-1"></i> Beli Sekarang
-                        </a>
+                        <button onclick="addToCart('{{ $p->id }}', '{{ $p->name }}', {{ $p->price }}, 'package')"
+                            class="flex-1 btn-primary h-10 rounded-lg text-white font-bold text-sm hover:shadow-lg transition-all flex items-center justify-center gap-2">
+                            <i class="fas fa-cart-plus"></i> + Keranjang
+                        </button>
                     </div>
                 </div>
             @endforeach

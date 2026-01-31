@@ -1,3 +1,4 @@
+<script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script>
     // Smooth Scroll
@@ -97,4 +98,39 @@
             });
         }
     });
+    // Confirm Modal Logic
+    let confirmCallback = null;
+    const confirmModal = document.getElementById('confirm-modal');
+
+    function openConfirmModal(title, message, callback) {
+        if (!confirmModal) return;
+        
+        document.getElementById('confirm-title').innerText = title || 'Konfirmasi';
+        document.getElementById('confirm-message').innerText = message || 'Apakah Anda yakin?';
+        confirmCallback = callback;
+
+        confirmModal.classList.remove('hidden');
+        confirmModal.classList.add('flex');
+        
+        // Animation trigger
+        setTimeout(() => {
+            confirmModal.classList.remove('opacity-0');
+        }, 10);
+    }
+
+    function closeConfirmModal(confirmed) {
+        if (!confirmModal) return;
+
+        if (confirmed && confirmCallback) {
+            confirmCallback();
+        }
+
+        confirmModal.classList.add('opacity-0');
+        
+        setTimeout(() => {
+            confirmModal.classList.add('hidden');
+            confirmModal.classList.remove('flex');
+            confirmCallback = null;
+        }, 300);
+    }
 </script>
