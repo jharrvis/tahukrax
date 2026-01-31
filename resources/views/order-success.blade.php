@@ -42,17 +42,21 @@
             <div class="mb-8">
                 <h2 class="font-rugged text-xl mb-4 border-b-2 border-stone-100 dark:border-stone-800 pb-2">Detail
                     Amunisi</h2>
-                <div class="flex justify-between items-center mb-2">
-                    <span class="text-stone-500 italic">{{ $order->package->name }}</span>
-                    <span class="font-bold text-lg">Rp {{ number_format($order->package->price, 0, ',', '.') }}</span>
-                </div>
-
                 @foreach($order->orderItems as $item)
-                    <div class="flex justify-between items-center text-sm mb-1">
-                        <span class="text-stone-400 italic">{{ $item->addon->name }} (x{{ $item->quantity }})</span>
-                        <span class="font-bold text-stone-500">Rp
-                            {{ number_format($item->price * $item->quantity, 0, ',', '.') }}</span>
-                    </div>
+                    @if($item->item_type == 'package' && $item->package)
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-stone-500 italic">Paket: {{ $item->package->name }}
+                                (x{{ $item->quantity }})</span>
+                            <span class="font-bold text-lg">Rp
+                                {{ number_format($item->price * $item->quantity, 0, ',', '.') }}</span>
+                        </div>
+                    @elseif(($item->item_type == 'addon' || $item->addon_id) && $item->addon)
+                        <div class="flex justify-between items-center text-sm mb-1 ml-4">
+                            <span class="text-stone-400 italic">+ {{ $item->addon->name }} (x{{ $item->quantity }})</span>
+                            <span class="font-bold text-stone-500">Rp
+                                {{ number_format($item->price * $item->quantity, 0, ',', '.') }}</span>
+                        </div>
+                    @endif
                 @endforeach
 
                 <div class="flex justify-between items-center text-sm mt-4 text-stone-400">
