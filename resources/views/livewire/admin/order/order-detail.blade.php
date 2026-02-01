@@ -174,11 +174,22 @@
                             class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-brand-500 outline-none">
                     </div>
 
-                    <button type="submit" wire:loading.attr="disabled"
-                        class="w-full py-2 bg-brand-500 hover:bg-brand-600 text-white font-bold rounded-xl transition-all shadow-lg shadow-brand-500/20 disabled:opacity-50">
-                        <span wire:loading.remove>Update Status</span>
-                        <span wire:loading>Updating...</span>
-                    </button>
+                    <div class="flex gap-2">
+                        <button type="submit" wire:loading.attr="disabled"
+                            class="flex-1 py-2 bg-brand-500 hover:bg-brand-600 text-white font-bold rounded-xl transition-all shadow-lg shadow-brand-500/20 disabled:opacity-50">
+                            <span wire:loading.remove>Update Status</span>
+                            <span wire:loading>Updating...</span>
+                        </button>
+
+                        @if($tracking_number)
+                            <button type="button"
+                                @click="$dispatch('open-tracking-modal', { url: 'https://www.indahonline.com/services/view?NO_RESI={{ $tracking_number }}' })"
+                                class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-xl transition-colors"
+                                title="Lacak Resi">
+                                <i class="fas fa-search-location"></i>
+                            </button>
+                        @endif
+                    </div>
                 </form>
             </div>
 
@@ -262,6 +273,32 @@
                     </div>
                 </div>
                 <!-- Courier info if available in future -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Tracking Modal -->
+    <div x-data="{ open: false, url: '' }" @open-tracking-modal.window="open = true; url = $event.detail.url"
+        x-show="open" x-transition.opacity
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm" x-cloak>
+
+        <div @click.away="open = false"
+            class="bg-white dark:bg-slate-900 w-full max-w-4xl h-[80vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden">
+
+            <div
+                class="flex justify-between items-center p-4 border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50">
+                <h3 class="font-bold text-lg"><i class="fas fa-search-location mr-2 text-brand-500"></i> Lacak
+                    Pengiriman</h3>
+                <button @click="open = false" class="text-slate-400 hover:text-slate-600 transition-colors">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <div class="flex-1 bg-white relative">
+                <div class="absolute inset-0 flex items-center justify-center text-slate-400">
+                    <i class="fas fa-circle-notch fa-spin text-4xl"></i>
+                </div>
+                <iframe :src="url" class="absolute inset-0 w-full h-full z-10" border="0"></iframe>
             </div>
         </div>
     </div>

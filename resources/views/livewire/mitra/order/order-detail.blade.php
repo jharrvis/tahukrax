@@ -101,9 +101,16 @@
                         @if($order->tracking_number)
                             <div class="flex items-center gap-2">
                                 <p class="font-mono font-bold text-brand-500 text-lg">{{ $order->tracking_number }}</p>
-                                <button onclick="navigator.clipboard.writeText('{{ $order->tracking_number }}')"
+                                <button
+                                    onclick="navigator.clipboard.writeText('{{ $order->tracking_number }}'); Livewire.dispatch('notify', { message: 'Resi berhasil disalin!', type: 'success' })"
                                     class="text-slate-400 hover:text-brand-500 transition-colors" title="Copy Resi">
                                     <i class="fas fa-copy"></i>
+                                </button>
+                                <button type="button"
+                                    @click="$dispatch('open-tracking-modal', { url: 'https://www.indahonline.com/services/view?NO_RESI={{ $order->tracking_number }}' })"
+                                    class="ml-2 px-3 py-1 bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-bold rounded-lg transition-colors flex items-center gap-1"
+                                    title="Lacak Paket">
+                                    <i class="fas fa-search-location"></i> Lacak
                                 </button>
                             </div>
                         @else
@@ -145,7 +152,8 @@
                                     <div>
                                         <p class="text-xs font-bold text-slate-400 uppercase mb-1">Penerima</p>
                                         <p class="font-medium text-slate-800 dark:text-slate-200">
-                                            {{ $order->user->name }}</p>
+                                            {{ $order->user->name }}
+                                        </p>
                                     </div>
                                     <div>
                                         <p class="text-xs font-bold text-slate-400 uppercase mb-1">No. HP</p>
@@ -220,6 +228,33 @@
                     class="inline-block w-full py-2 bg-white text-brand-600 font-bold rounded-lg hover:bg-slate-100 transition-colors">
                     Hubungi Admin
                 </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tracking Modal -->
+    <div x-data="{ open: false, url: '' }"
+         @open-tracking-modal.window="open = true; url = $event.detail.url"
+         x-show="open"
+         x-transition.opacity
+         class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
+         x-cloak>
+        
+        <div @click.away="open = false" 
+             class="bg-white dark:bg-slate-900 w-full max-w-4xl h-[80vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden">
+            
+            <div class="flex justify-between items-center p-4 border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50">
+                <h3 class="font-bold text-lg"><i class="fas fa-search-location mr-2 text-brand-500"></i> Lacak Pengiriman</h3>
+                <button @click="open = false" class="text-slate-400 hover:text-slate-600 transition-colors">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div class="flex-1 bg-white relative">
+                <div class="absolute inset-0 flex items-center justify-center text-slate-400">
+                    <i class="fas fa-circle-notch fa-spin text-4xl"></i>
+                </div>
+                <iframe :src="url" class="absolute inset-0 w-full h-full z-10" border="0"></iframe>
             </div>
         </div>
     </div>
