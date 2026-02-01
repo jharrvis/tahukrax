@@ -63,13 +63,13 @@
     <!-- Scripts -->
     @include('partials.landing.scripts')
 
-    <!-- Cekat AI Chatbot Widget -->
+    <!-- Cekat.biz.id Chatbot Widget -->
     <script>
         window.CSAIConfig = {
             widgetId: 'widget-3-ZYcwZDAW'
         };
     </script>
-    <script src="https://cekat.biz.id/widget/widget.js?v=20260201"></script>
+    <script src="https://cekat.biz.id/widget/widget.min.js?v=2026.02.01" async></script>
 
 </body>
 
