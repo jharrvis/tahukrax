@@ -4,6 +4,11 @@ use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\LandingPageController;
 use Illuminate\Support\Facades\Route;
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/order/{order}/invoice', [App\Http\Controllers\InvoiceController::class, 'download'])->name('invoice.download');
+});
+
+
 Route::get('/', [LandingPageController::class, 'index'])->name('home');
 
 // Checkout routes - with and without package slug

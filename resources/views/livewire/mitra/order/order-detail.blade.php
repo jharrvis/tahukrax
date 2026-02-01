@@ -18,11 +18,22 @@
                     class="px-6 py-2 bg-brand-500 text-white font-bold rounded-full hover:bg-brand-600 transition-colors shadow-lg shadow-brand-500/30 flex items-center gap-2">
                     <i class="fas fa-box-open"></i> Konfirmasi Terima
                 </button>
+                <button wire:click="downloadInvoice" type="button"
+                    onclick="window.location.href='{{ route('invoice.download', $order->id) }}'"
+                    class="px-4 py-2 bg-slate-100 text-slate-600 font-bold rounded-full hover:bg-slate-200 transition-colors flex items-center gap-2 text-sm">
+                    <i class="fas fa-file-invoice"></i> Invoke
+                </button>
             @else
                 <span
                     class="px-4 py-2 rounded-full text-sm font-bold uppercase {{ $this->getStatusColor($order->status) }}">
                     {{ $order->status }}
                 </span>
+                @if(in_array($order->status, ['paid', 'processing', 'shipped', 'completed']))
+                    <a href="{{ route('invoice.download', $order->id) }}" target="_blank"
+                        class="px-4 py-2 bg-slate-100 text-slate-600 font-bold rounded-full hover:bg-slate-200 transition-colors flex items-center gap-2 text-sm ml-2">
+                        <i class="fas fa-file-invoice"></i> Invoice
+                    </a>
+                @endif
             @endif
         </div>
     </div>

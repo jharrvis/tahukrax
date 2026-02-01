@@ -12,7 +12,13 @@
             </p>
         </div>
 
-        <div class="flex items-center gap-2 ml-7 md:ml-0">
+        <div class="flex items-center gap-2">
+            @if(in_array($order->status, ['paid', 'processing', 'shipped', 'completed']))
+                <a href="{{ route('invoice.download', $order->id) }}" target="_blank"
+                    class="px-3 py-1 bg-slate-100 text-slate-600 font-bold rounded-full hover:bg-slate-200 transition-colors flex items-center gap-2 text-sm border border-slate-200">
+                    <i class="fas fa-file-invoice"></i> Invoice
+                </a>
+            @endif
             <span
                 class="px-3 py-1 rounded-full text-sm font-bold uppercase {{ $this->getStatusColor($order->status) }}">
                 {{ $order->status }}
