@@ -51,17 +51,17 @@
                         x-show="isSidebarOpen"></i>
                 </button>
                 <div x-show="open" x-transition class="space-y-1">
+                    <a href="{{ route('admin.packages.index') }}"
+                        class="flex items-center px-3 py-2.5 rounded-xl group {{ request()->routeIs('admin.packages.index') ? 'sidebar-item-active' : 'sidebar-item-inactive' }}">
+                        <i class="fas fa-box w-6 text-center"></i>
+                        <span class="ml-3 font-medium smooth-transition"
+                            :class="isSidebarOpen ? 'opacity-100' : 'opacity-0 w-0 invisible'">Paket Usaha</span>
+                    </a>
                     <a href="{{ route('admin.addons.index') }}"
                         class="flex items-center px-3 py-2.5 rounded-xl group {{ request()->routeIs('admin.addons.index') ? 'sidebar-item-active' : 'sidebar-item-inactive' }}">
                         <i class="fas fa-puzzle-piece w-6 text-center"></i>
                         <span class="ml-3 font-medium smooth-transition"
                             :class="isSidebarOpen ? 'opacity-100' : 'opacity-0 w-0 invisible'">Add-on</span>
-                    </a>
-                    <a href="{{ route('admin.packages.index') }}"
-                        class="flex items-center px-3 py-2.5 rounded-xl group {{ request()->routeIs('admin.packages.index') ? 'sidebar-item-active' : 'sidebar-item-inactive' }}">
-                        <i class="fas fa-briefcase w-6 text-center"></i>
-                        <span class="ml-3 font-medium smooth-transition"
-                            :class="isSidebarOpen ? 'opacity-100' : 'opacity-0 w-0 invisible'">Paket Usaha</span>
                     </a>
                 </div>
             </div>
