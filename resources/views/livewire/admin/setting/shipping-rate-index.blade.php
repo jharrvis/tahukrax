@@ -119,11 +119,6 @@
 
         <!-- Pagination -->
         <div class="p-4 border-t border-slate-100 dark:border-slate-800">
-            <!-- Debug Info -->
-            <div class="mb-2 text-xs text-slate-500">
-                Total: {{ $rates->total() }} | Per Page: {{ $rates->perPage() }} | Current Page:
-                {{ $rates->currentPage() }} | Has Pages: {{ $rates->hasPages() ? 'Yes' : 'No' }}
-            </div>
             {{ $rates->links() }}
         </div>
     </div>
