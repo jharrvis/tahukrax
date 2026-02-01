@@ -4,12 +4,17 @@ namespace App\Livewire\Admin\Settings;
 
 use App\Models\Setting;
 use Livewire\Component;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
+#[Layout('layouts.dashboard')]
+#[Title('Pengaturan Website - RCGO')]
 class Index extends Component
 {
+
     use WithFileUploads;
 
     public $activeTab = 'general';
