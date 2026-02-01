@@ -19,16 +19,21 @@
                     @endif
 
                     <h3 class="text-xl font-bold text-white mb-4">
-                        @php
-                            $extension = in_array($p->slug, ['drift', 'offroad', 'stunt']) ? 'svg' : 'webp';
-                            // Special case for mixcar and alatberat-mix because their slugs might differ slightly from filenames
-                            $imgName = 'paket-' . $p->slug . '.' . $extension;
-                            if ($p->slug == 'alat-berat-mix')
-                                $imgName = 'paket-alatberat-mix.webp';
-                        @endphp
-                        <img src="{{ asset('assets/img/' . $imgName) }}"
-                            onerror="this.src='{{ asset("assets/img/rcgo.webp") }}'" alt="Paket {{ $p->name }}"
-                            class="w-full h-48 object-contain rounded-xl mb-2">
+                        @if($p->image_url)
+                            <img src="{{ Storage::url($p->image_url) }}" alt="Paket {{ $p->name }}"
+                                class="w-full h-48 object-contain rounded-xl mb-2 bg-gray-800/50">
+                        @else
+                            <!-- Fallback for legacy/hardcoded demo items if no image uploaded -->
+                            @php
+                                $extension = in_array($p->slug, ['drift', 'offroad', 'stunt']) ? 'svg' : 'webp';
+                                $imgName = 'paket-' . $p->slug . '.' . $extension;
+                                if ($p->slug == 'alat-berat-mix')
+                                    $imgName = 'paket-alatberat-mix.webp';
+                            @endphp
+                            <img src="{{ asset('assets/img/' . $imgName) }}"
+                                onerror="this.src='{{ asset("assets/img/rcgo.webp") }}'" alt="Paket {{ $p->name }}"
+                                class="w-full h-48 object-contain rounded-xl mb-2">
+                        @endif
                     </h3>
                     <p class="text-gray-400 text-sm mb-4 flex-grow">{{ $p->description }}</p>
                     <div class="mb-6">
