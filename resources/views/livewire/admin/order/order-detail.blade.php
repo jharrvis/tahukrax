@@ -192,6 +192,82 @@
                 </form>
             </div>
 
+            <!-- Confirmation Info -->
+            @if($order->confirmation)
+                <div
+                    class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm p-6">
+                    <h3 class="font-bold text-lg mb-4 flex items-center gap-2">
+                        <i class="fas fa-clipboard-check text-brand-500"></i> Konfirmasi Penerimaan
+                    </h3>
+
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between font-medium">
+                            <span class="text-sm text-slate-500">Diterima pada</span>
+                            <span
+                                class="text-slate-800 dark:text-slate-200">{{ $order->confirmation->received_at->format('d M Y H:i') }}</span>
+                        </div>
+
+                        <div
+                            class="p-4 rounded-xl border {{ $order->confirmation->condition == 'good' ? 'bg-green-50 border-green-100' : 'bg-red-50 border-red-100' }}">
+                            <p
+                                class="text-xs font-bold uppercase {{ $order->confirmation->condition == 'good' ? 'text-green-600' : 'text-red-600' }} mb-1">
+                                Kondisi Paket</p>
+                            <p
+                                class="font-bold text-lg {{ $order->confirmation->condition == 'good' ? 'text-green-800' : 'text-red-800' }}">
+                                @if($order->confirmation->condition == 'good')
+                                    <i class="fas fa-check-circle mr-1"></i> Diterima Baik
+                                @else
+                                    <i class="fas fa-exclamation-triangle mr-1"></i> Ada Masalah
+                                @endif
+                            </p>
+
+                            @if($order->confirmation->issue_types)
+                                <div class="mt-2 flex flex-wrap gap-2">
+                                    @foreach($order->confirmation->issue_types as $issue)
+                                        <span class="px-2 py-1 bg-red-100 text-red-700 text-xs rounded-lg font-bold">
+                                            {{ str_replace('_', ' ', ucfirst($issue)) }}
+                                        </span>
+                                    @endforeach
+                                </div>
+                            @endif
+                        </div>
+
+                        @if($order->confirmation->note)
+                            <div>
+                                <p class="text-xs font-bold text-slate-400 uppercase mb-1">Catatan Mitra</p>
+                                <p class="text-sm text-slate-700 bg-slate-50 p-3 rounded-lg italic">
+                                    "{{ $order->confirmation->note }}"</p>
+                            </div>
+                        @endif
+
+                        @if($order->confirmation->proof_images)
+                            <div>
+                                <p class="text-xs font-bold text-slate-400 uppercase mb-2">Foto Bukti</p>
+                                <div class="grid grid-cols-3 gap-2">
+                                    @foreach($order->confirmation->proof_images as $img)
+                                        <a href="{{ Storage::url($img) }}" target="_blank"
+                                            class="block aspect-square rounded-lg overflow-hidden border border-slate-200 hover:opacity-80 transition-opacity">
+                                            <img src="{{ Storage::url($img) }}" class="w-full h-full object-cover">
+                                        </a>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+
+                        @if($order->confirmation->rating)
+                            <div class="flex items-center gap-2 pt-2 border-t border-slate-100">
+                                <span class="text-sm text-slate-500 font-bold">Rating Layanan:</span>
+                                <div class="flex text-yellow-400">
+                                    @foreach(range(1, 5) as $r)
+                                        <i class="fas fa-star {{ $order->confirmation->rating >= $r ? '' : 'text-slate-200' }}"></i>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            @endif
+
             <!-- Customer Info -->
             <div
                 class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm p-6">

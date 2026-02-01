@@ -15,7 +15,7 @@ class OrderDetail extends Component
 
     public function mount(Order $order)
     {
-        $this->order = $order->load(['user', 'package', 'orderItems.addon', 'partnership']);
+        $this->order = $order->load(['user', 'package', 'orderItems.addon', 'partnership', 'confirmation']);
         $this->status = $order->status;
         $this->tracking_number = $order->tracking_number;
     }

@@ -16,7 +16,7 @@ class Dashboard extends Component
             'total_mitra' => \App\Models\User::where('role', 'mitra')->count(),
             'paket_terjual' => \App\Models\Order::where('status', 'paid')->count(),
             'pendapatan' => \App\Models\Order::where('status', 'paid')->sum('total_amount'),
-            'maintenance' => 0 // Placeholder
+            'laporan_masalah' => \App\Models\OrderConfirmation::where('condition', '!=', 'good')->count()
         ];
 
         $recentPartnerships = \App\Models\Partnership::with(['user', 'package'])

@@ -13,10 +13,17 @@
             </p>
         </div>
         <div>
-            <span
-                class="px-4 py-2 rounded-full text-sm font-bold uppercase {{ $this->getStatusColor($order->status) }}">
-                {{ $order->status }}
-            </span>
+            @if($order->status == 'shipped')
+                <button type="button" @click="$dispatch('open-confirmation-modal')"
+                    class="px-6 py-2 bg-brand-500 text-white font-bold rounded-full hover:bg-brand-600 transition-colors shadow-lg shadow-brand-500/30 flex items-center gap-2">
+                    <i class="fas fa-box-open"></i> Konfirmasi Terima
+                </button>
+            @else
+                <span
+                    class="px-4 py-2 rounded-full text-sm font-bold uppercase {{ $this->getStatusColor($order->status) }}">
+                    {{ $order->status }}
+                </span>
+            @endif
         </div>
     </div>
 
@@ -265,7 +272,8 @@
                             <div class="text-right">
                                 <p class="text-xs text-slate-400 uppercase font-bold">Layanan</p>
                                 <p class="font-bold text-slate-700 dark:text-slate-200">
-                                    {{ $trackingData['layanan'] ?? '-' }}</p>
+                                    {{ $trackingData['layanan'] ?? '-' }}
+                                </p>
                             </div>
                         </div>
 
@@ -295,7 +303,8 @@
                                 <p class="text-sm font-bold text-blue-800 dark:text-blue-200">Status Terakhir</p>
                                 <p class="text-xs text-blue-600 dark:text-blue-300">Resi terdaftar pada
                                     {{ $trackingData['tanggal'] ?? '-' }}. Untuk riwayat perjalanan lengkap, silakan cek
-                                    website resmi.</p>
+                                    website resmi.
+                                </p>
                             </div>
                         </div>
 
@@ -323,6 +332,113 @@
                         </a>
                     </div>
                 @endif
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div x-data="{ open: false }" @open-confirmation-modal.window="open = true"
+        @close-confirmation-modal.window="open = false" x-show="open" x-transition.opacity
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm" x-cloak>
+
+        <div @click.away="open = false"
+            class="bg-white dark:bg-slate-900 w-full max-w-lg rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-bounce-in max-h-[90vh] overflow-y-auto">
+
+            <div
+                class="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-brand-500 text-white">
+                <h3 class="font-bold text-lg">Konfirmasi Penerimaan</h3>
+                <button @click="open = false" type="button" class="text-white/80 hover:text-white"><i
+                        class="fas fa-times text-xl"></i></button>
+            </div>
+
+            <div class="p-6">
+                <form wire:submit.prevent="confirmReceiving" class="space-y-4">
+                    <!-- Condition -->
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-2">Kondisi Paket</label>
+                        <div class="grid grid-cols-2 gap-3">
+                            <label
+                                class="cursor-pointer border-2 {{ $confirmCondition == 'good' ? 'border-brand-500 bg-brand-50' : 'border-slate-200' }} rounded-xl p-3 flex flex-col items-center gap-2 hover:border-brand-300 transition-all">
+                                <input type="radio" wire:model.live="confirmCondition" value="good" class="hidden">
+                                <i
+                                    class="fas fa-check-circle text-2xl {{ $confirmCondition == 'good' ? 'text-brand-500' : 'text-slate-300' }}"></i>
+                                <span class="text-sm font-medium">Diterima Baik</span>
+                            </label>
+                            <label
+                                class="cursor-pointer border-2 {{ $confirmCondition == 'damaged' ? 'border-red-500 bg-red-50' : 'border-slate-200' }} rounded-xl p-3 flex flex-col items-center gap-2 hover:border-red-300 transition-all">
+                                <input type="radio" wire:model.live="confirmCondition" value="damaged" class="hidden">
+                                <i
+                                    class="fas fa-exclamation-triangle text-2xl {{ $confirmCondition == 'damaged' ? 'text-red-500' : 'text-slate-300' }}"></i>
+                                <span class="text-sm font-medium">Ada Masalah</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Issues (Shown if damaged) -->
+                    @if($confirmCondition == 'damaged')
+                        <div class="bg-red-50 p-4 rounded-xl border border-red-100 space-y-3">
+                            <label class="block text-sm font-bold text-red-800">Detail Masalah</label>
+                            <div class="space-y-2">
+                                @foreach(['packing_damaged' => 'Kemasan Rusak/Penyok', 'item_damaged' => 'Barang Rusak/Pecah', 'item_missing' => 'Barang Kurang/Hilang', 'wrong_item' => 'Barang Tidak Sesuai'] as $key => $label)
+                                    <label class="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
+                                        <input type="checkbox" wire:model="confirmIssueTypes" value="{{ $key }}"
+                                            class="rounded text-red-500">
+                                        {{ $label }}
+                                    </label>
+                                @endforeach
+                            </div>
+                            @error('confirmIssueTypes') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
+                        </div>
+                    @endif
+
+                    <!-- Photos -->
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-2">Foto Bukti (Maks 5)</label>
+                        <input type="file" wire:model="confirmImages" multiple accept="image/*"
+                            class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-brand-50 file:text-brand-700 hover:file:bg-brand-100">
+                        @error('confirmImages.*') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
+
+                        @if($confirmImages)
+                            <div class="flex gap-2 mt-2 overflow-x-auto pb-2">
+                                @foreach($confirmImages as $img)
+                                    <img src="{{ $img->temporaryUrl() }}"
+                                        class="w-16 h-16 object-cover rounded-lg border border-slate-200">
+                                @endforeach
+                            </div>
+                        @endif
+                    </div>
+
+                    <!-- Note -->
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-2">Catatan Tambahan</label>
+                        <textarea wire:model="confirmNote" rows="3"
+                            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-brand-500"
+                            placeholder="Ceritakan detail kondisi barang..."></textarea>
+                    </div>
+
+                    <!-- Rating -->
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-2">Rating Layanan Pengiriman</label>
+                        <div class="flex gap-2 justify-center">
+                            @foreach(range(1, 5) as $r)
+                                <button type="button" wire:click="$set('confirmRating', {{ $r }})"
+                                    class="text-2xl hover:scale-110 transition-transform {{ $confirmRating >= $r ? 'text-yellow-400' : 'text-slate-300' }}">
+                                    <i class="fas fa-star"></i>
+                                </button>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <div class="pt-4 flex gap-3">
+                        <button @click="open = false" type="button"
+                            class="flex-1 py-3 bg-slate-100 text-slate-600 font-bold rounded-xl hover:bg-slate-200 transition-colors">Batal</button>
+                        <button type="submit" wire:loading.attr="disabled"
+                            class="flex-1 py-3 bg-brand-500 text-white font-bold rounded-xl hover:bg-brand-600 shadow-lg shadow-brand-500/30 transition-all">
+                            <span wire:loading.remove>Kirim Konfirmasi</span>
+                            <span wire:loading>Mengirim...</span>
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

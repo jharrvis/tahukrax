@@ -103,14 +103,21 @@
             <p class="text-slate-500 text-sm">Pendapatan</p>
             <p class="text-2xl font-bold">Rp {{ number_format($stats['pendapatan'] / 1000000, 1) }} Juta</p>
         </div>
-        <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800">
+        <div
+            class="bg-white dark:bg-slate-900 p-5 rounded-2xl border {{ $stats['laporan_masalah'] > 0 ? 'border-red-500 shadow-lg shadow-red-500/10' : 'border-slate-200 dark:border-slate-800' }}">
             <div class="flex items-center justify-between mb-4">
-                <div class="p-2 bg-red-50 dark:bg-red-500/10 rounded-lg">
-                    <i class="fas fa-tools text-red-600"></i>
+                <div
+                    class="p-2 {{ $stats['laporan_masalah'] > 0 ? 'bg-red-500 text-white' : 'bg-red-50 dark:bg-red-500/10 text-red-600' }} rounded-lg">
+                    <i class="fas fa-exclamation-triangle"></i>
                 </div>
+                @if($stats['laporan_masalah'] > 0)
+                    <span
+                        class="text-[10px] font-bold bg-red-100 text-red-700 px-2 py-0.5 rounded-full animate-pulse">ACTION
+                        REQUIRED</span>
+                @endif
             </div>
-            <p class="text-slate-500 text-sm">Maintenance Aktif</p>
-            <p class="text-2xl font-bold">{{ $stats['maintenance'] }} Unit</p>
+            <p class="text-slate-500 text-sm font-medium">Laporan Masalah</p>
+            <p class="text-2xl font-bold">{{ $stats['laporan_masalah'] }} Laporan</p>
         </div>
     </div>
 
@@ -135,38 +142,40 @@
                 </thead>
                 <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
                     @forelse($recentPartnerships as $partnership)
-                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
-                        <td class="px-6 py-4">
-                            <div class="flex items-center gap-3">
-                                <div
-                                    class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center font-bold text-xs uppercase">
-                                    {{ substr($partnership->user->name ?? 'M', 0, 2) }}</div>
-                                <div>
-                                    <p class="font-semibold text-sm">{{ $partnership->user->name ?? 'Unknown' }}</p>
-                                    <p class="text-xs text-slate-500 italic">ID: {{ $partnership->partnership_code }}</p>
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-3">
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center font-bold text-xs uppercase">
+                                        {{ substr($partnership->user->name ?? 'M', 0, 2) }}
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold text-sm">{{ $partnership->user->name ?? 'Unknown' }}</p>
+                                        <p class="text-xs text-slate-500 italic">ID: {{ $partnership->partnership_code }}
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                        <td class="px-6 py-4">
-                            <span class="text-sm font-medium">{{ $partnership->package->name ?? '-' }}</span>
-                        </td>
-                        <td class="px-6 py-4">
-                            <span class="text-sm">{{ $partnership->city ?? '-' }}</span>
-                        </td>
-                        <td class="px-6 py-4">
-                            <span
-                                class="px-2.5 py-1 rounded-lg text-[10px] font-black uppercase bg-green-100 text-green-700">{{ $partnership->status ?? 'Active' }}</span>
-                        </td>
-                        <td class="px-6 py-4 text-right">
-                            <button class="p-2 text-slate-400 hover:text-brand-500 transition-colors">
-                                <i class="fas fa-ellipsis-v"></i>
-                            </button>
-                        </td>
-                    </tr>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="text-sm font-medium">{{ $partnership->package->name ?? '-' }}</span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="text-sm">{{ $partnership->city ?? '-' }}</span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span
+                                    class="px-2.5 py-1 rounded-lg text-[10px] font-black uppercase bg-green-100 text-green-700">{{ $partnership->status ?? 'Active' }}</span>
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <button class="p-2 text-slate-400 hover:text-brand-500 transition-colors">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                            </td>
+                        </tr>
                     @empty
-                    <tr>
-                        <td colspan="5" class="px-6 py-4 text-center text-slate-500 text-sm">Belum ada data mitra.</td>
-                    </tr>
+                        <tr>
+                            <td colspan="5" class="px-6 py-4 text-center text-slate-500 text-sm">Belum ada data mitra.</td>
+                        </tr>
                     @endforelse
                 </tbody>
             </table>

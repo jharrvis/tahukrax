@@ -38,4 +38,9 @@ class Order extends Model
     {
         return $this->hasMany(OrderItem::class);
     }
+
+    public function confirmation()
+    {
+        return $this->hasOne(OrderConfirmation::class);
+    }
 }

@@ -86,6 +86,50 @@ class OrderDetail extends Component
         return view('livewire.mitra.order.order-detail');
     }
 
+    use \Livewire\WithFileUploads;
+
+    public $confirmCondition = 'good';
+    public $confirmIssueTypes = [];
+    public $confirmNote = '';
+    public $confirmImages = [];
+    public $confirmRating = 5;
+
+    public function confirmReceiving()
+    {
+        $this->validate([
+            'confirmCondition' => 'required|in:good,damaged',
+            'confirmIssueTypes' => 'required_if:confirmCondition,damaged|array',
+            'confirmNote' => 'nullable|string|max:500',
+            'confirmImages.*' => 'nullable|image|max:2048', // Max 2MB per image
+            'confirmRating' => 'nullable|integer|min:1|max:5',
+        ]);
+
+        $imagePaths = [];
+        if (!empty($this->confirmImages)) {
+            foreach ($this->confirmImages as $image) {
+                $imagePaths[] = $image->store('order-confirmations/proof', 'public');
+            }
+        }
+
+        $this->order->confirmation()->create([
+            'condition' => $this->confirmCondition,
+            'issue_types' => $this->confirmIssueTypes,
+            'note' => $this->confirmNote,
+            'proof_images' => $imagePaths,
+            'rating' => $this->confirmRating,
+        ]);
+
+        $this->order->update(['status' => 'completed']);
+
+        $this->dispatch('notify', ['message' => 'Konfirmasi penerimaan berhasil dikirim!', 'type' => 'success']);
+
+        // Use window event to close the alpine modal
+        $this->dispatch('close-confirmation-modal');
+
+        // Refresh order to show updated status UI
+        $this->order->refresh();
+    }
+
     public function getStatusColor($status)
     {
         // Reusing same color logic, could be extracted to a trait or helper later
