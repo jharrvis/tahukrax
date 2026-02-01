@@ -90,8 +90,17 @@
         <!-- Sidebar -->
         <x-dashboard.sidebar />
 
+        <!-- Overlay Backdrop (Mobile) -->
+        <div x-show="isSidebarOpen && window.innerWidth < 768"
+            x-transition:enter="transition-opacity ease-linear duration-300" x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100" x-transition:leave="transition-opacity ease-linear duration-300"
+            x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" @click="isSidebarOpen = false"
+            class="fixed inset-0 z-40 bg-slate-900/50 backdrop-blur-sm md:hidden" x-cloak>
+        </div>
+
         <!-- Main Content Area -->
-        <main class="flex-1 flex flex-col min-w-0 smooth-transition" :class="isSidebarOpen ? 'md:ml-64' : 'md:ml-20'">
+        <main class="flex-1 flex flex-col min-w-0 w-full smooth-transition md:ml-0"
+            :class="isSidebarOpen ? 'md:ml-64' : 'md:ml-20'">
 
             <!-- Top Header -->
             <x-dashboard.header />
