@@ -20,7 +20,14 @@
 
                     <h3 class="text-xl font-bold text-white mb-4">
                         @if($p->image_url)
-                            <img src="{{ Storage::url($p->image_url) }}" alt="Paket {{ $p->name }}"
+                            @php
+                                $imageUrl = $p->image_url;
+                                // Check if it's already a path starting with /storage or a full URL
+                                if (!Str::startsWith($imageUrl, ['/storage', 'http', 'https'])) {
+                                    $imageUrl = Storage::url($imageUrl);
+                                }
+                            @endphp
+                            <img src="{{ asset($imageUrl) }}" alt="Paket {{ $p->name }}"
                                 class="w-full h-48 object-contain rounded-xl mb-2 bg-gray-800/50">
                         @else
                             <!-- Fallback for legacy/hardcoded demo items if no image uploaded -->
