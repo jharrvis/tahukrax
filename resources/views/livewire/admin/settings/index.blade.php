@@ -1,7 +1,9 @@
 <div>
-    <div class="mb-6">
-        <h1 class="text-2xl font-bold tracking-tight">Pengaturan Website</h1>
-        <p class="text-slate-500 text-sm">Kelola informasi website, invoice, dan kontak.</p>
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+        <div>
+            <h1 class="text-2xl font-bold tracking-tight">Pengaturan Website</h1>
+            <p class="text-slate-500 text-sm mt-1">Kelola informasi website, invoice, dan kontak.</p>
+        </div>
     </div>
 
     @if (session()->has('message'))
@@ -41,13 +43,13 @@
                     <div>
                         <label class="block text-sm font-bold text-slate-700 mb-2">Nama Website</label>
                         <input type="text" wire:model="site_name"
-                            class="w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-brand-500 focus:border-brand-500">
+                            class="w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-brand-500 focus:border-brand-500 active:ring-brand-500">
                         @error('site_name') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
                     </div>
                     <div>
                         <label class="block text-sm font-bold text-slate-700 mb-2">Deskripsi Website</label>
                         <textarea wire:model="site_description" rows="3"
-                            class="w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-brand-500 focus:border-brand-500"></textarea>
+                            class="w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-brand-500 focus:border-brand-500 active:ring-brand-500"></textarea>
                     </div>
                     <div>
                         <label class="block text-sm font-bold text-slate-700 mb-2">Logo Website</label>
@@ -63,9 +65,9 @@
                                 class="text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-brand-50 file:text-brand-700 hover:file:bg-brand-100">
                         </div>
                     </div>
-                    <div class="pt-4 border-t border-slate-100">
+                    <div class="pt-4 border-t border-slate-100 dark:border-slate-800">
                         <button type="submit"
-                            class="px-6 py-2 bg-brand-500 text-white font-bold rounded-xl hover:bg-brand-600 transition-colors shadow-lg shadow-brand-500/30">
+                            class="px-6 py-2 bg-brand-500 text-white font-bold rounded-xl hover:bg-brand-600 transition-colors shadow-lg shadow-brand-500/30 flex items-center gap-2">
                             <span wire:loading.remove target="update('general')">Simpan Perubahan</span>
                             <span wire:loading target="update('general')"><i class="fas fa-spinner fa-spin"></i>
                                 Menyimpan...</span>
@@ -96,12 +98,12 @@
                         <div>
                             <label class="block text-sm font-bold text-slate-700 mb-2">Email Kontak</label>
                             <input type="email" wire:model="company_email"
-                                class="w-full px-4 py-2 border border-slate-200 rounded-xl">
+                                class="w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-brand-500">
                         </div>
                         <div>
                             <label class="block text-sm font-bold text-slate-700 mb-2">No. Telepon / WA</label>
                             <input type="text" wire:model="company_phone"
-                                class="w-full px-4 py-2 border border-slate-200 rounded-xl">
+                                class="w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-brand-500">
                         </div>
                     </div>
                     <div>
@@ -119,7 +121,7 @@
                         </div>
                         <p class="text-xs text-slate-400 mt-1">Akan muncul di bagian bawah invoice.</p>
                     </div>
-                    <div class="pt-4 border-t border-slate-100">
+                    <div class="pt-4 border-t border-slate-100 dark:border-slate-800">
                         <button type="submit"
                             class="px-6 py-2 bg-brand-500 text-white font-bold rounded-xl hover:bg-brand-600 transition-colors shadow-lg shadow-brand-500/30">
                             <span wire:loading.remove target="update('company')">Simpan Perubahan</span>
@@ -145,7 +147,7 @@
                         <input type="text" wire:model="origin_city"
                             class="w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-brand-500 focus:border-brand-500">
                     </div>
-                    <div class="pt-4 border-t border-slate-100">
+                    <div class="pt-4 border-t border-slate-100 dark:border-slate-800">
                         <button type="submit"
                             class="px-6 py-2 bg-brand-500 text-white font-bold rounded-xl hover:bg-brand-600 transition-colors shadow-lg shadow-brand-500/30">
                             <span wire:loading.remove target="update('finance')">Simpan Perubahan</span>
@@ -177,7 +179,7 @@
                             class="w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-brand-500 focus:border-brand-500"
                             placeholder="https://tiktok.com/@...">
                     </div>
-                    <div class="pt-4 border-t border-slate-100">
+                    <div class="pt-4 border-t border-slate-100 dark:border-slate-800">
                         <button type="submit"
                             class="px-6 py-2 bg-brand-500 text-white font-bold rounded-xl hover:bg-brand-600 transition-colors shadow-lg shadow-brand-500/30">
                             <span wire:loading.remove target="update('social')">Simpan Perubahan</span>
