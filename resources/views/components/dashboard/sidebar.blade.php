@@ -3,7 +3,7 @@
     :class="[
         isSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0',
         isSidebarOpen ? 'w-64' : 'md:w-20 w-64'
-    ]" @click.away="if(window.innerWidth < 768) isSidebarOpen = false">
+    ]">
     <!-- Logo Area -->
     <div class="flex items-center justify-between h-16 px-4 border-b border-slate-200 dark:border-slate-800">
         <div class="flex items-center gap-3 overflow-hidden">

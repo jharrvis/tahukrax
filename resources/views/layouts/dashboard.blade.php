@@ -91,10 +91,10 @@
         <x-dashboard.sidebar />
 
         <!-- Overlay Backdrop (Mobile) -->
-        <div x-show="isSidebarOpen && window.innerWidth < 768"
-            x-transition:enter="transition-opacity ease-linear duration-300" x-transition:enter-start="opacity-0"
-            x-transition:enter-end="opacity-100" x-transition:leave="transition-opacity ease-linear duration-300"
-            x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" @click="isSidebarOpen = false"
+        <div x-show="isSidebarOpen" x-transition:enter="transition-opacity ease-linear duration-300"
+            x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+            x-transition:leave="transition-opacity ease-linear duration-300" x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0" @click="isSidebarOpen = false"
             class="fixed inset-0 z-40 bg-slate-900/50 backdrop-blur-sm md:hidden" x-cloak>
         </div>
 
