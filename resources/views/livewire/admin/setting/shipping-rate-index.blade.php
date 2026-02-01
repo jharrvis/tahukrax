@@ -21,7 +21,8 @@
         class="mb-8 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm p-6">
         <h3 class="font-bold text-lg mb-4">Import Data Ongkir (CSV)</h3>
         <p class="text-sm text-slate-500 mb-4">Pastikan format CSV sesuai dengan standar Indah Cargo (Delimiter:
-            <code>;</code>).</p>
+            <code>;</code>).
+        </p>
 
         <form wire:submit="import" class="flex flex-col md:flex-row items-start md:items-end gap-4">
             <div class="w-full md:w-auto flex-1">
@@ -118,6 +119,11 @@
 
         <!-- Pagination -->
         <div class="p-4 border-t border-slate-100 dark:border-slate-800">
+            <!-- Debug Info -->
+            <div class="mb-2 text-xs text-slate-500">
+                Total: {{ $rates->total() }} | Per Page: {{ $rates->perPage() }} | Current Page:
+                {{ $rates->currentPage() }} | Has Pages: {{ $rates->hasPages() ? 'Yes' : 'No' }}
+            </div>
             {{ $rates->links() }}
         </div>
     </div>
