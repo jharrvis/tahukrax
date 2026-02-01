@@ -182,8 +182,7 @@
                         </button>
 
                         @if($tracking_number)
-                            <button type="button"
-                                @click="$dispatch('open-tracking-modal', { url: 'https://www.indahonline.com/services/view?NO_RESI={{ $tracking_number }}' })"
+                            <button type="button" wire:click="checkResi"
                                 class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-xl transition-colors"
                                 title="Lacak Resi">
                                 <i class="fas fa-search-location"></i>
@@ -278,27 +277,99 @@
     </div>
 
     <!-- Tracking Modal -->
-    <div x-data="{ open: false, url: '' }" @open-tracking-modal.window="open = true; url = $event.detail.url"
+    <div x-data="{ open: false, url: '' }" @open-tracking-modal.window="open = true; url = $event.detail.url || ''"
         x-show="open" x-transition.opacity
         class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm" x-cloak>
 
         <div @click.away="open = false"
-            class="bg-white dark:bg-slate-900 w-full max-w-4xl h-[80vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden">
+            class="bg-white dark:bg-slate-900 w-full max-w-2xl rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-bounce-in">
 
             <div
-                class="flex justify-between items-center p-4 border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50">
-                <h3 class="font-bold text-lg"><i class="fas fa-search-location mr-2 text-brand-500"></i> Lacak
-                    Pengiriman</h3>
-                <button @click="open = false" class="text-slate-400 hover:text-slate-600 transition-colors">
+                class="flex justify-between items-center p-4 border-b border-slate-100 dark:border-slate-800 bg-brand-500 text-white">
+                <h3 class="font-bold text-lg"><i class="fas fa-shipping-fast mr-2"></i> Lacak Pengiriman</h3>
+                <button @click="open = false" class="text-white/80 hover:text-white transition-colors">
                     <i class="fas fa-times text-xl"></i>
                 </button>
             </div>
 
-            <div class="flex-1 bg-white relative">
-                <div class="absolute inset-0 flex items-center justify-center text-slate-400">
-                    <i class="fas fa-circle-notch fa-spin text-4xl"></i>
-                </div>
-                <iframe :src="url" class="absolute inset-0 w-full h-full z-10" border="0"></iframe>
+            <div class="p-6 bg-slate-50 dark:bg-slate-800/50">
+                @if($isLoadingTracking)
+                    <div class="flex flex-col items-center justify-center py-12">
+                        <i class="fas fa-circle-notch fa-spin text-4xl text-brand-500 mb-4"></i>
+                        <p class="text-slate-500 font-medium">Sedang mengambil data dari Indah Cargo...</p>
+                    </div>
+                @elseif($trackingData)
+                    <div class="space-y-6">
+                        <div
+                            class="flex justify-between items-center bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                            <div>
+                                <p class="text-xs text-slate-400 uppercase font-bold">Nomor Resi</p>
+                                <p class="text-xl font-mono font-bold text-brand-600">{{ $trackingData['no_resi'] ?? '-' }}
+                                </p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-xs text-slate-400 uppercase font-bold">Layanan</p>
+                                <p class="font-bold text-slate-700 dark:text-slate-200">
+                                    {{ $trackingData['layanan'] ?? '-' }}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div
+                                class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
+                                <p class="text-xs text-slate-400 uppercase font-bold mb-2"><i
+                                        class="fas fa-truck-loading text-brand-500 mr-1"></i> Asal</p>
+                                <p class="font-bold text-slate-800 dark:text-slate-100">{{ $trackingData['asal'] ?? '-' }}
+                                </p>
+                                <p class="text-xs text-slate-500 mt-1">{{ $trackingData['pengirim'] ?? '-' }}</p>
+                            </div>
+                            <div
+                                class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
+                                <p class="text-xs text-slate-400 uppercase font-bold mb-2"><i
+                                        class="fas fa-map-marker-alt text-red-500 mr-1"></i> Tujuan</p>
+                                <p class="font-bold text-slate-800 dark:text-slate-100">{{ $trackingData['tujuan'] ?? '-' }}
+                                </p>
+                                <p class="text-xs text-slate-500 mt-1">{{ $trackingData['penerima'] ?? '-' }}</p>
+                            </div>
+                        </div>
+
+                        <div
+                            class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-xl border border-blue-100 dark:border-blue-800 flex items-start gap-3">
+                            <i class="fas fa-info-circle text-blue-500 mt-0.5"></i>
+                            <div>
+                                <p class="text-sm font-bold text-blue-800 dark:text-blue-200">Status Terakhir</p>
+                                <p class="text-xs text-blue-600 dark:text-blue-300">Resi terdaftar pada
+                                    {{ $trackingData['tanggal'] ?? '-' }}. Untuk riwayat perjalanan lengkap, silakan cek
+                                    website resmi.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <a href="https://www.indahonline.com/services/view?NO_RESI={{ $trackingData['no_resi'] ?? '' }}"
+                                target="_blank"
+                                class="inline-flex items-center gap-2 px-6 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-lg transition-colors text-sm">
+                                <i class="fas fa-external-link-alt"></i> Lihat Detail di Website Indah Cargo
+                            </a>
+                        </div>
+                    </div>
+                @else
+                    <div class="text-center py-8">
+                        <div
+                            class="bg-orange-100 text-orange-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-search text-2xl"></i>
+                        </div>
+                        <h4 class="font-bold text-slate-800 dark:text-slate-200 mb-2">Lacak Eksternal</h4>
+                        <p class="text-slate-500 text-sm mb-6 max-w-xs mx-auto">Kami tidak dapat menampilkan data ringkas
+                            saat ini. Silakan buka website ekspedisi langsung.</p>
+
+                        <a :href="url" target="_blank"
+                            class="inline-flex items-center gap-2 px-6 py-3 bg-brand-500 hover:bg-brand-600 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-brand-500/30">
+                            Buka Indah Online <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
