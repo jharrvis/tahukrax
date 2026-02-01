@@ -63,7 +63,8 @@
                 <div class="mt-6 pt-6 border-t border-slate-100 dark:border-slate-700 space-y-2">
                     <div class="flex justify-between text-sm text-slate-500">
                         <span>Subtotal Item</span>
-                        <span>Rp {{ number_format($order->orderItems->sum(fn($item) => $item->price * $item->quantity), 0, ',', '.') }}</span>
+                        <span>Rp
+                            {{ number_format($order->orderItems->sum(fn($item) => $item->price * $item->quantity), 0, ',', '.') }}</span>
                     </div>
                     <div class="flex justify-between text-sm text-slate-500">
                         @php
@@ -127,7 +128,32 @@
                 <div class="space-y-3">
                     <div>
                         <p class="text-xs text-slate-400 uppercase tracking-wider font-bold mb-1">Metode</p>
-                        <p class="font-medium">Xendit Payment</p>
+                        <div class="flex items-center gap-2">
+                            @if($order->payment_channel)
+                                @php
+                                    $channel = strtoupper($order->payment_channel);
+                                @endphp
+                                @if(in_array($channel, ['GOPAY', 'ID_GOPAY']))
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Gopay_logo.svg" h-4
+                                        class="h-6" alt="GoPay">
+                                @elseif(in_array($channel, ['OVO', 'ID_OVO']))
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/Logo_ovo_purple.svg"
+                                        class="h-6" alt="OVO">
+                                @elseif(in_array($channel, ['DANA', 'ID_DANA']))
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_dana_blue.svg"
+                                        class="h-6" alt="DANA">
+                                @elseif(in_array($channel, ['SHOPEEPAY', 'ID_SHOPEEPAY']))
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/f/fe/Shopee.svg" class="h-6"
+                                        alt="ShopeePay">
+                                @elseif(in_array($channel, ['BCA', 'MANDIRI', 'BNI', 'BRI', 'PERMATA', 'CIMB']))
+                                    <span class="font-bold text-slate-800 dark:text-white">{{ $channel }}</span>
+                                @else
+                                    <span class="font-medium text-slate-800 dark:text-white">{{ $channel }}</span>
+                                @endif
+                            @else
+                                <p class="font-medium">Xendit Payment</p>
+                            @endif
+                        </div>
                     </div>
                     <div>
                         <p class="text-xs text-slate-400 uppercase tracking-wider font-bold mb-1">Status</p>

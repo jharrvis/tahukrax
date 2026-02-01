@@ -80,6 +80,49 @@
                 <h3 class="font-bold text-lg mb-4">Rincian Pembayaran</h3>
                 <div class="space-y-2 text-sm">
                     <div class="flex justify-between text-slate-600">
+                        <span>Status Pembayaran</span>
+                        <span
+                            class="font-bold uppercase {{ $order->status == 'paid' ? 'text-green-600' : 'text-slate-500' }}">
+                            {{ $order->status }}
+                        </span>
+                    </div>
+                    @if($order->payment_channel)
+                        <div class="flex justify-between items-center text-slate-600">
+                            <span>Metode Pembayaran</span>
+                            <div class="flex items-center gap-2">
+                                @php
+                                    $channel = strtoupper($order->payment_channel);
+                                    $logo = null;
+                                    // Simple mapping for common logos (using text or icons if specific images missing)
+                                    // In a real app, you'd point to actual assets like /img/banks/bca.png
+                                @endphp
+
+                                @if(in_array($channel, ['GOPAY', 'ID_GOPAY']))
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Gopay_logo.svg" h-4
+                                        class="h-4" alt="GoPay">
+                                @elseif(in_array($channel, ['OVO', 'ID_OVO']))
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/Logo_ovo_purple.svg"
+                                        class="h-4" alt="OVO">
+                                @elseif(in_array($channel, ['DANA', 'ID_DANA']))
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_dana_blue.svg"
+                                        class="h-4" alt="DANA">
+                                @elseif(in_array($channel, ['SHOPEEPAY', 'ID_SHOPEEPAY']))
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/f/fe/Shopee.svg" class="h-4"
+                                        alt="ShopeePay">
+                                @elseif(in_array($channel, ['BCA', 'MANDIRI', 'BNI', 'BRI', 'PERMATA', 'CIMB']))
+                                    <span class="font-bold text-slate-800">{{ $channel }}</span>
+                                @elseif($channel == 'QRIS')
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Logo_QRIS.svg" class="h-4"
+                                        alt="QRIS">
+                                @else
+                                    <span class="font-medium">{{ $channel }}</span>
+                                @endif
+                            </div>
+                        </div>
+                    @endif
+                    <div class="my-2 border-b border-slate-100"></div>
+
+                    <div class="flex justify-between text-slate-600">
                         <span>Total Items</span>
                         <span>Rp
                             {{ number_format($order->orderItems->sum(fn($i) => $i->price * $i->quantity), 0, ',', '.') }}</span>

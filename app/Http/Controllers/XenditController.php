@@ -44,8 +44,11 @@ class XenditController extends Controller
         }
 
         if ($status === 'PAID' || $status === 'SETTLED') {
+            $paymentChannel = $payload['payment_channel'] ?? $payload['payment_method'] ?? null;
+
             $order->update([
                 'status' => 'paid',
+                'payment_channel' => $paymentChannel,
             ]);
 
             // Activate Partnership if exists

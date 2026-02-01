@@ -13,6 +13,7 @@ class Order extends Model
         'total_amount',
         'shipping_cost',
         'status',
+        'payment_channel',
         'tracking_number',
         'note',
         'xendit_invoice_id',
