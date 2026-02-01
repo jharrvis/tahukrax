@@ -69,7 +69,7 @@
             widgetId: 'widget-3-ZYcwZDAW'
         };
     </script>
-    <script src="https://cekat.biz.id/widget/widget.min.js" async></script>
+    <script src="https://cekat.biz.id/widget/widget.js?v=20260201"></script>
 
 </body>
 
