@@ -76,10 +76,11 @@
                     <span class="ml-3 font-medium smooth-transition"
                         :class="isSidebarOpen ? 'opacity-100' : 'opacity-0 w-0 invisible'">Ongkir</span>
                 </a>
-                <a href="#" class="flex items-center px-3 py-2.5 rounded-xl sidebar-item-inactive group">
+                <a href="{{ route('admin.settings.index') }}"
+                    class="flex items-center px-3 py-2.5 rounded-xl group {{ request()->routeIs('admin.settings.index') ? 'sidebar-item-active' : 'sidebar-item-inactive' }}">
                     <i class="fas fa-cog w-6 text-center"></i>
                     <span class="ml-3 font-medium smooth-transition"
-                        :class="isSidebarOpen ? 'opacity-100' : 'opacity-0 w-0 invisible'">Pengaturan</span>
+                        :class="isSidebarOpen ? 'opacity-100' : 'opacity-0 w-0 invisible'">Website</span>
                 </a>
             </div>
         @else

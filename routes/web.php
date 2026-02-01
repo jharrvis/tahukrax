@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/order/{order}/invoice', [App\Http\Controllers\InvoiceController::class, 'download'])->name('invoice.download');
+    Route::get('/admin/settings', \App\Livewire\Admin\Settings\Index::class)->name('admin.settings.index');
 });
 
 

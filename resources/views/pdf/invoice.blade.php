@@ -137,12 +137,17 @@
 <body>
 
     <div class="header">
-        <div class="logo">RC GO</div>
+        <div class="logo">
+            @if(get_setting('site_logo'))
+                <img src="{{ public_path('storage/' . get_setting('site_logo')) }}" style="max-height: 50px;">
+            @else
+                {{ get_setting('company_name', 'RC GO Indonesia') }}
+            @endif
+        </div>
         <div class="company-info">
-            <strong>RC GO Indonesia</strong><br>
-            Jl. Raya RC No. 123<br>
-            Jakarta, Indonesia 12345<br>
-            support@rcgo.id
+            <strong>{{ get_setting('company_name', 'PT. RC GO Indonesia') }}</strong><br>
+            {!! nl2br(e(get_setting('company_address'))) !!}<br>
+            {{ get_setting('company_email') }} | {{ get_setting('company_phone') }}
         </div>
         <div style="clear: both;"></div>
     </div>
@@ -218,7 +223,8 @@
             <tr>
                 <td>Subtotal</td>
                 <td class="text-right">Rp
-                    {{ number_format($order->orderItems->sum(fn($i) => $i->price * $i->quantity), 0, ',', '.') }}</td>
+                    {{ number_format($order->orderItems->sum(fn($i) => $i->price * $i->quantity), 0, ',', '.') }}
+                </td>
             </tr>
             <tr>
                 <td>Shipping Cost</td>
@@ -246,7 +252,7 @@
     </div>
 
     <div class="footer">
-        Thank you for your business!<br>
+        {{ get_setting('invoice_footer_note', 'Thank you for your business!') }}<br>
         Generate on {{ now()->format('d M Y H:i') }}
     </div>
 
