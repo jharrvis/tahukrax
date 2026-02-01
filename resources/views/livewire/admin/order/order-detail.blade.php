@@ -247,13 +247,15 @@
                         </div>
                     </div>
 
-                    <button onclick="navigator.clipboard.writeText(`{{ $fullAddress }}`)"
+                    <button
+                        onclick="navigator.clipboard.writeText(`{{ $fullAddress }}`); Livewire.dispatch('notify', { message: 'Alamat berhasil disalin!', type: 'success' })"
                         class="absolute top-0 right-0 p-2 text-slate-400 hover:text-brand-500 transition-colors"
                         title="Copy Alamat Lengkap">
                         <i class="fas fa-copy"></i>
                     </button>
                     <div class="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800">
-                        <button onclick="navigator.clipboard.writeText(`{{ $fullAddress }}`)"
+                        <button
+                            onclick="navigator.clipboard.writeText(`{{ $fullAddress }}`); Livewire.dispatch('notify', { message: 'Alamat berhasil disalin!', type: 'success' })"
                             class="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-bold rounded-lg transition-colors flex items-center justify-center gap-2">
                             <i class="fas fa-copy"></i> Copy Detail Pengiriman
                         </button>

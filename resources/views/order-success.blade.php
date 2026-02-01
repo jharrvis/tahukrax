@@ -1,116 +1,98 @@
-<!DOCTYPE html>
-<html lang="id" class="h-full bg-stone-50 dark:bg-[#0f0c0a]">
+<x-layouts.dashboard>
+    <x-slot:title>
+        Pesanan Berhasil
+    </x-slot:title>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pesanan Berhasil | RCGO</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Russo+One&family=Space+Grotesk:wght@400;700&display=swap');
-
-        body {
-            font-family: 'Space Grotesk', sans-serif;
-        }
-
-        .font-stencil {
-            font-family: 'Black Ops One', system-ui;
-        }
-
-        .font-rugged {
-            font-family: 'Russo One', sans-serif;
-        }
-    </style>
-</head>
-
-<body class="h-full text-stone-900 dark:text-stone-200 antialiased flex flex-col justify-center items-center p-6">
-
-    <div class="max-w-2xl w-full bg-gray-900 rounded-3xl border border-gray-800 shadow-2xl overflow-hidden"
-        data-aos="fade-up">
-        <div class="bg-orange-500 p-8 text-center checker-bg">
-            <div
-                class="inline-flex items-center justify-center w-20 h-20 bg-black rounded-full mb-4 border-2 border-black/20">
-                <i class="fas fa-check text-4xl text-orange-500"></i>
+    <div class="max-w-3xl mx-auto pt-10">
+        <!-- Success Animation/Icon -->
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-24 h-24 bg-green-100 rounded-full mb-6 animate-bounce">
+                <i class="fas fa-check text-5xl text-green-600"></i>
             </div>
-            <h1 class="font-black text-3xl text-black uppercase">PESANAN DITERIMA!</h1>
-            <p class="text-black font-black uppercase tracking-widest text-xs mt-2 opacity-80">Nomor Order:
-                #{{ str_pad($order->id, 5, '0', STR_PAD_LEFT) }}</p>
+            <h1 class="text-3xl font-bold text-slate-900 dark:text-white mb-2">Pesanan Berhasil Dibuat!</h1>
+            <p class="text-slate-500 dark:text-slate-400">Terima kasih telah bergabung menjadi Mitra RCGO.</p>
         </div>
 
-        <div class="p-8">
-            <div class="mb-8">
-                <h2 class="font-rugged text-xl mb-4 border-b-2 border-stone-100 dark:border-stone-800 pb-2">Detail
-                    Amunisi</h2>
-                @foreach($order->orderItems as $item)
-                    @if($item->item_type == 'package' && $item->package)
-                        <div class="flex justify-between items-center mb-2">
-                            <span class="text-stone-500 italic">Paket: {{ $item->package->name }}
-                                (x{{ $item->quantity }})</span>
-                            <span class="font-bold text-lg">Rp
-                                {{ number_format($item->price * $item->quantity, 0, ',', '.') }}</span>
-                        </div>
-                    @elseif(($item->item_type == 'addon' || $item->addon_id) && $item->addon)
-                        <div class="flex justify-between items-center text-sm mb-1 ml-4">
-                            <span class="text-stone-400 italic">+ {{ $item->addon->name }} (x{{ $item->quantity }})</span>
-                            <span class="font-bold text-stone-500">Rp
-                                {{ number_format($item->price * $item->quantity, 0, ',', '.') }}</span>
-                        </div>
-                    @endif
-                @endforeach
-
-                <div class="flex justify-between items-center text-sm mt-4 text-stone-400">
-                    <span class="italic">Ongkos Kirim Estimasi</span>
-                    <span class="font-bold">Rp {{ number_format($order->shipping_cost, 0, ',', '.') }}</span>
+        <!-- Order Detail Card -->
+        <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl overflow-hidden mb-8">
+            <div class="bg-slate-50 dark:bg-slate-800/50 px-8 py-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+                <div>
+                    <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Nomor Order</h2>
+                    <p class="text-xl font-mono font-bold text-slate-800 dark:text-white">#{{ str_pad($order->id, 5, '0', STR_PAD_LEFT) }}</p>
                 </div>
-
-                <div
-                    class="flex justify-between items-center mt-6 pt-4 border-t-2 border-dashed border-stone-200 dark:border-stone-800">
-                    <span class="font-rugged text-xl uppercase">Total Tagihan</span>
-                    <span class="font-rugged text-3xl text-[#ff6b00]">Rp
-                        {{ number_format($order->total_amount, 0, ',', '.') }}</span>
+                <div class="text-right">
+                    <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Total Tagihan</h2>
+                    <p class="text-xl font-bold text-brand-600">Rp {{ number_format($order->total_amount, 0, ',', '.') }}</p>
                 </div>
             </div>
 
-            <div class="bg-stone-50 dark:bg-black/40 p-6 rounded-xl border border-stone-200 dark:border-stone-800">
-                <h3 class="font-bold text-sm uppercase mb-3 flex items-center gap-2 text-[#ff6b00]">
-                    <i class="fas fa-wallet"></i> Instruksi Pembayaran
-                </h3>
-                <p class="text-sm text-stone-500 leading-relaxed mb-4 italic">
-                    Pesanan Anda saat ini berstatus <span class="text-warning font-bold">PENDING</span>. Silakan
-                    selesaikan pembayaran melalui Virtual Account Xendit yang akan dikirimkan ke WhatsApp Anda.
-                </p>
+            <div class="p-8 space-y-6">
+                <!-- Status & Payment Instruction -->
+                <div class="bg-yellow-50 dark:bg-yellow-900/10 border border-yellow-100 dark:border-yellow-900/20 rounded-2xl p-6 flex flex-col md:flex-row gap-6 items-start md:items-center">
+                    <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center shrink-0 text-yellow-600">
+                        <i class="fas fa-wallet text-xl"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-slate-800 dark:text-yellow-100 mb-1">Menunggu Pembayaran</h3>
+                        <p class="text-sm text-slate-600 dark:text-yellow-200/80 leading-relaxed">
+                            Silakan selesaikan pembayaran. Invoice dan instruksi pembayaran telah kami kirimkan ke WhatsApp dan Email Anda.
+                        </p>
+                    </div>
+                     @if($order->xendit_invoice_id)
+                         <a href="https://checkout.xendit.co/web/{{ $order->xendit_invoice_id }}" target="_blank"
+                            class="px-6 py-2.5 bg-yellow-500 hover:bg-yellow-600 text-white font-bold rounded-xl shadow-lg shadow-yellow-500/20 transition-all text-sm whitespace-nowrap">
+                             Bayar Sekarang <i class="fas fa-arrow-right ml-2"></i>
+                         </a>
+                     @endif
+                </div>
 
-                <div class="flex flex-col gap-4">
-                    <a href="/admin"
-                        class="w-full py-4 btn-cta-primary text-black font-black text-center rounded-full hover:scale-105 transition uppercase tracking-widest shadow-lg">
-                        CEK DASHBOARD MITRA
-                    </a>
-                    <a href="/"
-                        class="w-full py-3 text-gray-500 font-bold text-center rounded hover:text-white transition uppercase tracking-widest text-sm">
-                        KEMBALI KE BERANDA
-                    </a>
+                <!-- Item Summary -->
+                <div class="space-y-4">
+                    <h3 class="font-bold text-slate-800 dark:text-white border-b border-slate-100 pb-2">Rincian Pesanan</h3>
+                    @foreach($order->orderItems as $item)
+                        <div class="flex justify-between items-center py-2 last:pb-0">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center text-slate-400">
+                                    <i class="fas {{ $item->item_type == 'package' ? 'fa-box' : 'fa-puzzle-piece' }}"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-slate-700 dark:text-slate-300">
+                                        {{ $item->item_type == 'package' ? $item->package->name : $item->addon->name }}
+                                        <span class="text-slate-400 text-sm">x{{ $item->quantity }}</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <span class="font-bold text-slate-600 dark:text-slate-400 text-sm">
+                                Rp {{ number_format($item->price * $item->quantity, 0, ',', '.') }}
+                            </span>
+                        </div>
+                    @endforeach
+                    <div class="flex justify-between items-center pt-2 text-sm text-slate-500">
+                        <span>Ongkos Kirim</span>
+                        <span>Rp {{ number_format($order->shipping_cost, 0, ',', '.') }}</span>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <div class="bg-stone-100 dark:bg-black/60 px-8 py-4 text-center">
-            <p class="text-[10px] text-stone-500 font-black uppercase tracking-[0.2em]">
-                BUTUH BANTUAN? HUBUNGI COMMAND CENTER (WA): 0812-XXXX-XXXX
-            </p>
+            
+            <!-- Actions Footer -->
+            <div class="bg-slate-50 dark:bg-slate-800/50 p-6 flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="{{ route('mitra.orders.show', $order->id) }}" class="px-6 py-3 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 font-bold rounded-xl hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors text-center">
+                   <i class="fas fa-eye mr-2"></i> Lihat Detail Pesanan
+                </a>
+                <a href="{{ route('mitra.dashboard') }}" class="px-6 py-3 bg-brand-500 hover:bg-brand-600 text-white font-bold rounded-xl shadow-lg shadow-brand-500/20 transition-all text-center">
+                   <i class="fas fa-home mr-2"></i> Ke Dashboard Utama
+                </a>
+            </div>
         </div>
     </div>
 
+    @push('scripts')
     <script>
-        // Clear cart after successful order
         document.addEventListener('DOMContentLoaded', function () {
+            // Clear shopping cart
             localStorage.removeItem('rcgo_cart_v4');
-            if (window.RCGOCart) {
-                // If using global object
-                window.RCGOCart.set([], {});
-            }
+            // Optional: Dispatch event if using Livewire or Alpine for cart elsewhere
         });
     </script>
-</body>
-
-</html>
+    @endpush
+</x-layouts.dashboard>

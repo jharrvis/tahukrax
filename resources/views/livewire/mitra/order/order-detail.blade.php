@@ -111,10 +111,49 @@
                         @endif
                     </div>
                     <div class="md:col-span-2">
-                        <p class="text-xs text-slate-400 uppercase tracking-wider font-bold mb-1">Alamat Tujuan</p>
-                        <p class="font-medium text-slate-700 dark:text-slate-300 leading-relaxed">
-                            {{ $order->note }}
-                        </p>
+                        <div class="md:col-span-2">
+                            <p class="text-xs text-slate-400 uppercase tracking-wider font-bold mb-3">Alamat Tujuan</p>
+                            @php
+                                $note = $order->note;
+                                $address = '';
+                                $cityProv = '';
+                                $phone = '';
+
+                                // Parse the note string
+                                if (preg_match('/Alamat: (.*)/', $note, $match)) {
+                                    $address = $match[1];
+                                }
+                                if (preg_match('/Pengiriman ke (.*?)\./', $note, $match)) {
+                                    $cityProv = $match[1];
+                                }
+                                if (preg_match('/CP: (.*?)\./', $note, $match)) {
+                                    $phone = $match[1];
+                                }
+
+                                // Fallback if parsing fails (for old format)
+                                if (empty($address))
+                                    $address = $note;
+                            @endphp
+
+                            <div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl space-y-3 text-sm">
+                                <div>
+                                    <p class="text-xs font-bold text-slate-400 uppercase mb-1">Alamat</p>
+                                    <p class="font-medium text-slate-800 dark:text-slate-200">{{ $address }}</p>
+                                    <p class="text-slate-500">{{ $cityProv }}</p>
+                                </div>
+                                <div class="flex gap-8">
+                                    <div>
+                                        <p class="text-xs font-bold text-slate-400 uppercase mb-1">Penerima</p>
+                                        <p class="font-medium text-slate-800 dark:text-slate-200">
+                                            {{ $order->user->name }}</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs font-bold text-slate-400 uppercase mb-1">No. HP</p>
+                                        <p class="font-mono font-medium text-brand-600">{{ $phone }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
