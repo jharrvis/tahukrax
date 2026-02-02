@@ -43,6 +43,12 @@
                     <span class="ml-3 font-medium smooth-transition"
                         :class="isSidebarOpen ? 'opacity-100' : 'opacity-0 w-0 invisible'">Mitra</span>
                 </a>
+                <a href="{{ route('admin.users.index') }}"
+                    class="flex items-center px-3 py-2.5 rounded-xl group {{ request()->routeIs('admin.users.*') ? 'sidebar-item-active' : 'sidebar-item-inactive' }}">
+                    <i class="fas fa-user-shield w-6 text-center"></i>
+                    <span class="ml-3 font-medium smooth-transition"
+                        :class="isSidebarOpen ? 'opacity-100' : 'opacity-0 w-0 invisible'">Pengguna</span>
+                </a>
             </div>
 
             <!-- Group Produk -->

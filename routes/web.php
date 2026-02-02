@@ -69,6 +69,11 @@ Route::middleware(['auth'])->group(function () {
 
         // Admin Profile Settings
         Route::get('/admin/profile', \App\Livewire\Admin\Settings\ProfileForm::class)->name('admin.profile');
+
+        // User / Role Management
+        Route::get('/admin/users', \App\Livewire\Admin\User\UserIndex::class)->name('admin.users.index');
+        Route::get('/admin/users/create', \App\Livewire\Admin\User\UserForm::class)->name('admin.users.create');
+        Route::get('/admin/users/{user}/edit', \App\Livewire\Admin\User\UserForm::class)->name('admin.users.edit');
     });
 
     // Mitra / General Auth Routes - Grouped for organization (Middleware already applies)
