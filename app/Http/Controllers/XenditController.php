@@ -56,6 +56,13 @@ class XenditController extends Controller
                 $order->partnership->update(['status' => 'active']);
             }
 
+            // Send Payment Confirmed Email
+            try {
+                \Illuminate\Support\Facades\Mail::to($order->user)->send(new \App\Mail\PaymentConfirmed($order));
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error('Failed to send payment confirmation email: ' . $e->getMessage());
+            }
+
             Log::info("Order #{$orderId} has been PAID.");
         } elseif ($status === 'EXPIRED') {
             $order->update([

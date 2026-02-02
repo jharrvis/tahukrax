@@ -260,6 +260,7 @@ class Checkout extends Component
         $provinceName = $province ? $province->name : '-';
 
         // 1. Handle User Creation/Auth
+        $isNewUser = false;
         if (Auth::check()) {
             $user = Auth::user();
         } else {
@@ -270,7 +271,23 @@ class Checkout extends Component
                 'role' => 'mitra',
             ]);
             Auth::login($user);
+            $isNewUser = true;
         }
+
+        // 2. Calculate Totals
+        $totals = $this->total;
+        $primaryPackage = $this->selectedPackages[0] ?? null;
+
+        // ... (intermediate code skipped in replacement, but I need to target the block correctly)
+        // Wait, replace_file_content replaces a CONTIGUOUS block.
+        // I need to replace from "1. Handle User Creation" down to the email sending part?
+        // That's too huge.
+        // I will do it in TWO chunks.
+        // Chunk 1: The user creation part to add $isNewUser
+        // Chunk 2: The email sending part.
+
+        // Actually, let's use multi_replace for this.
+
 
         // 2. Calculate Totals
         $totals = $this->total;
@@ -343,6 +360,17 @@ class Checkout extends Component
 
         if ($invoice && isset($invoice['invoice_url'])) {
             $order->update(['xendit_invoice_id' => $invoice['id']]);
+
+            // Send Emails
+            try {
+                if ($isNewUser) {
+                    \Illuminate\Support\Facades\Mail::to($user)->send(new \App\Mail\UserRegistered($user));
+                }
+                \Illuminate\Support\Facades\Mail::to($user)->send(new \App\Mail\OrderPlaced($order, $invoice['invoice_url']));
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error('Failed to send checkout emails: ' . $e->getMessage());
+            }
+
             return redirect($invoice['invoice_url']);
         }
 

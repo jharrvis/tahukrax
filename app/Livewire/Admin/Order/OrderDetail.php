@@ -32,6 +32,19 @@ class OrderDetail extends Component
             'tracking_number' => $this->tracking_number,
         ]);
 
+        // Send Email Notifications
+        try {
+            if ($this->status === 'shipped') {
+                \Illuminate\Support\Facades\Mail::to($this->order->user)->send(new \App\Mail\OrderShipped($this->order));
+            } elseif ($this->status === 'completed') {
+                \Illuminate\Support\Facades\Mail::to($this->order->user)->send(new \App\Mail\OrderDelivered($this->order));
+            }
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Failed to send status update email: ' . $e->getMessage());
+            $this->dispatch('notify', ['message' => 'Status update saved but email failed to send.', 'type' => 'warning']);
+            // Return early or continue? Continue to flash message.
+        }
+
         session()->flash('message', 'Status pesanan berhasil diperbarui.');
     }
 
