@@ -15,7 +15,7 @@
                     class="bg-gray-900 p-4 rounded-xl shadow-lg text-left border border-gray-800 hover:border-orange-500 transition-all duration-300 flex flex-col h-full group">
 
                     <div class="relative mb-3">
-                        <img src="{{ $addon->image_url ? \Illuminate\Support\Facades\Storage::url($addon->image_url) : asset('assets/img/rcgo.webp') }}"
+                        <img src="{{ $addon->image_url ? asset('storage/' . $addon->image_url) : asset('assets/img/rcgo.webp') }}"
                             onerror="this.src='{{ asset("assets/img/rcgo.webp") }}'" alt="{{ $addon->name }}"
                             class="w-full h-32 md:h-40 object-contain rounded-lg bg-gray-950/50 p-2">
                         <div class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">

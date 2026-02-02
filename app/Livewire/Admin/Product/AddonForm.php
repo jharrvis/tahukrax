@@ -68,21 +68,30 @@ class AddonForm extends Component
         if ($this->image) {
             $path = $this->image->store('products/addons', 'public');
             $this->image_url = $path;
+            \Log::info('AddonForm: Image uploaded', ['path' => $path, 'image_url' => $this->image_url]);
         }
 
         // Find or create addon
         $addon = $this->addonId ? Addon::find($this->addonId) : new Addon();
 
-        $addon->fill([
+        $data = [
             'name' => $this->name,
             'type' => $this->type,
             'price' => $this->price,
             'weight_kg' => $this->weight_kg,
             'description' => $this->description,
             'image_url' => $this->image_url,
-        ]);
+        ];
+
+        \Log::info('AddonForm: Before fill', ['data' => $data, 'addon_id' => $addon->id ?? 'new']);
+
+        $addon->fill($data);
+
+        \Log::info('AddonForm: After fill', ['addon' => $addon->toArray()]);
 
         $addon->save();
+
+        \Log::info('AddonForm: After save', ['addon' => $addon->toArray()]);
 
         session()->flash('message', 'Add-on berhasil disimpan.');
         return redirect()->route('admin.addons.index');
