@@ -50,7 +50,8 @@
                                     <div
                                         class="w-10 h-10 rounded-lg bg-slate-200 dark:bg-slate-700 overflow-hidden shrink-0">
                                         @if($addon->image_url)
-                                            <img src="{{ $addon->image_url }}" class="w-full h-full object-cover">
+                                            <img src="{{ asset('storage/' . $addon->image_url) }}"
+                                                class="w-full h-full object-cover">
                                         @else
                                             <div class="w-full h-full flex items-center justify-center text-slate-400">
                                                 <i class="fas fa-cube"></i>
