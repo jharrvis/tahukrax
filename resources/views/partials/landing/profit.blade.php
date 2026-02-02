@@ -16,7 +16,7 @@
             <!-- Dasar Perhitungan -->
             <div class="bg-gray-900/50 p-8 rounded-2xl border border-gray-800 text-left">
                 <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-3">
-                    <i class="fas fa-microchip text-orange-500"></i> Dasar Perhitungan (Transparan)
+                    <i class="fas fa-microchip text-orange-500"></i> Dasar Perhitungan (Rincian Biaya Operasional)
                 </h3>
                 <div class="space-y-6">
                     <div>
@@ -48,7 +48,7 @@
                 <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                     <i class="fas fa-hand-holding-usd text-8xl text-orange-500"></i>
                 </div>
-                <h3 class="text-xl font-bold text-white mb-6">Perhitungan Per 1x Permainan</h3>
+                <h3 class="text-xl font-bold text-white mb-6">POTENSI KEUNTUNGAN SAMPAI 900% PER 15 MENIT </h3>
                 <div class="space-y-4 relative z-10">
                     <div class="flex justify-between items-center py-3 border-b border-gray-800">
                         <span class="text-gray-400">Harga Sewa (15 Menit)</span>
@@ -63,12 +63,14 @@
                         <span class="text-white font-bold">Laba Bersih</span>
                         <div class="text-right">
                             <p class="text-green-500 font-bold text-2xl">Rp 9.000</p>
-                            <p class="text-xs text-green-400/70 italic">Mark Up Keuntungan ± 900%</p>
+                            <p class="text-xs text-green-400/70 italic">Keuntungan 900%</p>
                         </div>
                     </div>
-                    <p class="text-xs text-gray-500 italic text-center leading-tight">
-                        Artinya, setiap biaya Rp 1.000 yang dikeluarkan berpotensi menghasilkan Rp 9.000 keuntungan.
-                    </p>
+                    <div class="mt-6 p-4 bg-gradient-to-r from-orange-500/10 to-orange-500/20 border border-orange-500/30 rounded-xl text-center backdrop-blur-sm shadow-inner">
+                        <p class="text-lg md:text-xl text-gray-100 font-bold leading-snug">
+                            "Artinya, setiap biaya <span class="text-orange-400">Rp 1.000</span> yang dikeluarkan berpotensi menghasilkan <span class="text-green-400 text-2xl">Rp 9.000</span> keuntungan."
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
