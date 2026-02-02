@@ -67,7 +67,7 @@ class AddonForm extends Component
         // Handle Image Upload
         if ($this->image) {
             $path = $this->image->store('products/addons', 'public');
-            $this->image_url = '/storage/' . $path;
+            $this->image_url = $path;
         }
 
         // Find or create addon

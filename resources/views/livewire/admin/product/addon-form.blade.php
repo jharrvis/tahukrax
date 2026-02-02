@@ -69,7 +69,8 @@
                         @if ($image)
                             <img src="{{ $image->temporaryUrl() }}" class="w-full h-full object-cover">
                         @elseif ($image_url)
-                            <img src="{{ $image_url }}" class="w-full h-full object-cover">
+                            <img src="{{ \Illuminate\Support\Facades\Storage::url($image_url) }}"
+                                class="w-full h-full object-cover">
                         @else
                             <i class="fas fa-cube text-3xl text-slate-300"></i>
                         @endif
