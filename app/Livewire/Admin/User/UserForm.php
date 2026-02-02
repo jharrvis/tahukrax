@@ -18,9 +18,9 @@ class UserForm extends Component
     public $password;
     public $role = 'mitra'; // Default role
 
-    public function mount(User $user = null)
+    public function mount(?User $user = null)
     {
-        if ($user->exists) {
+        if ($user && $user->exists) {
             $this->user = $user;
             $this->name = $user->name;
             $this->email = $user->email;
