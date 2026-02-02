@@ -66,6 +66,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/admin/settings/shipping', \App\Livewire\Admin\Setting\ShippingRateIndex::class)->name('admin.settings.shipping.index');
         Route::get('/admin/settings/shipping/create', \App\Livewire\Admin\Setting\ShippingRateForm::class)->name('admin.settings.shipping.create');
         Route::get('/admin/settings/shipping/{rate}/edit', \App\Livewire\Admin\Setting\ShippingRateForm::class)->name('admin.settings.shipping.edit');
+
+        // Admin Profile Settings
+        Route::get('/admin/profile', \App\Livewire\Admin\Settings\ProfileForm::class)->name('admin.profile');
     });
 
     // Mitra / General Auth Routes - Grouped for organization (Middleware already applies)

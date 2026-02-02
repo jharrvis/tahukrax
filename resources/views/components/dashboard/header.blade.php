@@ -56,10 +56,9 @@
                         <i class="far fa-user w-5"></i> Pengaturan Akun
                     </a>
                 @else
-                    <!-- Admin doesn't have settings page yet, keep placeholder or link to profile if made -->
-                    <a href="#"
+                    <a href="{{ route('admin.profile') }}"
                         class="flex items-center px-4 py-2 text-sm hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300">
-                        <i class="far fa-user w-5"></i> Profil Admin
+                        <i class="far fa-user w-5"></i> Pengaturan Profil
                     </a>
                 @endif
 
