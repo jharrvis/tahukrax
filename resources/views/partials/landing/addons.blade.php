@@ -15,7 +15,7 @@
                     class="bg-gray-900 p-4 rounded-xl shadow-lg text-left border border-gray-800 hover:border-orange-500 transition-all duration-300 flex flex-col h-full group">
 
                     <div class="relative mb-3">
-                        <img src="{{ asset('assets/img/addon-' . \Illuminate\Support\Str::slug($addon->name) . '.webp') }}"
+                        <img src="{{ $addon->image_url ? \Illuminate\Support\Facades\Storage::url($addon->image_url) : asset('assets/img/rcgo.webp') }}"
                             onerror="this.src='{{ asset("assets/img/rcgo.webp") }}'" alt="{{ $addon->name }}"
                             class="w-full h-32 md:h-40 object-contain rounded-lg bg-gray-950/50 p-2">
                         <div class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -34,12 +34,7 @@
                     </p>
 
                     <div class="mt-auto">
-                        <div class="mb-3">
-                            <p class="text-gray-600 text-[10px] uppercase tracking-wider font-semibold">Harga</p>
-                            <div class="text-base md:text-lg font-bold text-orange-400">Rp
-                                {{ number_format($addon->price, 0, ',', '.') }}
-                            </div>
-                        </div>
+                        <!-- Price Removed as per request -->
 
                         <button onclick="addToCart('{{ $addon->id }}', '{{ $addon->name }}', {{ $addon->price }}, 'addon')"
                             class="w-full btn-primary py-2 rounded-lg text-white font-semibold text-xs md:text-sm hover:shadow-lg transition-all flex items-center justify-center gap-2 group-hover:scale-[1.02]">

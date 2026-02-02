@@ -33,7 +33,7 @@ class UserForm extends Component
         // Validation rules
         $rules = [
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . ($this->user->id ?? ''),
+            'email' => 'required|email|unique:users,email,' . ($this->user?->id),
             'role' => 'required|in:admin,mitra',
         ];
 
