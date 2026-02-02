@@ -33,6 +33,11 @@ class Index extends Component
     // Social
     public $social_facebook, $social_instagram, $social_tiktok;
 
+    // System & Email
+    public $mail_mailer = 'smtp';
+    public $mail_host, $mail_port, $mail_username, $mail_password, $mail_encryption, $mail_from_address;
+    public $test_email_recipient;
+
     public function mount()
     {
         // Load all settings
@@ -54,6 +59,65 @@ class Index extends Component
         $this->social_facebook = $settings['social_facebook'] ?? '';
         $this->social_instagram = $settings['social_instagram'] ?? '';
         $this->social_tiktok = $settings['social_tiktok'] ?? '';
+
+        // Load Mail Settings from Config/.env
+        $this->mail_mailer = config('mail.default', 'smtp');
+        $this->mail_host = config('mail.mailers.smtp.host');
+        $this->mail_port = config('mail.mailers.smtp.port');
+        $this->mail_username = config('mail.mailers.smtp.username');
+        $this->mail_password = config('mail.mailers.smtp.password'); // Be careful exposing this!
+        $this->mail_encryption = config('mail.mailers.smtp.encryption');
+        $this->mail_from_address = config('mail.from.address');
+    }
+
+    // Helper to update .env
+    protected function updateEnv($data = [])
+    {
+        $path = base_path('.env');
+
+        if (file_exists($path)) {
+            $env = file_get_contents($path);
+
+            foreach ($data as $key => $value) {
+                // Wrap value in quotes if it contains spaces
+                if (str_contains($value, ' ') && !str_starts_with($value, '"')) {
+                    $value = '"' . $value . '"';
+                }
+
+                // If key exists, replace it
+                if (preg_match("/^{$key}=.*/m", $env)) {
+                    $env = preg_replace("/^{$key}=.*/m", "{$key}={$value}", $env);
+                } else {
+                    // Append if not exists
+                    $env .= "\n{$key}={$value}";
+                }
+            }
+
+            file_put_contents($path, $env);
+        }
+    }
+
+    public function sendTestEmail()
+    {
+        $this->validate(['test_email_recipient' => 'required|email']);
+
+        try {
+            // Force set config for this request just in case .env update hasn't propagated or using in-memory
+            config([
+                'mail.mailers.smtp.host' => $this->mail_host,
+                'mail.mailers.smtp.port' => $this->mail_port,
+                'mail.mailers.smtp.username' => $this->mail_username,
+                'mail.mailers.smtp.password' => $this->mail_password,
+                'mail.mailers.smtp.encryption' => $this->mail_encryption,
+                'mail.from.address' => $this->mail_from_address,
+            ]);
+
+            \Illuminate\Support\Facades\Mail::to($this->test_email_recipient)->send(new \App\Mail\TestEmail());
+
+            $this->dispatch('notify', message: 'Test email berhasil dikirim!', type: 'success');
+        } catch (\Exception $e) {
+            $this->dispatch('notify', message: 'Gagal mengirim email: ' . $e->getMessage(), type: 'error');
+        }
     }
 
     public function update($group)
@@ -91,6 +155,23 @@ class Index extends Component
             $keys = ['bank_account_default', 'origin_city'];
         } elseif ($group === 'social') {
             $keys = ['social_facebook', 'social_instagram', 'social_tiktok'];
+        } elseif ($group === 'system') {
+            // Update .env directly
+            $this->updateEnv([
+                'MAIL_MAILER' => $this->mail_mailer,
+                'MAIL_HOST' => $this->mail_host,
+                'MAIL_PORT' => $this->mail_port,
+                'MAIL_USERNAME' => $this->mail_username,
+                'MAIL_PASSWORD' => $this->mail_password,
+                'MAIL_ENCRYPTION' => $this->mail_encryption,
+                'MAIL_FROM_ADDRESS' => $this->mail_from_address,
+            ]);
+
+            // Clear config cache
+            \Illuminate\Support\Facades\Artisan::call('config:clear');
+
+            $this->dispatch('notify', message: 'Konfigurasi Email berhasil disimpan! Mohon refresh halaman jika perlu.', type: 'success');
+            return; // No DB update needed for .env settings
         }
 
         foreach ($keys as $key) {
