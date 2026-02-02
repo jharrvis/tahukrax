@@ -47,7 +47,10 @@
                 @endforeach
             </div>
             <!-- Pagination -->
-            <div class="swiper-pagination"></div>
+            <div class="swiper-pagination translate-y-8"></div>
+            <!-- Navigation -->
+            <div class="swiper-button-prev !hidden md:!flex text-orange-500 hover:text-white transition-colors"></div>
+            <div class="swiper-button-next !hidden md:!flex text-orange-500 hover:text-white transition-colors"></div>
         </div>
     </div>
 </section>
@@ -61,6 +64,13 @@
     .swiper-pagination-bullet-active {
         background: #FFA500 !important;
         opacity: 1;
+    }
+    .swiper-button-prev::after, .swiper-button-next::after {
+        font-size: 24px;
+        font-weight: bold;
+    }
+    .swiper-testimonials {
+        padding-bottom: 60px !important; /* Make room for lower pagination */
     }
 </style>
 
@@ -79,6 +89,10 @@
             pagination: {
                 el: ".swiper-pagination",
                 clickable: true,
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
             },
             breakpoints: {
                 640: {
