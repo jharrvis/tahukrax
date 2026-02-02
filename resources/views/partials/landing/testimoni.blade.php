@@ -18,7 +18,9 @@
                         ['name' => 'Rina', 'role' => 'Usaha RC Rumahan', 'text' => 'Saya pemula banget, tapi sistemnya gampang. ADD-ON bisa nyusul belakangan, jadi nggak berat di awal.'],
                         ['name' => 'Budi', 'role' => 'Event & Booth RC', 'text' => 'Asisten AI-nya bantu banget buat bikin caption dan promo. Jadi walau nggak jago marketing, tetap bisa posting.'],
                         ['name' => 'Dewi', 'role' => 'Event Sekolah & Komunitas', 'text' => 'Main di event sekolah, ternyata cepat muter. Anak-anak nggak cuma sekali main, tapi balik lagi. RC Go cukup bantu buat usaha harian.'],
-                        ['name' => 'Yuni', 'role' => 'Usaha Keluarga', 'text' => 'Awalnya ragu karena belum pernah usaha mainan. Tapi ternyata sistemnya simpel dan gampang dijalanin.'],
+                        ['name' => 'Yuni', 'role' => 'Usaha Keluarga', 'text' => 'Awalnya ragu karena belum pernah usaha mainan. Tapi ternyata sistemnya simpel dan gampang dijalanin. Anak saya juga ikut bantu jaga booth.'],
+                        ['name' => 'Rizky', 'role' => 'Usaha RC Taman Kota', 'text' => 'Lokasi saya di taman sore hari. Dengan sistem sewa 15 menit, perputaran cepat. AI-nya juga bantu bikin teks promo buat WhatsApp.'],
+                        ['name' => 'Arif', 'role' => 'Usaha RC Keliling', 'text' => 'Saya pilih paket dasar dulu karena modal terbatas. Setelah jalan, baru tambah baterai dan banner. Enaknya bisa bertahap, nggak dipaksa.'],
                     ];
                 @endphp
 
@@ -61,3 +63,34 @@
         opacity: 1;
     }
 </style>
+
+<!-- Initialize Swiper -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Check if Swiper is already loaded, if not wait or assuming it is loaded in layout
+        var swiper = new Swiper(".swiper-testimonials", {
+            slidesPerView: 1,
+            spaceBetween: 24,
+            loop: true,
+            autoplay: {
+                delay: 2500,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            breakpoints: {
+                640: {
+                    slidesPerView: 1,
+                },
+                768: {
+                    slidesPerView: 2,
+                },
+                1024: {
+                    slidesPerView: 3,
+                },
+            },
+        });
+    });
+</script>
