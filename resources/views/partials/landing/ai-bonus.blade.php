@@ -7,9 +7,9 @@
         class="absolute bottom-0 left-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 pointer-events-none">
     </div>
 
-    <div class="max-w-7xl mx-auto px-4 relative z-10">
+    <div class="max-w-7xl mx-auto px-4 relative z-10 space-y-24">
         <!-- Header Section -->
-        <div class="text-center mb-16">
+        <div class="text-center">
             <div
                 class="inline-flex items-center justify-center p-3 bg-gray-800 rounded-2xl mb-6 shadow-lg border border-gray-700 animate-bounce-slow">
                 <i
@@ -36,7 +36,7 @@
         </div>
 
         <!-- AI Roles Grid -->
-        <div class="mt-32 mb-16">
+        <div style="margin-top: 50px;">
             <h3 class="text-2xl font-bold text-white mb-10 text-center flex items-center justify-center gap-3">
                 <i class="fas fa-layer-group text-blue-500"></i> Beberapa peran <span
                     class="italic underline decoration-blue-500 underline-offset-4">Asisten AI RC Go</span> :
@@ -47,7 +47,7 @@
                 <div
                     class="bg-gray-800 p-6 rounded-2xl border border-gray-700 hover:border-blue-500/50 transition-all hover:bg-gray-800/80 group text-center">
                     <img src="{{ asset('assets/img/ai/Racer.png') }}"
-                        class="w-full h-80 object-contain mb-6 mx-auto drop-shadow-lg group-hover:scale-105 transition-transform"
+                        class="w-full h-80 object-contain mb-2 mx-auto drop-shadow-lg group-hover:scale-105 transition-transform"
                         alt="Racer AI">
                     <div>
 
@@ -62,7 +62,7 @@
                 <div
                     class="bg-gray-800 p-6 rounded-2xl border border-gray-700 hover:border-red-500/50 transition-all hover:bg-gray-800/80 group text-center">
                     <img src="{{ asset('assets/img/ai/Pitstop.png') }}"
-                        class="w-full h-80 object-contain mb-6 mx-auto drop-shadow-lg group-hover:scale-105 transition-transform"
+                        class="w-full h-80 object-contain mb-2 mx-auto drop-shadow-lg group-hover:scale-105 transition-transform"
                         alt="Pitstop AI">
                     <div>
 
@@ -78,7 +78,7 @@
                 <div
                     class="bg-gray-800 p-6 rounded-2xl border border-gray-700 hover:border-purple-500/50 transition-all hover:bg-gray-800/80 group text-center">
                     <img src="{{ asset('assets/img/ai/Vibe.png') }}"
-                        class="w-full h-80 object-contain mb-6 mx-auto drop-shadow-lg group-hover:scale-105 transition-transform"
+                        class="w-full h-80 object-contain mb-2 mx-auto drop-shadow-lg group-hover:scale-105 transition-transform"
                         alt="Vibe AI">
                     <div>
 
@@ -94,7 +94,7 @@
                 <div
                     class="bg-gray-800 p-6 rounded-2xl border border-gray-700 hover:border-teal-500/50 transition-all hover:bg-gray-800/80 group text-center">
                     <img src="{{ asset('assets/img/ai/Scripta.png') }}"
-                        class="w-full h-80 object-contain mb-6 mx-auto drop-shadow-lg group-hover:scale-105 transition-transform"
+                        class="w-full h-80 object-contain mb-2 mx-auto drop-shadow-lg group-hover:scale-105 transition-transform"
                         alt="Scripta AI">
                     <div>
 
@@ -109,7 +109,7 @@
                 <div
                     class="bg-gray-800 p-6 rounded-2xl border border-gray-700 hover:border-orange-500/50 transition-all hover:bg-gray-800/80 group text-center">
                     <img src="{{ asset('assets/img/ai/Boost.png') }}"
-                        class="w-full h-80 object-contain mb-6 mx-auto drop-shadow-lg group-hover:scale-105 transition-transform"
+                        class="w-full h-80 object-contain mb-2 mx-auto drop-shadow-lg group-hover:scale-105 transition-transform"
                         alt="Boost AI">
                     <div>
 
@@ -125,7 +125,7 @@
                 <div
                     class="bg-gray-800 p-6 rounded-2xl border border-gray-700 hover:border-pink-500/50 transition-all hover:bg-gray-800/80 group text-center">
                     <img src="{{ asset('assets/img/ai/Buddy.png') }}"
-                        class="w-full h-80 object-contain mb-6 mx-auto drop-shadow-lg group-hover:scale-105 transition-transform"
+                        class="w-full h-80 object-contain mb-2 mx-auto drop-shadow-lg group-hover:scale-105 transition-transform"
                         alt="Buddy AI">
                     <div>
 
@@ -141,7 +141,7 @@
                 <div
                     class="bg-gray-800 p-6 rounded-2xl border border-gray-700 hover:border-cyan-500/50 transition-all hover:bg-gray-800/80 group text-center">
                     <img src="{{ asset('assets/img/ai/Tracka.png') }}"
-                        class="w-full h-80 object-contain mb-6 mx-auto drop-shadow-lg group-hover:scale-105 transition-transform"
+                        class="w-full h-80 object-contain mb-2 mx-auto drop-shadow-lg group-hover:scale-105 transition-transform"
                         alt="Tracka AI">
                     <div>
 
@@ -156,7 +156,7 @@
                 <div
                     class="bg-gray-800 p-6 rounded-2xl border border-gray-700 hover:border-indigo-500/50 transition-all hover:bg-gray-800/80 group text-center">
                     <img src="{{ asset('assets/img/ai/Scope.png') }}"
-                        class="w-full h-80 object-contain mb-6 mx-auto drop-shadow-lg group-hover:scale-105 transition-transform"
+                        class="w-full h-80 object-contain mb-2 mx-auto drop-shadow-lg group-hover:scale-105 transition-transform"
                         alt="Scope AI">
                     <div>
 
@@ -171,8 +171,8 @@
         </div>
 
         <!-- Conclusion Box -->
-        <div
-            class="mt-32 bg-gradient-to-r from-blue-900/40 to-purple-900/40 border border-blue-500/30 rounded-3xl p-8 text-center max-w-5xl mx-auto backdrop-blur-md">
+        <div style="margin-top: 50px;"
+            class="bg-gradient-to-r from-blue-900/40 to-purple-900/40 border border-blue-500/30 rounded-3xl p-8 text-center max-w-5xl mx-auto backdrop-blur-md">
             <p class="text-lg md:text-xl text-gray-200">
                 👉 Dengan Asisten AI, usaha RC Go Anda menjadi <span class="text-white font-bold">lebih tertata, lebih
                     aktif promosi, dan lebih mudah dijalankan, bahkan untuk pemula.</span>
