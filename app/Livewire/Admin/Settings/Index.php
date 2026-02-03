@@ -35,7 +35,7 @@ class Index extends Component
 
     // System & Email
     public $mail_mailer = 'smtp';
-    public $mail_host, $mail_port, $mail_username, $mail_password, $mail_encryption, $mail_from_address;
+    public $mail_host, $mail_port, $mail_username, $mail_password, $mail_encryption, $mail_from_address, $mail_from_name;
     public $test_email_recipient;
 
     public function mount()
@@ -68,6 +68,7 @@ class Index extends Component
         $this->mail_password = config('mail.mailers.smtp.password'); // Be careful exposing this!
         $this->mail_encryption = config('mail.mailers.smtp.encryption');
         $this->mail_from_address = config('mail.from.address');
+        $this->mail_from_name = config('mail.from.name');
     }
 
     // Helper to update .env
@@ -110,6 +111,7 @@ class Index extends Component
                 'mail.mailers.smtp.password' => $this->mail_password,
                 'mail.mailers.smtp.encryption' => $this->mail_encryption,
                 'mail.from.address' => $this->mail_from_address,
+                'mail.from.name' => $this->mail_from_name,
             ]);
 
             \Illuminate\Support\Facades\Mail::to($this->test_email_recipient)->send(new \App\Mail\TestEmail());
@@ -165,6 +167,7 @@ class Index extends Component
                 'MAIL_PASSWORD' => $this->mail_password,
                 'MAIL_ENCRYPTION' => $this->mail_encryption,
                 'MAIL_FROM_ADDRESS' => $this->mail_from_address,
+                'MAIL_FROM_NAME' => $this->mail_from_name,
             ]);
 
             // Clear config cache

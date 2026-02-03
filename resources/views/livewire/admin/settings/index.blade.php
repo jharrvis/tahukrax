@@ -203,7 +203,8 @@
                         <div class="p-4 bg-yellow-50 border border-yellow-100 rounded-xl mb-6">
                             <p class="text-sm text-yellow-800"><i class="fas fa-exclamation-triangle mr-1"></i>
                                 <strong>Perhatian:</strong> Pengaturan ini akan mengubah file <code>.env</code> server
-                                secara langsung. Pastikan Anda tahu apa yang Anda lakukan.</p>
+                                secara langsung. Pastikan Anda tahu apa yang Anda lakukan.
+                            </p>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -247,6 +248,11 @@
                             <div>
                                 <label class="block text-sm font-bold text-slate-700 mb-2">From Address</label>
                                 <input type="email" wire:model="mail_from_address"
+                                    class="w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-brand-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-2">From Name</label>
+                                <input type="text" wire:model="mail_from_name"
                                     class="w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-brand-500">
                             </div>
                         </div>
