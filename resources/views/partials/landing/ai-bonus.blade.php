@@ -36,7 +36,7 @@
         </div>
 
         <!-- AI Roles Grid -->
-        <div class="mb-16">
+        <div class="mt-32 mb-16">
             <h3 class="text-2xl font-bold text-white mb-10 text-center flex items-center justify-center gap-3">
                 <i class="fas fa-layer-group text-blue-500"></i> Beberapa peran <span
                     class="italic underline decoration-blue-500 underline-offset-4">Asisten AI RC Go</span> :
@@ -172,7 +172,7 @@
 
         <!-- Conclusion Box -->
         <div
-            class="bg-gradient-to-r from-blue-900/40 to-purple-900/40 border border-blue-500/30 rounded-3xl p-8 text-center max-w-5xl mx-auto backdrop-blur-md">
+            class="mt-32 bg-gradient-to-r from-blue-900/40 to-purple-900/40 border border-blue-500/30 rounded-3xl p-8 text-center max-w-5xl mx-auto backdrop-blur-md">
             <p class="text-lg md:text-xl text-gray-200">
                 👉 Dengan Asisten AI, usaha RC Go Anda menjadi <span class="text-white font-bold">lebih tertata, lebih
                     aktif promosi, dan lebih mudah dijalankan, bahkan untuk pemula.</span>
