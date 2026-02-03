@@ -42,12 +42,12 @@
                     class="italic underline decoration-blue-500 underline-offset-4">Asisten AI RC Go</span> :
             </h3>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <!-- Racer -->
                 <div
                     class="bg-gray-800 p-6 rounded-2xl border border-gray-700 hover:border-blue-500/50 transition-all hover:bg-gray-800/80 group text-center">
                     <img src="{{ asset('assets/img/ai/Racer.png') }}"
-                        class="w-full h-80 object-contain mb-4 mx-auto drop-shadow-lg group-hover:scale-105 transition-transform"
+                        class="w-full h-80 object-contain mb-6 mx-auto drop-shadow-lg group-hover:scale-105 transition-transform"
                         alt="Racer AI">
                     <div>
 
@@ -62,7 +62,7 @@
                 <div
                     class="bg-gray-800 p-6 rounded-2xl border border-gray-700 hover:border-red-500/50 transition-all hover:bg-gray-800/80 group text-center">
                     <img src="{{ asset('assets/img/ai/Pitstop.png') }}"
-                        class="w-full h-80 object-contain mb-4 mx-auto drop-shadow-lg group-hover:scale-105 transition-transform"
+                        class="w-full h-80 object-contain mb-6 mx-auto drop-shadow-lg group-hover:scale-105 transition-transform"
                         alt="Pitstop AI">
                     <div>
 
@@ -78,7 +78,7 @@
                 <div
                     class="bg-gray-800 p-6 rounded-2xl border border-gray-700 hover:border-purple-500/50 transition-all hover:bg-gray-800/80 group text-center">
                     <img src="{{ asset('assets/img/ai/Vibe.png') }}"
-                        class="w-full h-80 object-contain mb-4 mx-auto drop-shadow-lg group-hover:scale-105 transition-transform"
+                        class="w-full h-80 object-contain mb-6 mx-auto drop-shadow-lg group-hover:scale-105 transition-transform"
                         alt="Vibe AI">
                     <div>
 
@@ -94,7 +94,7 @@
                 <div
                     class="bg-gray-800 p-6 rounded-2xl border border-gray-700 hover:border-teal-500/50 transition-all hover:bg-gray-800/80 group text-center">
                     <img src="{{ asset('assets/img/ai/Scripta.png') }}"
-                        class="w-full h-80 object-contain mb-4 mx-auto drop-shadow-lg group-hover:scale-105 transition-transform"
+                        class="w-full h-80 object-contain mb-6 mx-auto drop-shadow-lg group-hover:scale-105 transition-transform"
                         alt="Scripta AI">
                     <div>
 
@@ -109,7 +109,7 @@
                 <div
                     class="bg-gray-800 p-6 rounded-2xl border border-gray-700 hover:border-orange-500/50 transition-all hover:bg-gray-800/80 group text-center">
                     <img src="{{ asset('assets/img/ai/Boost.png') }}"
-                        class="w-full h-80 object-contain mb-4 mx-auto drop-shadow-lg group-hover:scale-105 transition-transform"
+                        class="w-full h-80 object-contain mb-6 mx-auto drop-shadow-lg group-hover:scale-105 transition-transform"
                         alt="Boost AI">
                     <div>
 
@@ -125,7 +125,7 @@
                 <div
                     class="bg-gray-800 p-6 rounded-2xl border border-gray-700 hover:border-pink-500/50 transition-all hover:bg-gray-800/80 group text-center">
                     <img src="{{ asset('assets/img/ai/Buddy.png') }}"
-                        class="w-full h-80 object-contain mb-4 mx-auto drop-shadow-lg group-hover:scale-105 transition-transform"
+                        class="w-full h-80 object-contain mb-6 mx-auto drop-shadow-lg group-hover:scale-105 transition-transform"
                         alt="Buddy AI">
                     <div>
 
@@ -141,7 +141,7 @@
                 <div
                     class="bg-gray-800 p-6 rounded-2xl border border-gray-700 hover:border-cyan-500/50 transition-all hover:bg-gray-800/80 group text-center">
                     <img src="{{ asset('assets/img/ai/Tracka.png') }}"
-                        class="w-full h-80 object-contain mb-4 mx-auto drop-shadow-lg group-hover:scale-105 transition-transform"
+                        class="w-full h-80 object-contain mb-6 mx-auto drop-shadow-lg group-hover:scale-105 transition-transform"
                         alt="Tracka AI">
                     <div>
 
@@ -156,7 +156,7 @@
                 <div
                     class="bg-gray-800 p-6 rounded-2xl border border-gray-700 hover:border-indigo-500/50 transition-all hover:bg-gray-800/80 group text-center">
                     <img src="{{ asset('assets/img/ai/Scope.png') }}"
-                        class="w-full h-80 object-contain mb-4 mx-auto drop-shadow-lg group-hover:scale-105 transition-transform"
+                        class="w-full h-80 object-contain mb-6 mx-auto drop-shadow-lg group-hover:scale-105 transition-transform"
                         alt="Scope AI">
                     <div>
 
