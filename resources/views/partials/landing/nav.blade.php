@@ -96,8 +96,8 @@
                 class="text-white hover:text-orange-500 font-medium transition-colors text-sm">Keuntungan</a>
             <a href="{{ route('home') }}#paket"
                 class="text-white hover:text-orange-500 font-medium transition-colors text-sm">Paket Usaha</a>
-            <a href="{{ route('home') }}#addons"
-                class="text-white hover:text-orange-500 font-medium transition-colors text-sm">Add-ons</a>
+            {{-- <a href="{{ route('home') }}#addons"
+                class="text-white hover:text-orange-500 font-medium transition-colors text-sm">Add-ons</a> --}}
         </div>
 
         <!-- Right Section: Auth & CTA -->
@@ -164,7 +164,7 @@
                                         <i class="fas fa-shopping-bag text-orange-500 w-5 text-center"></i>
                                         <span class="text-sm">Pesanan Saya</span>
                                     </a>
-                                     <a href="{{ route('mitra.settings') }}"
+                                    <a href="{{ route('mitra.settings') }}"
                                         class="flex items-center gap-3 px-4 py-2.5 text-gray-300 hover:text-white hover:bg-gray-800 transition-all">
                                         <i class="fas fa-cog text-orange-500 w-5 text-center"></i>
                                         <span class="text-sm">Pengaturan Akun</span>
@@ -221,8 +221,8 @@
                 class="block text-white hover:text-orange-500 font-medium py-2">Keuntungan</a>
             <a href="{{ route('home') }}#paket" class="block text-white hover:text-orange-500 font-medium py-2">Paket
                 Usaha</a>
-            <a href="{{ route('home') }}#addons"
-                class="block text-white hover:text-orange-500 font-medium py-2">Add-ons</a>
+            {{-- <a href="{{ route('home') }}#addons"
+                class="block text-white hover:text-orange-500 font-medium py-2">Add-ons</a> --}}
             <a href="{{ route('home') }}#kontak"
                 class="block text-white hover:text-orange-500 font-medium py-2">Kontak</a>
 
@@ -321,11 +321,11 @@
             return;
         }
 
-        // Check if addons exist (Upsell)
-        if (cartState.addons.length === 0) {
+        // Check if addons exist (Upsell) - TEMPORARILY DISABLED
+        /* if (cartState.addons.length === 0) {
             openCustomModal('modal-upsell-addon');
             return;
-        }
+        } */
 
         // Add loading state
         const btn = e.currentTarget;

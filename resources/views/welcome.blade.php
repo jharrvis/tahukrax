@@ -42,7 +42,7 @@
         @include('partials.landing.packages')
 
         <!-- Section 6.5: Addons -->
-        @include('partials.landing.addons')
+        {{-- @include('partials.landing.addons') --}}
 
         <!-- Section 6.8: AI Bonus -->
         @include('partials.landing.ai-bonus')
