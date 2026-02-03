@@ -117,14 +117,6 @@
         <!-- Right Section: Auth & CTA -->
         <div class="flex items-center gap-3 md:gap-4">
 
-            <!-- Cart Icon (Hidden on Checkout) -->
-            @if(!request()->routeIs('checkout*'))
-                <button onclick="openCart()" class="relative text-white hover:text-orange-500 transition-colors mr-2">
-                    <i class="fas fa-shopping-cart text-xl"></i>
-                    <span id="cart-badge"
-                        class="absolute -top-2 -right-2 bg-orange-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full scale-0 opacity-0 transition-all duration-300">0</span>
-                </button>
-            @endif
 
             @auth
                 <!-- Logged In User Dropdown -->
