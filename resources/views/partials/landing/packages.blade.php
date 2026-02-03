@@ -64,11 +64,10 @@
                             title="Lihat Detail Fasilitas">
                             <i class="fas fa-list-ul"></i>
                         </button>
-                        <button
-                            onclick="addToCart('{{ $p->id }}', '{{ $p->name }}', {{ $p->price }}, 'package', '{{ $p->slug }}')"
+                        <a href="{{ route('checkout.wizard', $p->slug) }}"
                             class="flex-1 btn-primary h-10 rounded-lg text-white font-bold text-sm hover:shadow-lg transition-all flex items-center justify-center gap-2">
-                            <i class="fas fa-cart-plus"></i> + Keranjang
-                        </button>
+                            <i class="fas fa-shopping-bag"></i> Beli Sekarang
+                        </a>
                     </div>
                 </div>
             @endforeach

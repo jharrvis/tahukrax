@@ -87,17 +87,31 @@
         </a>
 
         <!-- Desktop Navigation -->
-        <div class="hidden lg:flex gap-6 xl:gap-8 items-center">
+        <div class="hidden lg:flex gap-2 items-center">
             <a href="{{ route('home') }}"
-                class="text-white hover:text-orange-500 font-medium transition-colors text-sm">Beranda</a>
+                class="group relative px-4 py-2 rounded-lg text-white hover:text-orange-400 font-medium transition-all text-sm hover:bg-gray-800/50">
+                Beranda
+            </a>
             <a href="{{ route('home') }}#tentang"
-                class="text-white hover:text-orange-500 font-medium transition-colors text-sm">Tentang</a>
+                class="group relative px-4 py-2 rounded-lg text-white hover:text-orange-400 font-medium transition-all text-sm hover:bg-gray-800/50">
+                Tentang
+            </a>
             <a href="{{ route('home') }}#keuntungan"
-                class="text-white hover:text-orange-500 font-medium transition-colors text-sm">Keuntungan</a>
+                class="group relative px-4 py-2 rounded-lg text-white hover:text-orange-400 font-medium transition-all text-sm hover:bg-gray-800/50">
+                Keuntungan
+            </a>
             <a href="{{ route('home') }}#paket"
-                class="text-white hover:text-orange-500 font-medium transition-colors text-sm">Paket Usaha</a>
-            {{-- <a href="{{ route('home') }}#addons"
-                class="text-white hover:text-orange-500 font-medium transition-colors text-sm">Add-ons</a> --}}
+                class="group relative px-4 py-2 rounded-lg text-white hover:text-orange-400 font-medium transition-all text-sm hover:bg-gray-800/50">
+                Paket Usaha
+            </a>
+            <a href="{{ route('home') }}#ai-bonus"
+                class="group relative px-4 py-2 rounded-lg text-white hover:text-purple-400 font-medium transition-all text-sm hover:bg-gradient-to-r hover:from-purple-900/30 hover:to-blue-900/30">
+                <span class="flex items-center gap-2">
+                    Bonus
+                    <span
+                        class="px-1.5 py-0.5 bg-gradient-to-r from-purple-500 to-blue-500 text-white text-[10px] font-bold rounded uppercase">AI</span>
+                </span>
+            </a>
         </div>
 
         <!-- Right Section: Auth & CTA -->
@@ -213,18 +227,37 @@
 
     <!-- Mobile Menu -->
     <div x-show="mobileMenu" x-cloak x-transition class="lg:hidden bg-gray-900 border-t border-gray-800 mt-4">
-        <div class="max-w-7xl mx-auto px-4 py-4 space-y-4">
-            <a href="{{ route('home') }}" class="block text-white hover:text-orange-500 font-medium py-2">Beranda</a>
+        <div class="max-w-7xl mx-auto px-4 py-4 space-y-2">
+            <a href="{{ route('home') }}"
+                class="block text-white hover:text-orange-500 font-medium py-2.5 px-3 rounded-lg hover:bg-gray-800/50 transition-all">
+                Beranda
+            </a>
             <a href="{{ route('home') }}#tentang"
-                class="block text-white hover:text-orange-500 font-medium py-2">Tentang</a>
+                class="block text-white hover:text-orange-500 font-medium py-2.5 px-3 rounded-lg hover:bg-gray-800/50 transition-all">
+                Tentang
+            </a>
             <a href="{{ route('home') }}#keuntungan"
-                class="block text-white hover:text-orange-500 font-medium py-2">Keuntungan</a>
-            <a href="{{ route('home') }}#paket" class="block text-white hover:text-orange-500 font-medium py-2">Paket
-                Usaha</a>
+                class="block text-white hover:text-orange-500 font-medium py-2.5 px-3 rounded-lg hover:bg-gray-800/50 transition-all">
+                Keuntungan
+            </a>
+            <a href="{{ route('home') }}#paket"
+                class="block text-white hover:text-orange-500 font-medium py-2.5 px-3 rounded-lg hover:bg-gray-800/50 transition-all">
+                Paket Usaha
+            </a>
+            <a href="{{ route('home') }}#ai-bonus"
+                class="block text-white hover:text-purple-400 font-medium py-2.5 px-3 rounded-lg hover:bg-gradient-to-r hover:from-purple-900/30 hover:to-blue-900/30 transition-all">
+                <span class="flex items-center gap-2">
+                    Bonus
+                    <span
+                        class="px-1.5 py-0.5 bg-gradient-to-r from-purple-500 to-blue-500 text-white text-[10px] font-bold rounded uppercase">AI</span>
+                </span>
+            </a>
             {{-- <a href="{{ route('home') }}#addons"
                 class="block text-white hover:text-orange-500 font-medium py-2">Add-ons</a> --}}
             <a href="{{ route('home') }}#kontak"
-                class="block text-white hover:text-orange-500 font-medium py-2">Kontak</a>
+                class="block text-white hover:text-orange-500 font-medium py-2.5 px-3 rounded-lg hover:bg-gray-800/50 transition-all">
+                Kontak
+            </a>
 
             <div class="pt-4 border-t border-gray-800">
                 @auth
@@ -537,7 +570,7 @@
                     <span class="hidden sm:inline">Checkout</span>
                     <span class="bg-white/20 px-2 py-0.5 rounded text-xs ml-1 font-mono">${formatRupiah(total)}</span>
                 `;
-                ctaBtn.setAttribute('href', '/checkout');
+                ctaBtn.setAttribute('href', '/checkout-wizard');
                 ctaBtn.setAttribute('onclick', 'validateCheckout(event)');
 
                 // Change Style to Green/Emerald to signify "Go/Finish"

@@ -13,10 +13,14 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/', [LandingPageController::class, 'index'])->name('home');
 
 // Checkout routes - with and without package slug
-Route::get('/checkout/{package:slug}', \App\Livewire\Checkout::class)
-    ->name('checkout');
-Route::get('/checkout', \App\Livewire\Checkout::class)
-    ->name('checkout.cart');
+Route::get('/checkout-wizard/{package:slug?}', \App\Livewire\CheckoutWizard::class)->name('checkout.wizard');
+Route::get('/checkout/{package:slug?}', function ($package = null) {
+    return redirect()->route('checkout.wizard', ['package' => $package]);
+})->name('checkout'); // Keep name for backward compat if needed, or update route name references
+// Route::get('/checkout', \App\Livewire\Checkout::class)->name('cart'); // Old cart route
+Route::get('/checkout', function () {
+    return redirect()->route('checkout.wizard');
+})->name('checkout.cart');
 
 Route::get('/order/success/{order}', function (\App\Models\Order $order) {
     return view('order-success', compact('order'));

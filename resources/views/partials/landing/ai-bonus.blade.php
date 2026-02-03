@@ -1,4 +1,4 @@
-<section class="py-16 md:py-24 bg-gray-900 border-t border-gray-800 relative overflow-hidden">
+<section id="ai-bonus" class="py-16 md:py-24 bg-gray-900 border-t border-gray-800 relative overflow-hidden">
     <!-- Background Accents -->
     <div
         class="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none">
