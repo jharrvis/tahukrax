@@ -106,7 +106,7 @@
 
             <!-- Right Column: Order Summary (Sticky on Tablet+, Hidden on Mobile) -->
             <div class="hidden md:block md:col-span-5 lg:col-span-5 xl:col-span-4">
-                <div class="sticky top-24 space-y-4">
+                <div class="sticky top-28 max-h-[calc(100vh-8rem)] overflow-y-auto custom-scrollbar">
                     <!-- Summary Card -->
                     <div class="bg-gray-900 rounded-2xl border border-orange-500/20 overflow-hidden shadow-xl">
                         <div class="p-6">
