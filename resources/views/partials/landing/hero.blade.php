@@ -10,9 +10,9 @@
                     Menguntungkan</span>
             </div>
             <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight">
-                Solusi Usaha<br>
-                Hiburan Kekinian<br>
-                <span class="text-orange-500">– RC Go</span>
+                Udah tau bisnis ini<br>
+                sekali transaksi<br>
+                <span class="text-orange-500">untungnya 900%?</span>
             </h1>
             <div
                 class="text-sm md:text-base lg:text-lg text-gray-300 leading-relaxed max-w-xl mx-auto lg:mx-0 space-y-2">
