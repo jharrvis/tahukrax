@@ -106,144 +106,144 @@
 
             <!-- Right Column: Order Summary (Sticky on Tablet+, Hidden on Mobile) -->
             <div class="hidden md:block md:col-span-5 lg:col-span-5 xl:col-span-4">
-                <div class="sticky top-28 max-h-[calc(100vh-8rem)] overflow-y-auto custom-scrollbar">
-                    <!-- Summary Card -->
-                    <div class="bg-gray-900 rounded-2xl border border-orange-500/20 overflow-hidden shadow-xl">
-                        <div class="p-6">
-                            <h3
-                                class="text-lg font-black text-white uppercase tracking-wider mb-4 pb-3 border-b border-gray-800 flex items-center gap-2">
-                                <i class="fas fa-receipt text-orange-500"></i> Ringkasan
-                            </h3>
+                <div class="sticky top-20">
+                    <!-- Summary Card with flex layout for proper scrolling -->
+                    <div
+                        class="bg-gray-900 rounded-2xl border border-orange-500/20 overflow-hidden shadow-xl flex flex-col max-h-[calc(100vh-6rem)]">
 
-                            <!-- Items List -->
-                            <div class="space-y-3 mb-6 max-h-96 overflow-y-auto custom-scrollbar">
-                                @if($step === 2)
-                                    {{-- Enhanced view for Step 2 with controls --}}
-                                    @if(empty($selectedPackages) && empty($selectedAddons))
-                                        <p class="text-gray-500 text-sm italic">Belum ada item dipilih</p>
-                                    @else
-                                        {{-- Reset Button --}}
-                                        @if(!empty($selectedPackages) || !empty($selectedAddons))
-                                            <button wire:click="resetCart" 
-                                                class="w-full py-2 px-3 bg-red-900/20 border border-red-500/30 rounded-lg text-red-400 hover:bg-red-900/40 hover:border-red-500/50 transition-all text-xs font-bold flex items-center justify-center gap-2">
-                                                <i class="fas fa-trash-alt"></i> Reset Semua
-                                            </button>
-                                        @endif
+                        <!-- Header - Fixed -->
+                        <div class="p-4 border-b border-gray-800 flex-shrink-0">
+                            <div class="flex items-center justify-between">
+                                <h3
+                                    class="text-base font-black text-white uppercase tracking-wider flex items-center gap-2">
+                                    <i class="fas fa-receipt text-orange-500"></i> Ringkasan
+                                </h3>
+                                @if($step === 2 && (!empty($selectedPackages) || !empty($selectedAddons)))
+                                    <button wire:click="resetCart"
+                                        class="px-3 py-1 bg-red-900/30 border border-red-500/30 rounded-lg text-red-400 hover:bg-red-900/50 transition-all text-xs font-bold">
+                                        <i class="fas fa-trash-alt mr-1"></i> Reset
+                                    </button>
+                                @endif
+                            </div>
+                        </div>
 
-                                        {{-- Selected Packages --}}
-                                        @foreach($selectedPackages as $index => $pkg)
-                                            <div class="bg-gray-800/50 rounded-lg p-3 border border-gray-700 hover:border-orange-500/30 transition-all">
-                                                <div class="flex items-start gap-3 mb-2">
-                                                    <div class="flex-1 min-w-0">
-                                                        <div class="flex items-start justify-between gap-2">
-                                                            <h4 class="text-white font-bold text-sm truncate">{{ $pkg['name'] }}</h4>
-                                                            <button wire:click="removePackage({{ $index }})" 
-                                                                class="text-red-400 hover:text-red-300 text-xs">
-                                                                <i class="fas fa-times"></i>
-                                                            </button>
-                                                        </div>
-                                                        <p class="text-orange-400 text-xs font-bold">Rp {{ number_format($pkg['price'], 0, ',', '.') }}</p>
-                                                    </div>
-                                                </div>
-                                                <div class="flex items-center justify-between">
-                                                    <div class="flex items-center gap-1 bg-black rounded-lg p-0.5 border border-gray-700">
-                                                        <button wire:click="decrementPackage({{ $index }})" 
-                                                            class="w-6 h-6 rounded flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-800">
-                                                            <i class="fas fa-minus text-[10px]"></i>
-                                                        </button>
-                                                        <span class="text-white text-xs font-bold w-6 text-center">{{ $pkg['qty'] }}</span>
-                                                        <button wire:click="incrementPackage({{ $index }})" 
-                                                            class="w-6 h-6 rounded flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-800">
-                                                            <i class="fas fa-plus text-[10px]"></i>
-                                                        </button>
-                                                    </div>
-                                                    <span class="text-white font-bold text-sm">Rp {{ number_format($pkg['price'] * $pkg['qty'], 0, ',', '.') }}</span>
-                                                </div>
-                                            </div>
-                                        @endforeach
-
-                                        {{-- Selected Add-ons --}}
-                                        @foreach($selectedAddons as $id => $qty)
-                                            @php $addon = $allAddons->firstWhere('id', $id); @endphp
-                                            @if($addon)
-                                                <div class="bg-gray-800/30 rounded-lg p-3 border border-gray-700 hover:border-gray-600 transition-all">
-                                                    <div class="flex items-start gap-3 mb-2">
-                                                        <div class="flex-1 min-w-0">
-                                                            <div class="flex items-start justify-between gap-2">
-                                                                <div class="flex items-center gap-2">
-                                                                    <i class="fas fa-puzzle-piece text-gray-600 text-xs"></i>
-                                                                    <h4 class="text-gray-300 font-medium text-sm truncate">{{ $addon->name }}</h4>
-                                                                </div>
-                                                                <button wire:click="removeAddon({{ $id }})" 
-                                                                    class="text-red-400 hover:text-red-300 text-xs">
-                                                                    <i class="fas fa-times"></i>
-                                                                </button>
-                                                            </div>
-                                                            <p class="text-gray-400 text-xs">Rp {{ number_format($addon->price, 0, ',', '.') }}</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex items-center justify-between">
-                                                        <div class="flex items-center gap-1 bg-black rounded-lg p-0.5 border border-gray-700">
-                                                            <button wire:click="decrementAddon({{ $id }})" 
-                                                                class="w-6 h-6 rounded flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-800">
-                                                                <i class="fas fa-minus text-[10px]"></i>
-                                                            </button>
-                                                            <span class="text-white text-xs font-bold w-6 text-center">{{ $qty }}</span>
-                                                            <button wire:click="incrementAddon({{ $id }})" 
-                                                                class="w-6 h-6 rounded flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-800">
-                                                                <i class="fas fa-plus text-[10px]"></i>
-                                                            </button>
-                                                        </div>
-                                                        <span class="text-white font-bold text-sm">Rp {{ number_format($addon->price * $qty, 0, ',', '.') }}</span>
-                                                    </div>
-                                                </div>
-                                            @endif
-                                        @endforeach
-                                    @endif
+                        <!-- Items List - Scrollable Middle -->
+                        <div class="flex-1 overflow-y-auto custom-scrollbar p-4 space-y-3 min-h-0">
+                            @if($step === 2)
+                                {{-- Step 2: Interactive items with controls --}}
+                                @if(empty($selectedPackages) && empty($selectedAddons))
+                                    <div class="text-center py-8">
+                                        <i class="fas fa-shopping-cart text-3xl text-gray-700 mb-2"></i>
+                                        <p class="text-gray-500 text-sm">Belum ada item dipilih</p>
+                                    </div>
                                 @else
-                                    {{-- Original compact view for Step 3 & 4 --}}
-                                    @if(empty($selectedPackages))
-                                        <p class="text-gray-500 text-sm italic">Belum ada paket dipilih</p>
-                                    @else
-                                        @foreach($selectedPackages as $pkg)
-                                            <div class="flex justify-between gap-3 text-sm">
-                                                <div class="text-gray-400 flex items-center gap-2 min-w-0">
-                                                    <i class="fas fa-box text-orange-500 text-xs flex-shrink-0"></i>
-                                                    <span class="truncate">
-                                                        {{ $pkg['name'] }}
-                                                        @if($pkg['qty'] > 1)
-                                                            <span class="text-orange-500 font-bold">({{ $pkg['qty'] }}x)</span>
-                                                        @endif
-                                                    </span>
+                                    {{-- Packages --}}
+                                    @foreach($selectedPackages as $index => $pkg)
+                                        <div
+                                            class="bg-gray-800/50 rounded-lg p-3 border border-gray-700 hover:border-orange-500/30 transition-all">
+                                            <div class="flex items-start justify-between gap-2 mb-2">
+                                                <div class="min-w-0 flex-1">
+                                                    <h4 class="text-white font-bold text-sm truncate">{{ $pkg['name'] }}</h4>
+                                                    <p class="text-orange-400 text-xs">@ Rp
+                                                        {{ number_format($pkg['price'], 0, ',', '.') }}</p>
                                                 </div>
-                                                <span class="text-white font-bold whitespace-nowrap">
-                                                    Rp {{ number_format($pkg['price'] * $pkg['qty'], 0, ',', '.') }}
-                                                </span>
+                                                <button wire:click="removePackage({{ $index }})"
+                                                    class="text-red-400 hover:text-red-300 p-1">
+                                                    <i class="fas fa-times text-xs"></i>
+                                                </button>
                                             </div>
-                                        @endforeach
-                                    @endif
+                                            <div class="flex items-center justify-between">
+                                                <div class="flex items-center gap-1 bg-black rounded-lg border border-gray-700">
+                                                    <button wire:click="decrementPackage({{ $index }})"
+                                                        class="w-7 h-7 rounded-l-lg flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-800">
+                                                        <i class="fas fa-minus text-[10px]"></i>
+                                                    </button>
+                                                    <span
+                                                        class="text-white text-xs font-bold w-8 text-center">{{ $pkg['qty'] }}</span>
+                                                    <button wire:click="incrementPackage({{ $index }})"
+                                                        class="w-7 h-7 rounded-r-lg flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-800">
+                                                        <i class="fas fa-plus text-[10px]"></i>
+                                                    </button>
+                                                </div>
+                                                <span class="text-white font-bold text-sm">Rp
+                                                    {{ number_format($pkg['price'] * $pkg['qty'], 0, ',', '.') }}</span>
+                                            </div>
+                                        </div>
+                                    @endforeach
 
+                                    {{-- Add-ons --}}
                                     @foreach($selectedAddons as $id => $qty)
                                         @php $addon = $allAddons->firstWhere('id', $id); @endphp
                                         @if($addon)
-                                            <div class="flex justify-between gap-3 text-sm">
-                                                <div class="text-gray-400 flex items-center gap-2 min-w-0">
-                                                    <i class="fas fa-puzzle-piece text-gray-600 text-xs flex-shrink-0"></i>
-                                                    <span class="truncate">{{ $qty }}x {{ $addon->name }}</span>
+                                            <div class="bg-gray-800/30 rounded-lg p-3 border border-gray-700">
+                                                <div class="flex items-start justify-between gap-2 mb-2">
+                                                    <div class="min-w-0 flex-1">
+                                                        <div class="flex items-center gap-1.5">
+                                                            <i class="fas fa-puzzle-piece text-gray-500 text-[10px]"></i>
+                                                            <h4 class="text-gray-300 text-sm truncate">{{ $addon->name }}</h4>
+                                                        </div>
+                                                        <p class="text-gray-500 text-xs">@ Rp
+                                                            {{ number_format($addon->price, 0, ',', '.') }}</p>
+                                                    </div>
+                                                    <button wire:click="removeAddon({{ $id }})"
+                                                        class="text-red-400 hover:text-red-300 p-1">
+                                                        <i class="fas fa-times text-xs"></i>
+                                                    </button>
                                                 </div>
-                                                <span class="text-white font-bold whitespace-nowrap">
-                                                    Rp {{ number_format($addon->price * $qty, 0, ',', '.') }}
-                                                </span>
+                                                <div class="flex items-center justify-between">
+                                                    <div class="flex items-center gap-1 bg-black rounded-lg border border-gray-700">
+                                                        <button wire:click="decrementAddon({{ $id }})"
+                                                            class="w-7 h-7 rounded-l-lg flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-800">
+                                                            <i class="fas fa-minus text-[10px]"></i>
+                                                        </button>
+                                                        <span class="text-white text-xs font-bold w-8 text-center">{{ $qty }}</span>
+                                                        <button wire:click="incrementAddon({{ $id }})"
+                                                            class="w-7 h-7 rounded-r-lg flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-800">
+                                                            <i class="fas fa-plus text-[10px]"></i>
+                                                        </button>
+                                                    </div>
+                                                    <span class="text-gray-200 font-bold text-sm">Rp
+                                                        {{ number_format($addon->price * $qty, 0, ',', '.') }}</span>
+                                                </div>
                                             </div>
                                         @endif
                                     @endforeach
                                 @endif
-                            </div>
+                            @else
+                                {{-- Step 3 & 4: Compact read-only list --}}
+                                @forelse($selectedPackages as $pkg)
+                                    <div class="flex justify-between gap-2 text-sm">
+                                        <span class="text-gray-400 truncate"><i
+                                                class="fas fa-box text-orange-500 text-xs mr-1.5"></i>{{ $pkg['name'] }}
+                                            @if($pkg['qty'] > 1)<span
+                                            class="text-orange-400">({{ $pkg['qty'] }}x)</span>@endif</span>
+                                        <span class="text-white font-bold whitespace-nowrap">Rp
+                                            {{ number_format($pkg['price'] * $pkg['qty'], 0, ',', '.') }}</span>
+                                    </div>
+                                @empty
+                                    <p class="text-gray-500 text-sm italic">Belum ada paket</p>
+                                @endforelse
+                                @foreach($selectedAddons as $id => $qty)
+                                    @php $addon = $allAddons->firstWhere('id', $id); @endphp
+                                    @if($addon)
+                                        <div class="flex justify-between gap-2 text-sm">
+                                            <span class="text-gray-400 truncate"><i
+                                                    class="fas fa-puzzle-piece text-gray-600 text-xs mr-1.5"></i>{{ $qty }}x
+                                                {{ $addon->name }}</span>
+                                            <span class="text-white font-bold whitespace-nowrap">Rp
+                                                {{ number_format($addon->price * $qty, 0, ',', '.') }}</span>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            @endif
+                        </div>
 
+                        <!-- Footer - Fixed at bottom -->
+                        <div class="flex-shrink-0 border-t border-gray-800">
                             <!-- Shipping & Weight -->
-                            <div class="space-y-2 py-4 border-t border-gray-800 text-sm">
+                            <div class="px-4 py-3 space-y-1.5 text-sm border-b border-gray-800">
                                 <div class="flex justify-between">
-                                    <span class="text-gray-500"><i class="fas fa-truck mr-2 text-xs"></i>Ongkir</span>
+                                    <span class="text-gray-500"><i class="fas fa-truck mr-1.5 text-xs"></i>Ongkir</span>
                                     <span class="text-white font-bold">
                                         @if($this->total['shipping'] > 0)
                                             Rp {{ number_format($this->total['shipping'], 0, ',', '.') }}
@@ -254,51 +254,38 @@
                                 </div>
                                 <div class="flex justify-between">
                                     <span class="text-gray-500"><i
-                                            class="fas fa-weight-hanging mr-2 text-xs"></i>Berat</span>
+                                            class="fas fa-weight-hanging mr-1.5 text-xs"></i>Berat</span>
                                     <span class="text-white font-bold">{{ $this->total['total_weight'] }} Kg</span>
                                 </div>
                             </div>
 
                             <!-- Grand Total -->
-                            <div class="bg-black/50 rounded-xl p-4 border border-gray-800">
+                            <div class="px-4 py-3 bg-gray-800/30">
                                 <p class="text-gray-500 text-[10px] font-bold uppercase tracking-widest mb-1">Total
                                     Pembayaran</p>
                                 <div class="text-2xl font-black text-orange-500" wire:loading.class="opacity-50">
                                     Rp {{ number_format($this->total['grand_total'], 0, ',', '.') }}
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Navigation Buttons in Sidebar -->
-                        <div class="p-4 bg-gray-800/50 border-t border-gray-700 space-y-3">
-                            @if($step < 4)
-                                <button wire:click="nextStep"
-                                    class="w-full py-3.5 rounded-xl bg-gradient-to-r from-orange-500 to-red-600 text-white font-bold hover:from-orange-600 hover:to-red-700 transition-all shadow-lg hover:shadow-orange-500/30 flex items-center justify-center gap-2 text-sm">
-                                    @if($step === 2)
-                                        Lanjut ke Data Mitra <i class="fas fa-arrow-right"></i>
-                                    @elseif($step === 3)
-                                        Lanjut ke Pembayaran <i class="fas fa-arrow-right"></i>
-                                    @endif
-                                </button>
-                            @endif
-
-                            @if($step > 2)
-                                <button wire:click="previousStep"
-                                    class="w-full py-2.5 rounded-xl border border-gray-600 text-gray-400 hover:bg-gray-800 hover:text-white font-medium transition-all flex items-center justify-center gap-2 text-sm">
-                                    <i class="fas fa-arrow-left"></i> Kembali
-                                </button>
-                            @endif
-                        </div>
-
-                        <!-- Trust Badges -->
-                        <div class="px-4 pb-4 grid grid-cols-2 gap-2">
-                            <div class="bg-gray-800/30 p-2 rounded-lg text-center">
-                                <i class="fas fa-shield-alt text-green-500 text-xs"></i>
-                                <p class="text-[9px] text-gray-400 mt-0.5">Aman 100%</p>
-                            </div>
-                            <div class="bg-gray-800/30 p-2 rounded-lg text-center">
-                                <i class="fas fa-bolt text-orange-500 text-xs"></i>
-                                <p class="text-[9px] text-gray-400 mt-0.5">Proses Cepat</p>
+                            <!-- Action Buttons -->
+                            <div class="p-4 space-y-2">
+                                @if($step < 4)
+                                    <button wire:click="nextStep"
+                                        class="w-full py-3 rounded-xl bg-gradient-to-r from-orange-500 to-red-600 text-white font-bold hover:from-orange-600 hover:to-red-700 transition-all shadow-lg hover:shadow-orange-500/30 flex items-center justify-center gap-2 text-sm">
+                                        @if($step === 2)
+                                            Lanjut ke Data Mitra <i class="fas fa-arrow-right"></i>
+                                        @elseif($step === 3)
+                                            Lanjut ke Pembayaran <i class="fas fa-arrow-right"></i>
+                                        @endif
+                                    </button>
+                                @endif
+                                @if($step > 2)
+                                    <button wire:click="previousStep"
+                                        class="w-full py-2.5 rounded-xl border border-gray-600 text-gray-400 hover:bg-gray-800 hover:text-white font-medium transition-all flex items-center justify-center gap-2 text-sm">
+                                        <i class="fas fa-arrow-left"></i> Kembali
+                                    </button>
+                                @endif
                             </div>
                         </div>
                     </div>
