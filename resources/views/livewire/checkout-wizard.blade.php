@@ -104,17 +104,12 @@
                 @endif
             </div>
 
-            <!-- Right Column: Spacer for fixed sidebar -->
+            <!-- Right Column: Order Summary (Sticky on Tablet+, Hidden on Mobile) -->
             <div class="hidden md:block md:col-span-5 lg:col-span-5 xl:col-span-4">
-                <!-- This div reserves space for the fixed sidebar -->
-            </div>
-        </div>
-    </div>
-
-    <!-- FIXED Order Summary Sidebar (Desktop Only) -->
-    <div class="hidden md:block fixed top-20 right-4 lg:right-8 xl:right-[calc((100vw-80rem)/2+1rem)] w-[calc(41.666%-2rem)] lg:w-[calc(41.666%-3rem)] xl:w-[calc(33.333%-2rem)] max-w-md z-40">
-        <!-- Summary Card with flex layout for proper scrolling -->
-        <div class="bg-gray-900 rounded-2xl border border-orange-500/20 overflow-hidden shadow-2xl flex flex-col max-h-[calc(100vh-6rem)]">
+                <div class="sticky top-20">
+                    <!-- Summary Card with flex layout for proper scrolling -->
+                    <div
+                        class="bg-gray-900 rounded-2xl border border-orange-500/20 overflow-hidden shadow-xl flex flex-col max-h-[calc(100vh-6rem)]">
 
                         <!-- Header - Fixed -->
                         <div class="p-4 border-b border-gray-800 flex-shrink-0">
@@ -296,6 +291,7 @@
                     </div>
                 </div>
             </div>
+        </div>
     </div>
 
     <!-- MOBILE: Fixed Bottom Bar with Expandable Summary -->
