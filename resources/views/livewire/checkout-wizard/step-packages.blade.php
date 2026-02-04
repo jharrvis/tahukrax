@@ -104,7 +104,7 @@
                 <span x-text="open ? 'Tutup' : '+ Tambah Paket Lain'"></span>
             </button>
             
-            <div x-show="open" x-collapse class="mt-3 grid grid-cols-2 md:grid-cols-3 gap-2">
+            <div x-show="open" x-collapse class="mt-3 space-y-2">
                 @foreach($allPackages as $pkg)
                     @php
                         $imgUrl = null;
@@ -115,18 +115,26 @@
                             }
                         }
                     @endphp
-                    <div class="bg-gray-900 p-2 md:p-3 rounded-lg border border-gray-800 cursor-pointer hover:border-orange-500 transition-colors"
+                    <div class="bg-gray-900 rounded-lg border border-gray-800 hover:border-orange-500 transition-colors flex items-center gap-3 p-2 cursor-pointer"
                          wire:click="addPackage({{ $pkg->id }})"
                          @click="open = false">
-                        <div class="w-full h-12 md:h-14 bg-gray-800 rounded-md mb-2 overflow-hidden flex items-center justify-center">
+                        <!-- Image Left -->
+                        <div class="w-16 h-12 md:w-20 md:h-14 bg-gray-800 rounded-md overflow-hidden flex-shrink-0 flex items-center justify-center">
                             @if($imgUrl)
                                 <img src="{{ asset($imgUrl) }}" alt="{{ $pkg->name }}" class="h-full object-contain">
                             @else
                                 <i class="fas fa-box text-gray-600"></i>
                             @endif
                         </div>
-                        <h4 class="text-white font-bold text-xs md:text-sm truncate">{{ $pkg->name }}</h4>
-                        <p class="text-orange-500 text-xs font-bold">Rp {{ number_format($pkg->price / 1000000, 1) }} Jt</p>
+                        <!-- Name & Price Center -->
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-white font-bold text-sm truncate">{{ $pkg->name }}</h4>
+                            <p class="text-orange-500 text-xs font-bold">Rp {{ number_format($pkg->price / 1000000, 1) }} Jt</p>
+                        </div>
+                        <!-- Add Button Right -->
+                        <div class="w-8 h-8 bg-orange-500 hover:bg-orange-600 rounded-full flex items-center justify-center flex-shrink-0 transition-colors">
+                            <i class="fas fa-plus text-white text-xs"></i>
+                        </div>
                     </div>
                 @endforeach
             </div>
