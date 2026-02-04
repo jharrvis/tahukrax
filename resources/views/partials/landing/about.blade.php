@@ -3,7 +3,7 @@
     <div class="max-w-7xl mx-auto px-4">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div class="relative">
-                <img src="{{ asset('assets/img/tentang-rcgo.webp') }}" alt="Tentang RC GO"
+                <img src="{{ asset('assets/img/tentang-rcgo.webp') }}?v=2" alt="Tentang RC GO"
                     class="rounded-3xl shadow-2xl w-full">
                 <div class="absolute -bottom-8 -left-8 bg-orange-500 p-6 rounded-2xl shadow-lg hidden md:block">
                     <p class="text-white text-2xl font-bold leading-tight">

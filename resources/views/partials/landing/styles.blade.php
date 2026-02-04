@@ -104,7 +104,7 @@
 
     .hero-bg {
         background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)),
-            url('{{ asset('assets/img/hero-background.webp') }}');
+            url('{{ asset('assets/img/hero-background.webp') }}?v=2');
         background-size: cover, cover;
         background-position: center;
         background-attachment: fixed;
