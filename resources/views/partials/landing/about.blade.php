@@ -17,13 +17,17 @@
                     Tentang <span class="text-orange-500">RC GO</span>
                 </h2>
                 <p class="text-gray-300 text-lg leading-relaxed">
-                    RC GO adalah platform inovatif yang memungkinkan Anda memulai dan mengembangkan bisnis rental
-                    kendaraan remote control dengan mudah. Kami menyediakan sistem lengkap, mulai dari unit RC
-                    berkualitas tinggi, pelatihan operasional, hingga dukungan pemasaran.
+                    RC GO hadir untuk Anda yang ingin memulai usaha rental RC tanpa perlu repot membangun dari nol.
+                    Kami menyiapkan sistem yang siap dijalankan mulai dari unit RC berkualitas, panduan operasional yang
+                    mudah, hingga dukungan pemasaran agar usaha Anda cepat berjalan dan menarik pelanggan.
                 </p>
                 <p class="text-gray-300 text-lg leading-relaxed">
-                    Dengan RC GO, Anda tidak perlu khawatir tentang stok barang atau perawatan yang rumit. Kami
-                    hadir untuk memastikan bisnis Anda berjalan lancar dan menguntungkan.
+                    Dengan RC GO, Anda bisa fokus menjalankan usaha dan mengembangkan cuan, tanpa pusing urusan stok dan
+                    perawatan. Urusan teknis, biar kami yang bantu.
+                </p>
+                <p class="text-gray-300 text-lg leading-relaxed">
+                    Sistem ini dikembangkan dari pengalaman operasional di lapangan, sehingga mitra bisa mulai dengan
+                    lebih terarah dan percaya diri
                 </p>
                 <ul class="space-y-3 text-gray-200 text-lg">
                     <li class="flex items-center gap-3"><i class="fas fa-check-circle text-orange-500 text-xl"></i>
