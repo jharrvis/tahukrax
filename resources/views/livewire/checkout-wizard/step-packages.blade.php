@@ -59,34 +59,35 @@
                             $imageSrc = asset('assets/img/' . $imgName);
                         }
                     @endphp
-                    <div class="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden">
-                        <!-- Package Image - Full Width, Clickable -->
-                        <div class="w-full h-32 md:h-40 bg-gray-800 cursor-pointer relative group"
+                    <div class="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden md:flex">
+                        <!-- Package Image - Left side on desktop, clickable -->
+                        <div class="w-full md:w-32 lg:w-40 h-24 md:h-auto bg-gray-800 cursor-pointer relative group flex-shrink-0"
                              @click="openModal('{{ $imageSrc }}', '{{ $pkg['name'] }}')">
                             <img src="{{ $imageSrc }}" 
                                 onerror="this.onerror=null; this.src='{{ asset('assets/img/rcgo.webp') }}'"
                                 alt="{{ $pkg['name'] }}" 
                                 class="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform">
                             <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
-                                <i class="fas fa-search-plus text-white opacity-0 group-hover:opacity-100 transition-opacity text-xl"></i>
+                                <i class="fas fa-search-plus text-white opacity-0 group-hover:opacity-100 transition-opacity"></i>
                             </div>
                         </div>
                         
-                        <!-- Package Info & Controls -->
-                        <div class="p-3 md:p-4 flex items-center justify-between gap-3">
+                        <!-- Package Info & Controls - Right side -->
+                        <div class="p-3 md:p-4 flex-1 flex flex-col md:flex-row md:items-center justify-between gap-3">
                             <div class="flex-1 min-w-0">
                                 <h3 class="text-sm md:text-base font-bold text-white truncate">{{ $pkg['name'] }}</h3>
-                                <p class="text-orange-500 font-bold text-sm md:text-lg">Rp {{ number_format($pkg['price'], 0, ',', '.') }}</p>
+                                <p class="text-gray-400 text-xs hidden md:block">Paket lengkap siap usaha</p>
+                                <p class="text-orange-500 font-bold text-sm md:text-base mt-1">Rp {{ number_format($pkg['price'], 0, ',', '.') }}</p>
                             </div>
 
                             <!-- Qty Control -->
-                            <div class="flex items-center gap-1 bg-black rounded-lg p-0.5 border border-gray-700">
-                                <button wire:click="decrementPackage({{ $index }})" class="w-7 h-7 md:w-8 md:h-8 rounded flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-800 transition-colors">
-                                    <i class="fas fa-minus text-[10px]"></i>
+                            <div class="flex items-center gap-2 bg-black rounded-lg p-1 border border-gray-700">
+                                <button wire:click="decrementPackage({{ $index }})" class="w-8 h-8 rounded flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-800 transition-colors">
+                                    <i class="fas fa-minus text-xs"></i>
                                 </button>
-                                <span class="font-bold text-white w-5 text-center text-sm">{{ $pkg['qty'] }}</span>
-                                <button wire:click="incrementPackage({{ $index }})" class="w-7 h-7 md:w-8 md:h-8 rounded flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-800 transition-colors">
-                                    <i class="fas fa-plus text-[10px]"></i>
+                                <span class="font-bold text-white w-6 text-center">{{ $pkg['qty'] }}</span>
+                                <button wire:click="incrementPackage({{ $index }})" class="w-8 h-8 rounded flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-800 transition-colors">
+                                    <i class="fas fa-plus text-xs"></i>
                                 </button>
                             </div>
                         </div>
