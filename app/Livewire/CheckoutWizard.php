@@ -140,6 +140,12 @@ class CheckoutWizard extends Component
         }
     }
 
+    public function removePackage($index)
+    {
+        unset($this->selectedPackages[$index]);
+        $this->selectedPackages = array_values($this->selectedPackages); // Reindex
+    }
+
     // --- Actions: Addons ---
 
     public function toggleAddon($addonId)
@@ -172,6 +178,19 @@ class CheckoutWizard extends Component
             }
         }
         $this->dispatch('addons-changed', addons: $this->selectedAddons);
+    }
+
+    public function removeAddon($addonId)
+    {
+        unset($this->selectedAddons[$addonId]);
+        $this->dispatch('addons-changed', addons: $this->selectedAddons);
+    }
+
+    public function resetCart()
+    {
+        $this->selectedPackages = [];
+        $this->selectedAddons = [];
+        $this->dispatch('cart-reset');
     }
 
     // --- Shipping Logic ---

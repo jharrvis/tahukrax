@@ -73,7 +73,7 @@
                             1
                         </div>
                         <div>
-                            <h4 class="text-white font-bold text-lg mb-1">Pilih Paket Non-Timer</h4>
+                            <h4 class="text-white font-bold text-lg mb-1">Pilih Paket Usaha RC</h4>
                             <p class="text-gray-400 text-sm">Tentukan pondasi usaha Anda dengan paket dasar kami.
                             </p>
                         </div>
