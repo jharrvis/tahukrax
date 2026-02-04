@@ -29,14 +29,6 @@
                     Sistem ini dikembangkan dari pengalaman operasional di lapangan, sehingga mitra bisa mulai dengan
                     lebih terarah dan percaya diri
                 </p>
-                <ul class="space-y-3 text-gray-200 text-lg">
-                    <li class="flex items-center gap-3"><i class="fas fa-check-circle text-orange-500 text-xl"></i>
-                        Sistem Usaha Terintegrasi</li>
-                    <li class="flex items-center gap-3"><i class="fas fa-check-circle text-orange-500 text-xl"></i>
-                        Dukungan Penuh untuk Mitra</li>
-                    <li class="flex items-center gap-3"><i class="fas fa-check-circle text-orange-500 text-xl"></i>
-                        Potensi Keuntungan Maksimal</li>
-                </ul>
                 <a href="#paket"
                     class="btn-primary px-6 py-3 rounded-full text-white font-bold text-lg inline-flex items-center gap-2 mt-4">
                     <i class="fas fa-arrow-right"></i> Pelajari Lebih Lanjut
