@@ -23,6 +23,8 @@ Route::get('/checkout', function () {
 })->name('checkout.cart');
 
 Route::get('/order/success/{order}', function (\App\Models\Order $order) {
+    // Eager load relationships to prevent N+1 and null errors
+    $order->load(['orderItems.package', 'orderItems.addon']);
     return view('order-success', compact('order'));
 })->middleware(['auth'])->name('order.success');
 
