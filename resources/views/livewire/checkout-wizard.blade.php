@@ -91,10 +91,10 @@
         </div>
 
         <!-- Main Content Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-start">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 lg:gap-10 items-start">
 
             <!-- Left Column: Step Content -->
-            <div class="lg:col-span-7 xl:col-span-8 space-y-6">
+            <div class="md:col-span-7 lg:col-span-7 xl:col-span-8 space-y-6">
                 @if($step === 2)
                     @include('livewire.checkout-wizard.step-packages')
                 @elseif($step === 3)
@@ -104,8 +104,8 @@
                 @endif
             </div>
 
-            <!-- Right Column: Order Summary (Sticky on Desktop, Hidden on Mobile) -->
-            <div class="hidden lg:block lg:col-span-5 xl:col-span-4">
+            <!-- Right Column: Order Summary (Sticky on Tablet+, Hidden on Mobile) -->
+            <div class="hidden md:block md:col-span-5 lg:col-span-5 xl:col-span-4">
                 <div class="sticky top-24 space-y-4">
                     <!-- Summary Card -->
                     <div class="bg-gray-900 rounded-2xl border border-orange-500/20 overflow-hidden shadow-xl">
