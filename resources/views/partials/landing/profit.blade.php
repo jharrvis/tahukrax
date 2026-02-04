@@ -66,9 +66,11 @@
                             <p class="text-xs text-green-400/70 italic">Keuntungan 900%</p>
                         </div>
                     </div>
-                    <div class="mt-6 p-4 bg-gradient-to-r from-orange-500/10 to-orange-500/20 border border-orange-500/30 rounded-xl text-center backdrop-blur-sm shadow-inner">
+                    <div
+                        class="mt-6 p-4 bg-gradient-to-r from-orange-500/10 to-orange-500/20 border border-orange-500/30 rounded-xl text-center backdrop-blur-sm shadow-inner">
                         <p class="text-lg md:text-xl text-gray-100 font-bold leading-snug">
-                            "Artinya, setiap biaya <span class="text-orange-400">Rp 1.000</span> yang dikeluarkan berpotensi menghasilkan <span class="text-green-400 text-2xl">Rp 9.000</span> keuntungan."
+                            "Artinya, setiap biaya <span class="text-orange-400">Rp 1.000</span> yang dikeluarkan
+                            berpotensi menghasilkan <span class="text-green-400 text-2xl">Rp 9.000</span> keuntungan."
                         </p>
                     </div>
                 </div>
@@ -193,12 +195,6 @@
             </div>
         </div>
 
-        <div class="mt-6 bg-gray-900/50 border border-gray-800 rounded-xl p-4 text-center">
-            <p class="text-gray-400 text-xs">
-                <i class="fas fa-info-circle text-orange-500 mr-1"></i>
-                <strong>Simulasi Transparan:</strong> Perhitungan HPP Rp 1.000 sudah termasuk pembulatan risiko
-                teknis untuk hasil yang lebih realistis bagi mitra.
-            </p>
-        </div>
+
     </div>
 </section>
