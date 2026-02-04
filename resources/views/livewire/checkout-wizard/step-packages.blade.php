@@ -1,5 +1,32 @@
-<div class="space-y-6">
+<div class="space-y-6" x-data="{ 
+    modalOpen: false, 
+    modalImage: '', 
+    modalTitle: '',
+    openModal(img, title) {
+        this.modalImage = img;
+        this.modalTitle = title;
+        this.modalOpen = true;
+    }
+}">
     
+    <!-- Image Modal -->
+    <div x-show="modalOpen" x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        class="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+        @click.self="modalOpen = false" @keydown.escape.window="modalOpen = false" x-cloak>
+        <div class="relative max-w-3xl w-full bg-gray-900 rounded-2xl overflow-hidden shadow-2xl border border-orange-500/30">
+            <button @click="modalOpen = false" class="absolute top-3 right-3 w-10 h-10 bg-black/50 hover:bg-black rounded-full flex items-center justify-center text-white z-10">
+                <i class="fas fa-times"></i>
+            </button>
+            <img :src="modalImage" :alt="modalTitle" class="w-full h-auto max-h-[70vh] object-contain bg-gray-800">
+            <div class="p-4 text-center">
+                <h3 class="text-white font-bold text-lg" x-text="modalTitle"></h3>
+            </div>
+        </div>
+    </div>
+
     <!-- Packages Section -->
     <section class="space-y-3">
         <h2 class="text-base md:text-lg font-bold text-white flex items-center gap-2">
@@ -17,44 +44,51 @@
                     @php
                         $packageModel = $allPackages->firstWhere('id', $pkg['id']);
                         $imageUrl = null;
+                        $imageSrc = asset('assets/img/rcgo.webp'); // default
+                        
                         if ($packageModel && $packageModel->image_url) {
                             $imageUrl = $packageModel->image_url;
                             if (!\Illuminate\Support\Str::startsWith($imageUrl, ['/storage', 'http', 'https'])) {
                                 $imageUrl = \Illuminate\Support\Facades\Storage::url($imageUrl);
                             }
+                            $imageSrc = asset($imageUrl);
+                        } else {
+                            $extension = in_array($pkg['slug'], ['drift', 'offroad', 'stunt']) ? 'svg' : 'webp';
+                            $imgName = 'paket-' . $pkg['slug'] . '.' . $extension;
+                            if ($pkg['slug'] == 'alat-berat-mix') $imgName = 'paket-alatberat-mix.webp';
+                            $imageSrc = asset('assets/img/' . $imgName);
                         }
                     @endphp
-                    <div class="bg-gray-900 rounded-xl p-3 md:p-4 border border-gray-800 flex items-center gap-3 md:gap-4">
-                        <!-- Package Image -->
-                        <div class="w-16 h-16 md:w-20 md:h-20 bg-gray-800 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden">
-                            @if($imageUrl)
-                                <img src="{{ asset($imageUrl) }}" alt="{{ $pkg['name'] }}" class="w-full h-full object-contain p-1">
-                            @else
-                                @php
-                                    $extension = in_array($pkg['slug'], ['drift', 'offroad', 'stunt']) ? 'svg' : 'webp';
-                                    $imgName = 'paket-' . $pkg['slug'] . '.' . $extension;
-                                    if ($pkg['slug'] == 'alat-berat-mix') $imgName = 'paket-alatberat-mix.webp';
-                                @endphp
-                                <img src="{{ asset('assets/img/' . $imgName) }}" 
-                                    onerror="this.onerror=null; this.src='{{ asset('assets/img/rcgo.webp') }}'"
-                                    alt="{{ $pkg['name'] }}" class="w-full h-full object-contain p-1">
-                            @endif
+                    <div class="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden">
+                        <!-- Package Image - Full Width, Clickable -->
+                        <div class="w-full h-32 md:h-40 bg-gray-800 cursor-pointer relative group"
+                             @click="openModal('{{ $imageSrc }}', '{{ $pkg['name'] }}')">
+                            <img src="{{ $imageSrc }}" 
+                                onerror="this.onerror=null; this.src='{{ asset('assets/img/rcgo.webp') }}'"
+                                alt="{{ $pkg['name'] }}" 
+                                class="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform">
+                            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                                <i class="fas fa-search-plus text-white opacity-0 group-hover:opacity-100 transition-opacity text-xl"></i>
+                            </div>
                         </div>
                         
-                        <div class="flex-1 min-w-0">
-                            <h3 class="text-sm md:text-base font-bold text-white truncate">{{ $pkg['name'] }}</h3>
-                            <p class="text-orange-500 font-bold text-sm md:text-lg">Rp {{ number_format($pkg['price'], 0, ',', '.') }}</p>
-                        </div>
+                        <!-- Package Info & Controls -->
+                        <div class="p-3 md:p-4 flex items-center justify-between gap-3">
+                            <div class="flex-1 min-w-0">
+                                <h3 class="text-sm md:text-base font-bold text-white truncate">{{ $pkg['name'] }}</h3>
+                                <p class="text-orange-500 font-bold text-sm md:text-lg">Rp {{ number_format($pkg['price'], 0, ',', '.') }}</p>
+                            </div>
 
-                        <!-- Qty Control -->
-                        <div class="flex items-center gap-1 bg-black rounded-lg p-0.5 border border-gray-700">
-                            <button wire:click="decrementPackage({{ $index }})" class="w-7 h-7 md:w-8 md:h-8 rounded flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-800 transition-colors">
-                                <i class="fas fa-minus text-[10px]"></i>
-                            </button>
-                            <span class="font-bold text-white w-5 text-center text-sm">{{ $pkg['qty'] }}</span>
-                            <button wire:click="incrementPackage({{ $index }})" class="w-7 h-7 md:w-8 md:h-8 rounded flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-800 transition-colors">
-                                <i class="fas fa-plus text-[10px]"></i>
-                            </button>
+                            <!-- Qty Control -->
+                            <div class="flex items-center gap-1 bg-black rounded-lg p-0.5 border border-gray-700">
+                                <button wire:click="decrementPackage({{ $index }})" class="w-7 h-7 md:w-8 md:h-8 rounded flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-800 transition-colors">
+                                    <i class="fas fa-minus text-[10px]"></i>
+                                </button>
+                                <span class="font-bold text-white w-5 text-center text-sm">{{ $pkg['qty'] }}</span>
+                                <button wire:click="incrementPackage({{ $index }})" class="w-7 h-7 md:w-8 md:h-8 rounded flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-800 transition-colors">
+                                    <i class="fas fa-plus text-[10px]"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 @endforeach
@@ -101,7 +135,7 @@
     <!-- Addons Section -->
     <section class="space-y-3">
         <h2 class="text-base md:text-lg font-bold text-white flex items-center gap-2">
-            <i class="fas fa-puzzle-piece text-orange-500"></i> Tambahan 
+            <i class="fas fa-puzzle-piece text-orange-500"></i> Add-on 
             <span class="text-xs font-normal text-gray-500">(Optional)</span>
         </h2>
         

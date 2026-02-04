@@ -93,10 +93,12 @@
         <!-- Main Content Grid -->
         <div class="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 lg:gap-10 items-start">
 
-            <!-- Left Column: Step Content -->
-            <div class="md:col-span-7 lg:col-span-7 xl:col-span-8 space-y-6">
+            <!-- Left Column: Step Content (Scrollable) -->
+            <div class="md:col-span-7 lg:col-span-7 xl:col-span-8">
                 @if($step === 2)
-                    @include('livewire.checkout-wizard.step-packages')
+                    <div class="space-y-6 md:max-h-[calc(100vh-10rem)] md:overflow-y-auto md:pr-2 custom-scrollbar">
+                        @include('livewire.checkout-wizard.step-packages')
+                    </div>
                 @elseif($step === 3)
                     @include('livewire.checkout-wizard.step-shipping')
                 @elseif($step === 4)
