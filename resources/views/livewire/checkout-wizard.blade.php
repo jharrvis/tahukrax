@@ -93,12 +93,10 @@
         <!-- Main Content Grid -->
         <div class="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 lg:gap-10 items-start">
 
-            <!-- Left Column: Step Content (Scrollable) -->
-            <div class="md:col-span-7 lg:col-span-7 xl:col-span-8">
+            <!-- Left Column: Step Content -->
+            <div class="md:col-span-7 lg:col-span-7 xl:col-span-8 space-y-6">
                 @if($step === 2)
-                    <div class="space-y-6 md:max-h-[calc(100vh-10rem)] md:overflow-y-auto md:pr-2 custom-scrollbar">
-                        @include('livewire.checkout-wizard.step-packages')
-                    </div>
+                    @include('livewire.checkout-wizard.step-packages')
                 @elseif($step === 3)
                     @include('livewire.checkout-wizard.step-shipping')
                 @elseif($step === 4)
@@ -106,12 +104,10 @@
                 @endif
             </div>
 
-            <!-- Right Column: Order Summary (Sticky on Tablet+, Hidden on Mobile) -->
-            <div class="hidden md:block md:col-span-5 lg:col-span-5 xl:col-span-4">
-                <div class="sticky top-20">
-                    <!-- Summary Card with flex layout for proper scrolling -->
-                    <div
-                        class="bg-gray-900 rounded-2xl border border-orange-500/20 overflow-hidden shadow-xl flex flex-col max-h-[calc(100vh-6rem)]">
+            <!-- Right Column: Order Summary (Sticky - stops when left column ends) -->
+            <div class="hidden md:block md:col-span-5 lg:col-span-5 xl:col-span-4 self-start sticky top-20">
+                <!-- Summary Card -->
+                <div class="bg-gray-900 rounded-2xl border border-orange-500/20 overflow-hidden shadow-xl">
 
                         <!-- Header - Fixed -->
                         <div class="p-4 border-b border-gray-800 flex-shrink-0">
@@ -291,7 +287,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
             </div>
         </div>
     </div>
