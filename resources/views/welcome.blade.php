@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RC GO - Sistem Usaha Kendaraan Remote Control</title>
+    <title>RC GO - Paket Usaha Mobil RC untung 900%</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
