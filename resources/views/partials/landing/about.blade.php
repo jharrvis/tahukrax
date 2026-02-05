@@ -17,17 +17,16 @@
                     Tentang <span class="text-orange-500">RC GO</span>
                 </h2>
                 <p class="text-gray-300 text-lg leading-relaxed">
-                    RC GO hadir untuk Anda yang ingin memulai usaha rental RC tanpa perlu repot membangun dari nol.
-                    Kami menyiapkan sistem yang siap dijalankan mulai dari unit RC berkualitas, panduan operasional yang
-                    mudah, hingga dukungan pemasaran agar usaha Anda cepat berjalan dan menarik pelanggan.
+                    RC GO adalah sistem usaha rental RC, di mana satu unit bisa dimainkan dan disewakan berkali-kali
+                    dalam sehari. Dari situlah peluang keuntungannya bisa terus berputar.
                 </p>
                 <p class="text-gray-300 text-lg leading-relaxed">
-                    Dengan RC GO, Anda bisa fokus menjalankan usaha dan mengembangkan cuan, tanpa pusing urusan stok dan
-                    perawatan. Urusan teknis, biar kami yang bantu.
+                    Semua sudah kami siapkan mulai dari unit RC, panduan operasional, sampai dukungan pemasaran. Jadi
+                    Anda tinggal fokus jalanin usaha, tanpa ribet urusan teknis dan perawatan.
                 </p>
                 <p class="text-gray-300 text-lg leading-relaxed">
-                    Sistem ini dikembangkan dari pengalaman operasional di lapangan, sehingga mitra bisa mulai dengan
-                    lebih terarah dan percaya diri
+                    Sistem ini kami kembangkan dari pengalaman langsung di lapangan, supaya mitra bisa mulai usaha
+                    dengan lebih terarah dan lebih percaya diri
                 </p>
                 <a href="#paket"
                     class="btn-primary px-6 py-3 rounded-full text-white font-bold text-lg inline-flex items-center gap-2 mt-4">

@@ -246,10 +246,6 @@
             </a>
             {{-- <a href="{{ route('home') }}#addons"
                 class="block text-white hover:text-orange-500 font-medium py-2">Add-ons</a> --}}
-            <a href="{{ route('home') }}#kontak"
-                class="block text-white hover:text-orange-500 font-medium py-2.5 px-3 rounded-lg hover:bg-gray-800/50 transition-all">
-                Kontak
-            </a>
 
             <div class="pt-4 border-t border-gray-800">
                 @auth
