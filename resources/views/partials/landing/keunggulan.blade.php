@@ -12,24 +12,33 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <!-- Keuntungan 1 -->
             <div
-                class="bg-gray-900 p-8 rounded-2xl shadow-lg text-left border border-gray-800 hover:border-orange-500 transition-all duration-300">
-                <div class="text-orange-500 text-5xl mb-4"><i class="fas fa-tools"></i></div>
+                class="bg-gray-900 p-8 rounded-2xl shadow-lg text-center border border-gray-800 hover:border-orange-500 transition-all duration-300">
+                <div class="mb-4">
+                    <img src="{{ asset('img/testimonials/testimoni-putra.webp') }}" alt="Testimoni Putra"
+                        class="w-full h-auto rounded-xl">
+                </div>
                 <h3 class="text-xl font-bold text-white mb-3">Fleksibel & Bisa Custom</h3>
                 <p class="text-gray-400">Saya awalnya beli paket yang paling murah, dan nambah lagi setelah lapak saya
                     rame.</p>
             </div>
             <!-- Keuntungan 2 -->
             <div
-                class="bg-gray-900 p-8 rounded-2xl shadow-lg text-left border border-gray-800 hover:border-orange-500 transition-all duration-300">
-                <div class="text-orange-500 text-5xl mb-4"><i class="fas fa-money-bill-wave"></i></div>
+                class="bg-gray-900 p-8 rounded-2xl shadow-lg text-center border border-gray-800 hover:border-orange-500 transition-all duration-300">
+                <div class="mb-4">
+                    <img src="{{ asset('img/testimonials/testimoni-anita.webp') }}" alt="Testimoni Anita"
+                        class="w-full h-auto rounded-xl">
+                </div>
                 <h3 class="text-xl font-bold text-white mb-3">Modal Ringan</h3>
                 <p class="text-gray-400">Gak nyangka ternyata modal <strong class="text-white">cuma 1jutaan</strong>
                     bisa cepet balik modalnya, jadi bisa nambah paket lain yang lebih lengkap.</p>
             </div>
             <!-- Keuntungan 3 -->
             <div
-                class="bg-gray-900 p-8 rounded-2xl shadow-lg text-left border border-gray-800 hover:border-orange-500 transition-all duration-300">
-                <div class="text-orange-500 text-5xl mb-4"><i class="fas fa-bolt"></i></div>
+                class="bg-gray-900 p-8 rounded-2xl shadow-lg text-center border border-gray-800 hover:border-orange-500 transition-all duration-300">
+                <div class="mb-4">
+                    <img src="{{ asset('img/testimonials/testimoni-koswara.webp') }}" alt="Testimoni Koswara"
+                        class="w-full h-auto rounded-xl">
+                </div>
                 <h3 class="text-xl font-bold text-white mb-3">Mudah Dijalankan</h3>
                 <p class="text-gray-400">Tanpa perlu keahlian khusus, saya bisa memperkerjakan anak lulusan SD untuk
                     menjaga lapaknya.</p>
