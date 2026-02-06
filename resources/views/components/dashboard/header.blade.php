@@ -6,11 +6,7 @@
         </button>
         <!-- Search Bar -->
         <div class="relative hidden sm:block">
-            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
-                <i class="fas fa-search"></i>
-            </span>
-            <input type="text" placeholder="Cari data..."
-                class="w-64 pl-10 pr-4 py-2 bg-slate-100 dark:bg-slate-800 border-none rounded-xl text-sm focus:ring-2 focus:ring-brand-500 outline-none transition-all">
+            <livewire:global-search />
         </div>
     </div>
 
@@ -22,12 +18,8 @@
         </button>
 
         <!-- Notifications -->
-        <button
-            class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl relative transition-colors">
-            <i class="far fa-bell"></i>
-            <span
-                class="absolute top-2 right-2.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-slate-900"></span>
-        </button>
+        <!-- Notifications Removed as requested -->
+
 
         <div class="h-8 w-[1px] bg-slate-200 dark:bg-slate-800 mx-1"></div>
 

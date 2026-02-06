@@ -6,13 +6,9 @@
     ]">
     <!-- Logo Area -->
     <div class="flex items-center justify-between h-16 px-4 border-b border-slate-200 dark:border-slate-800">
-        <div class="flex items-center gap-3 overflow-hidden">
-            <div class="bg-brand-500 p-2 rounded-lg shrink-0">
-                <i class="fas fa-car-side text-white"></i>
-            </div>
-            <span class="font-bold text-xl tracking-tight smooth-transition"
-                :class="isSidebarOpen ? 'opacity-100' : 'opacity-0 w-0'">RCGO</span>
-        </div>
+        <a href="{{ route('home') }}" class="flex items-center gap-3 overflow-hidden group">
+            <img src="{{ asset('assets/img/rcgo-logo.svg') }}" alt="RCGO" class="h-8 w-auto">
+        </a>
         <button @click="toggleSidebar()" class="hidden md:block p-1 text-slate-400 hover:text-brand-500">
             <i class="fas" :class="isSidebarOpen ? 'fa-angle-left' : 'fa-angle-right'"></i>
         </button>
