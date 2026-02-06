@@ -10,17 +10,19 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('order_confirmations', function (Illuminate\Database\Schema\Blueprint $table) {
-            $table->id();
-            $table->foreignId('order_id')->constrained()->onDelete('cascade');
-            $table->string('condition'); // good, damaged
-            $table->json('issue_types')->nullable();
-            $table->text('note')->nullable();
-            $table->json('proof_images')->nullable();
-            $table->integer('rating')->nullable();
-            $table->timestamp('received_at')->useCurrent();
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('order_confirmations')) {
+            Schema::create('order_confirmations', function (Illuminate\Database\Schema\Blueprint $table) {
+                $table->id();
+                $table->foreignId('order_id')->constrained()->onDelete('cascade');
+                $table->string('condition'); // good, damaged
+                $table->json('issue_types')->nullable();
+                $table->text('note')->nullable();
+                $table->json('proof_images')->nullable();
+                $table->integer('rating')->nullable();
+                $table->timestamp('received_at')->useCurrent();
+                $table->timestamps();
+            });
+        }
     }
 
     /**
