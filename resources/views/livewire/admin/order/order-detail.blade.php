@@ -48,10 +48,10 @@
                                 <div
                                     class="w-16 h-16 bg-slate-100 rounded-lg flex items-center justify-center shrink-0 overflow-hidden">
                                     @if($item->item_type == 'package' && $item->package && $item->package->image_url)
-                                        <img src="{{ $item->package->image_url }}" alt="{{ $item->package->name }}"
+                                        <img src="{{ asset('storage/' . $item->package->image_url) }}" alt="{{ $item->package->name }}"
                                             class="w-full h-full object-cover">
                                     @elseif(($item->item_type == 'addon' || $item->addon_id) && $item->addon && $item->addon->image_url)
-                                        <img src="{{ $item->addon->image_url }}" alt="{{ $item->addon->name }}"
+                                        <img src="{{ asset('storage/' . $item->addon->image_url) }}" alt="{{ $item->addon->name }}"
                                             class="w-full h-full object-cover">
                                     @else
                                         @if($item->item_type == 'package')
