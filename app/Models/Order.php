@@ -17,6 +17,7 @@ class Order extends Model
         'tracking_number',
         'note',
         'xendit_invoice_id',
+        'payment_url',
     ];
 
     public function user()

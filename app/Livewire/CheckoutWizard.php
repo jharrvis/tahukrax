@@ -417,7 +417,10 @@ class CheckoutWizard extends Component
         ]);
 
         if ($invoice && isset($invoice['invoice_url'])) {
-            $order->update(['xendit_invoice_id' => $invoice['id']]);
+            $order->update([
+                'xendit_invoice_id' => $invoice['id'],
+                'payment_url' => $invoice['invoice_url'],
+            ]);
 
             try {
                 if ($isNewUser) {

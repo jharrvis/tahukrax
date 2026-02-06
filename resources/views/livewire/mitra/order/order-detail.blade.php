@@ -38,6 +38,30 @@
         </div>
     </div>
 
+    {{-- Payment Reminder for Pending Orders --}}
+    @if($order->status === 'pending' && $order->payment_url)
+        <div
+            class="mb-6 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border-2 border-yellow-500/50 rounded-2xl p-6 animate-pulse-slow">
+            <div class="flex flex-col md:flex-row items-center gap-4">
+                <div class="w-16 h-16 bg-yellow-500/30 rounded-full flex items-center justify-center shrink-0">
+                    <i class="fas fa-exclamation-triangle text-yellow-500 text-2xl"></i>
+                </div>
+                <div class="flex-1 text-center md:text-left">
+                    <h3 class="font-bold text-lg text-yellow-600 dark:text-yellow-400 mb-1">
+                        <i class="fas fa-clock mr-1"></i> Menunggu Pembayaran
+                    </h3>
+                    <p class="text-slate-600 dark:text-slate-300 text-sm">
+                        Pesanan Anda belum dibayar. Segera selesaikan pembayaran untuk memproses pesanan.
+                    </p>
+                </div>
+                <a href="{{ $order->payment_url }}" target="_blank"
+                    class="px-8 py-3 bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-bold rounded-xl hover:from-yellow-600 hover:to-orange-600 transition-all shadow-lg hover:shadow-orange-500/30 flex items-center gap-2 shrink-0">
+                    <i class="fas fa-credit-card"></i> Bayar Sekarang
+                </a>
+            </div>
+        </div>
+    @endif
+
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <!-- Main Content -->
         <div class="lg:col-span-2 space-y-6">
