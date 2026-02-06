@@ -58,17 +58,17 @@
         </div>
         <div class="flex items-center gap-4">
             <span class="text-gray-500 text-xs uppercase tracking-wider mr-2">Follow Us</span>
-            <a href="#"
+            <a href="{{ $social_facebook }}" target="_blank"
                 class="w-7 h-7 flex items-center justify-center rounded-full bg-gray-800 hover:bg-orange-500 text-gray-400 hover:text-white transition-all"
                 title="Facebook">
                 <i class="fab fa-facebook-f text-xs"></i>
             </a>
-            <a href="#"
+            <a href="{{ $social_instagram }}" target="_blank"
                 class="w-7 h-7 flex items-center justify-center rounded-full bg-gray-800 hover:bg-gradient-to-tr hover:from-purple-600 hover:to-pink-500 text-gray-400 hover:text-white transition-all"
                 title="Instagram">
                 <i class="fab fa-instagram text-xs"></i>
             </a>
-            <a href="#"
+            <a href="{{ $social_tiktok }}" target="_blank"
                 class="w-7 h-7 flex items-center justify-center rounded-full bg-gray-800 hover:bg-black hover:ring-1 hover:ring-white text-gray-400 hover:text-white transition-all"
                 title="TikTok">
                 <i class="fab fa-tiktok text-xs"></i>

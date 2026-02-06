@@ -4,12 +4,12 @@
             <img src="{{ asset('assets/img/rcgo-logo.svg') }}" alt="RC GO Logo" class="h-10 md:h-12">
             <p class="text-xs md:text-sm text-gray-400">&copy; 2025 RC GO. Seluruh Hak Cipta Dilindungi.</p>
             <div class="flex gap-4 md:gap-6 text-lg md:text-xl">
-                <a href="#" class="text-gray-400 hover:text-orange-500 transition-colors"><i
-                        class="fab fa-facebook-f"></i></a>
-                <a href="#" class="text-gray-400 hover:text-orange-500 transition-colors"><i
-                        class="fab fa-instagram"></i></a>
-                <a href="#" class="text-gray-400 hover:text-orange-500 transition-colors"><i
-                        class="fab fa-tiktok"></i></a>
+                <a href="{{ $social_facebook }}" target="_blank"
+                    class="text-gray-400 hover:text-orange-500 transition-colors"><i class="fab fa-facebook-f"></i></a>
+                <a href="{{ $social_instagram }}" target="_blank"
+                    class="text-gray-400 hover:text-orange-500 transition-colors"><i class="fab fa-instagram"></i></a>
+                <a href="{{ $social_tiktok }}" target="_blank"
+                    class="text-gray-400 hover:text-orange-500 transition-colors"><i class="fab fa-tiktok"></i></a>
             </div>
         </div>
     </div>
