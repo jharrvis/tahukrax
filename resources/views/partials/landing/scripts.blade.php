@@ -138,18 +138,30 @@
     const notificationNames = [
         'Rina', 'Arief', 'Budi', 'Siti', 'Dewi', 'Ahmad', 'Fitri', 'Joko', 'Ani', 'Rudi',
         'Maya', 'Hendra', 'Lina', 'Agus', 'Putri', 'Dian', 'Eko', 'Ratna', 'Bambang', 'Sri',
-        'Yanto', 'Wati', 'Andi', 'Nur', 'Tono'
+        'Yanto', 'Wati', 'Andi', 'Nur', 'Tono', 'Indra', 'Sari', 'Rizky', 'Mega', 'Bayu',
+        'Fajar', 'Intan', 'Guntur', 'Laras', 'Dimas', 'Citra', 'Satria', 'Wulan', 'Bagus', 'Ratih',
+        'Adit', 'Nisa', 'Fikri', 'Ayu', 'Gilang', 'Tari', 'Reza', 'Vina', 'Dedi', 'Yuni',
+        'Hadi', 'Widya', 'Lukman', 'Rini', 'Ferry', 'Nadia', 'Ilham', 'Desi', 'Arif', 'Lilis',
+        'Rendy', 'Dina', 'Fauzi', 'Gina', 'Herry', 'Kiki', 'Iwan', 'Lia', 'Jaya', 'Nita',
+        'Kevin', 'Rika', 'Yoga', 'Tiara', 'Zainal', 'Puput', 'Rian', 'Siska', 'Teguh', 'Yulia',
+        'Aldi', 'Bella', 'Cahyo', 'Dini', 'Edwin', 'Farah', 'Galih', 'Heni', 'Imam', 'Juli',
+        'Koko', 'Lusi', 'Miko', 'Nana', 'Oscar', 'Pina', 'Qori', 'Rahmat', 'Santi', 'Tommy'
     ];
 
     const notificationCities = [
         'Jakarta', 'Surabaya', 'Bandung', 'Medan', 'Semarang', 'Bekasi', 'Tangerang', 'Depok',
         'Palembang', 'Makassar', 'Batam', 'Bogor', 'Malang', 'Yogyakarta', 'Denpasar',
         'Balikpapan', 'Pontianak', 'Banjarmasin', 'Samarinda', 'Manado', 'Solo', 'Cirebon',
-        'Pekanbaru', 'Jambi', 'Padang'
+        'Pekanbaru', 'Jambi', 'Padang', 'Bandar Lampung', 'Mataram', 'Kupang', 'Jayapura', 'Ambon',
+        'Bengkulu', 'Kendari', 'Palu', 'Sukabumi', 'Tegal', 'Tasikmalaya', 'Magelang', 'Probolinggo',
+        'Kediri', 'Madiun', 'Purwokerto', 'Banyuwangi', 'Jember', 'Garut', 'Cimahi', 'Salatiga',
+        'Blitar', 'Mojokerto', 'Pasuruan', 'Batu', 'Serang', 'Cilegon', 'Pangkal Pinang', 'Tanjung Pinang',
+        'Dumai', 'Binjai', 'Pematang Siantar', 'Tebing Tinggi', 'Lhokseumawe', 'Langsa', 'Palangkaraya',
+        'Tarakan', 'Bontang', 'Banjarbaru', 'Singkawang', 'Gorontalo', 'Ternate', 'Sorong', 'Merauke'
     ];
 
     const notificationPackages = [
-        'Paket Drift', 'Paket Offroad', 'Paket Stunt', 'Paket Alat Berat Mix', 'Paket Racing'
+        'Paket Drift', 'Paket Offroad', 'Paket Stunt', 'Paket Mix RC Car', 'Paket Excavator', 'Paket Mix Alat Berat'
     ];
 
     function createNotification() {
@@ -194,14 +206,21 @@
 
     // Start showing notifications after page load
     document.addEventListener('DOMContentLoaded', function () {
-        // Show first notification after 3 seconds
+        function scheduleNextNotification() {
+            // Random delay between 15-40 seconds for more natural feel
+            const randomDelay = Math.random() * 25000 + 15000;
+            
+            setTimeout(() => {
+                createNotification();
+                scheduleNextNotification(); // Schedule the next one
+            }, randomDelay);
+        }
+
+        // Show first notification after 8-12 seconds (random)
+        const initialDelay = Math.random() * 4000 + 8000;
         setTimeout(() => {
             createNotification();
-
-            // Then show random notifications every 8-15 seconds
-            setInterval(() => {
-                createNotification();
-            }, Math.random() * 7000 + 8000); // Random between 8-15 seconds
-        }, 3000);
+            scheduleNextNotification();
+        }, initialDelay);
     });
 </script>
