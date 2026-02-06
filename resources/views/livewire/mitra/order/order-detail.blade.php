@@ -72,11 +72,19 @@
                     @foreach ($order->orderItems as $item)
                         <div class="flex gap-4 p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl">
                             <div
-                                class="w-16 h-16 bg-white rounded-lg flex items-center justify-center border border-slate-200 shrink-0">
-                                @if($item->item_type == 'package')
-                                    <i class="fas fa-box text-brand-500 text-2xl"></i>
+                                class="w-16 h-16 bg-white rounded-lg flex items-center justify-center border border-slate-200 shrink-0 overflow-hidden">
+                                @if($item->item_type == 'package' && $item->package && $item->package->image_url)
+                                    <img src="{{ $item->package->image_url }}" alt="{{ $item->package->name }}"
+                                        class="w-full h-full object-cover">
+                                @elseif(($item->item_type == 'addon' || $item->addon_id) && $item->addon && $item->addon->image_url)
+                                    <img src="{{ $item->addon->image_url }}" alt="{{ $item->addon->name }}"
+                                        class="w-full h-full object-cover">
                                 @else
-                                    <i class="fas fa-puzzle-piece text-purple-500 text-2xl"></i>
+                                    @if($item->item_type == 'package')
+                                        <i class="fas fa-box text-brand-500 text-2xl"></i>
+                                    @else
+                                        <i class="fas fa-puzzle-piece text-purple-500 text-2xl"></i>
+                                    @endif
                                 @endif
                             </div>
                             <div class="flex-1">

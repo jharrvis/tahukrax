@@ -45,11 +45,20 @@
                         <div
                             class="flex justify-between items-center border-b border-slate-50 dark:border-slate-800 last:border-0 pb-4 last:pb-0">
                             <div class="flex items-center gap-4">
-                                <div class="w-16 h-16 bg-slate-100 rounded-lg flex items-center justify-center shrink-0">
-                                    @if($item->item_type == 'package')
-                                        <i class="fas fa-box text-brand-500 text-2xl"></i>
+                                <div
+                                    class="w-16 h-16 bg-slate-100 rounded-lg flex items-center justify-center shrink-0 overflow-hidden">
+                                    @if($item->item_type == 'package' && $item->package && $item->package->image_url)
+                                        <img src="{{ $item->package->image_url }}" alt="{{ $item->package->name }}"
+                                            class="w-full h-full object-cover">
+                                    @elseif(($item->item_type == 'addon' || $item->addon_id) && $item->addon && $item->addon->image_url)
+                                        <img src="{{ $item->addon->image_url }}" alt="{{ $item->addon->name }}"
+                                            class="w-full h-full object-cover">
                                     @else
-                                        <i class="fas fa-puzzle-piece text-purple-500 text-xl"></i>
+                                        @if($item->item_type == 'package')
+                                            <i class="fas fa-box text-brand-500 text-2xl"></i>
+                                        @else
+                                            <i class="fas fa-puzzle-piece text-purple-500 text-xl"></i>
+                                        @endif
                                     @endif
                                 </div>
                                 <div>

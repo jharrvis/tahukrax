@@ -68,7 +68,8 @@
                                     class="text-xs font-bold uppercase px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded">{{ $addon->type ?? 'General' }}</span>
                             </td>
                             <td class="px-6 py-4">
-                                <span class="text-sm font-medium">Rp {{ number_format($addon->price, 0, ',', '.') }}</span>
+                                <span class="text-sm font-medium">Rp
+                                    {{ number_format((float) $addon->price, 0, ',', '.') }}</span>
                             </td>
                             <td class="px-6 py-4">
                                 <span class="text-sm">{{ $addon->weight_kg }} kg</span>
