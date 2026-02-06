@@ -123,4 +123,45 @@
             background-attachment: scroll;
         }
     }
+
+    /* Live Notifications */
+    #live-notifications-container {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        z-index: 999;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        max-width: 320px;
+    }
+
+    .live-notification {
+        background: linear-gradient(135deg, rgba(17, 24, 39, 0.95) 0%, rgba(31, 41, 55, 0.95) 100%);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(249, 115, 22, 0.3);
+        border-radius: 12px;
+        padding: 12px 16px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        transform: translateX(-120%);
+        opacity: 0;
+        transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    .live-notification.show {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    @media (max-width: 640px) {
+        #live-notifications-container {
+            bottom: 10px;
+            left: 10px;
+            max-width: 280px;
+        }
+
+        .live-notification {
+            padding: 10px 12px;
+        }
+    }
 </style>

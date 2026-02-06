@@ -104,14 +104,14 @@
 
     function openConfirmModal(title, message, callback) {
         if (!confirmModal) return;
-        
+
         document.getElementById('confirm-title').innerText = title || 'Konfirmasi';
         document.getElementById('confirm-message').innerText = message || 'Apakah Anda yakin?';
         confirmCallback = callback;
 
         confirmModal.classList.remove('hidden');
         confirmModal.classList.add('flex');
-        
+
         // Animation trigger
         setTimeout(() => {
             confirmModal.classList.remove('opacity-0');
@@ -126,11 +126,82 @@
         }
 
         confirmModal.classList.add('opacity-0');
-        
+
         setTimeout(() => {
             confirmModal.classList.add('hidden');
             confirmModal.classList.remove('flex');
             confirmCallback = null;
         }, 300);
     }
+
+    // Live Notification Pop-ups
+    const notificationNames = [
+        'Rina', 'Arief', 'Budi', 'Siti', 'Dewi', 'Ahmad', 'Fitri', 'Joko', 'Ani', 'Rudi',
+        'Maya', 'Hendra', 'Lina', 'Agus', 'Putri', 'Dian', 'Eko', 'Ratna', 'Bambang', 'Sri',
+        'Yanto', 'Wati', 'Andi', 'Nur', 'Tono'
+    ];
+
+    const notificationCities = [
+        'Jakarta', 'Surabaya', 'Bandung', 'Medan', 'Semarang', 'Bekasi', 'Tangerang', 'Depok',
+        'Palembang', 'Makassar', 'Batam', 'Bogor', 'Malang', 'Yogyakarta', 'Denpasar',
+        'Balikpapan', 'Pontianak', 'Banjarmasin', 'Samarinda', 'Manado', 'Solo', 'Cirebon',
+        'Pekanbaru', 'Jambi', 'Padang'
+    ];
+
+    const notificationPackages = [
+        'Paket Drift', 'Paket Offroad', 'Paket Stunt', 'Paket Alat Berat Mix', 'Paket Racing'
+    ];
+
+    function createNotification() {
+        const name = notificationNames[Math.floor(Math.random() * notificationNames.length)];
+        const city = notificationCities[Math.floor(Math.random() * notificationCities.length)];
+        const packageName = notificationPackages[Math.floor(Math.random() * notificationPackages.length)];
+
+        const notification = document.createElement('div');
+        notification.className = 'live-notification';
+        notification.innerHTML = `
+            <div class="flex items-start gap-3">
+                <div class="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center shrink-0">
+                    <i class="fas fa-check text-white text-sm"></i>
+                </div>
+                <div class="flex-1">
+                    <p class="text-sm font-semibold text-white">
+                        <span class="text-orange-400">${name}</span> – ${city}
+                    </p>
+                    <p class="text-xs text-gray-300">baru saja mengambil ${packageName}</p>
+                </div>
+            </div>
+        `;
+
+        const container = document.getElementById('live-notifications-container');
+        if (container) {
+            container.appendChild(notification);
+
+            // Trigger animation
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100);
+
+            // Remove after 5 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 5000);
+        }
+    }
+
+    // Start showing notifications after page load
+    document.addEventListener('DOMContentLoaded', function () {
+        // Show first notification after 3 seconds
+        setTimeout(() => {
+            createNotification();
+
+            // Then show random notifications every 8-15 seconds
+            setInterval(() => {
+                createNotification();
+            }, Math.random() * 7000 + 8000); // Random between 8-15 seconds
+        }, 3000);
+    });
 </script>

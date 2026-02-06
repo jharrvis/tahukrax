@@ -74,6 +74,9 @@
     </script>
     <script src="https://cekat.biz.id/widget/widget.min.js?v=2026.02.01" async></script>
 
+    <!-- Live Notifications Container -->
+    <div id="live-notifications-container"></div>
+
 </body>
 
 </html>
