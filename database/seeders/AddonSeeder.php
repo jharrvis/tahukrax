@@ -10,131 +10,53 @@ class AddonSeeder extends Seeder
     public function run(): void
     {
         $addons = [
-            // Unit RC Tambahan
-            [
-                'name' => 'RC Drift',
-                'type' => 'car',
-                'price' => 300000,
-                'stock' => 50,
-                'weight_kg' => 1.5,
-                'description' => 'Unit RC Drift Premium dengan handling presisi dan body skala 1:16. Cocok untuk arena indoor dengan permukaan halus. Termasuk remote control 2.4GHz dan baterai rechargeable.'
-            ],
-            [
-                'name' => 'RC Off-road',
-                'type' => 'car',
-                'price' => 380000,
-                'stock' => 50,
-                'weight_kg' => 2.0,
-                'description' => 'Unit RC Off-road 4WD tangguh untuk segala medan. Suspensi independen, ban karet anti slip. Ideal untuk area outdoor seperti taman, lapangan, dan pantai.'
-            ],
-            [
-                'name' => 'RC Stunt',
-                'type' => 'car',
-                'price' => 400000,
-                'stock' => 50,
-                'weight_kg' => 1.8,
-                'description' => 'Unit RC Stunt dengan kemampuan akrobatik 360°, bisa jalan terbalik dan berputar. Paling diminati anak-anak untuk atraksi seru dan menarik perhatian pengunjung.'
-            ],
-            [
-                'name' => 'Excavator',
-                'type' => 'car',
-                'price' => 475000,
-                'stock' => 30,
-                'weight_kg' => 2.5,
-                'description' => 'RC Excavator dengan fungsi beko realistis: lengan bergerak, bucket bisa mengangkat. Unik dan edukatif, menjadi favorit anak-anak yang suka alat berat.'
-            ],
-            [
-                'name' => 'Dump Truck',
-                'type' => 'car',
-                'price' => 375000,
-                'stock' => 30,
-                'weight_kg' => 2.2,
-                'description' => 'RC Dump Truck dengan bak yang bisa diangkat otomatis. Roda besar dan kokoh untuk bermain di area pasir atau tanah. Cocok untuk tema konstruksi.'
-            ],
-            [
-                'name' => 'Bulldozer',
-                'type' => 'car',
-                'price' => 390000,
-                'stock' => 30,
-                'weight_kg' => 2.3,
-                'description' => 'RC Bulldozer dengan blade depan yang bisa bergerak naik turun. Track/rantai realistis untuk traksi maksimal. Pelengkap sempurna untuk paket alat berat.'
-            ],
+            // Booths
+            ['name' => 'Booth Koper Mini', 'price' => 2250000, 'type' => 'booth', 'weight_kg' => 10, 'description' => 'Booth portable ukuran mini, mudah dibawa.'],
+            ['name' => 'Booth Koper Reguler', 'price' => 3750000, 'type' => 'booth', 'weight_kg' => 15, 'description' => 'Booth portable ukuran reguler.'],
+            ['name' => 'Booth Lipat Kayu', 'price' => 1500000, 'type' => 'booth', 'weight_kg' => 12, 'description' => 'Booth lipat bahan kayu estetik.'],
+            ['name' => 'Booth Galvalum', 'price' => 3000000, 'type' => 'booth', 'weight_kg' => 20, 'description' => 'Booth bahan galvalum awet dan kokoh.'],
+            ['name' => 'Booth Kontainer', 'price' => 5500000, 'type' => 'booth', 'weight_kg' => 50, 'description' => 'Booth style kontainer industrial.'],
 
-            // Aksesoris & Sparepart
-            [
-                'name' => 'Cas Rakitan',
-                'type' => 'accessory',
-                'price' => 130000,
-                'stock' => 100,
-                'weight_kg' => 0.5,
-                'description' => 'Charger rakitan custom untuk baterai RC. Bisa mengisi hingga 4 baterai sekaligus. Hemat waktu charging dan cocok untuk operasional rental yang sibuk.'
-            ],
-            [
-                'name' => 'Upgrade Remot + Timer',
-                'type' => 'accessory',
-                'price' => 150000,
-                'stock' => 80,
-                'weight_kg' => 0.3,
-                'description' => 'Upgrade remote dengan fitur timer digital. Otomatis mati setelah waktu rental habis (5/10/15 menit). Memudahkan manajemen sewa dan menghindari konflik dengan pelanggan.'
-            ],
-            [
-                'name' => 'Baterai Rakitan 1450',
-                'type' => 'accessory',
-                'price' => 20000,
-                'stock' => 200,
-                'weight_kg' => 0.1,
-                'description' => 'Baterai rakitan 1450mAh untuk RC Drift dan Stunt. Durasi pakai sekitar 15-20 menit per charge. Wajib punya cadangan untuk kelancaran operasional.'
-            ],
-            [
-                'name' => 'Baterai Rakitan 18650',
-                'type' => 'accessory',
-                'price' => 25000,
-                'stock' => 200,
-                'weight_kg' => 0.15,
-                'description' => 'Baterai rakitan 18650 kapasitas lebih besar untuk RC Off-road dan alat berat. Durasi pakai 20-30 menit. Lebih awet dan tahan lama.'
-            ],
+            // Bahan Baku
+            ['name' => 'Tepung Tahu Krax', 'price' => 103000, 'type' => 'material', 'weight_kg' => 1, 'description' => 'Tepung bumbu rahasia Tahu Krax.'],
 
-            // Perlengkapan Arena
-            [
-                'name' => 'Standing Banner',
-                'type' => 'track',
-                'price' => 35000,
-                'stock' => 100,
-                'weight_kg' => 0.5,
-                'description' => 'Standing banner untuk branding usaha rental Anda. Ukuran A3, desain custom dengan logo RC GO. Menarik perhatian pengunjung dari kejauhan.'
-            ],
-            [
-                'name' => 'Banner Arena Drift 2m x 3m',
-                'type' => 'track',
-                'price' => 150000,
-                'stock' => 50,
-                'weight_kg' => 1.0,
-                'description' => 'Banner alas arena drift ukuran 2x3 meter dengan desain track printed. Permukaan licin optimal untuk drift. Mudah dilipat dan dibawa-bawa.'
-            ],
-            [
-                'name' => 'Arena Pipa Kecil',
-                'type' => 'track',
-                'price' => 430000,
-                'stock' => 20,
-                'weight_kg' => 5.0,
-                'description' => 'Arena pipa PVC ukuran kecil (2x2 meter). Modular dan bisa dibongkar pasang. Cocok untuk area terbatas seperti mall atau ruko.'
-            ],
-            [
-                'name' => 'Arena Pipa Besar',
-                'type' => 'track',
-                'price' => 1700000,
-                'stock' => 10,
-                'weight_kg' => 15.0,
-                'description' => 'Arena pipa PVC ukuran besar premium (4x4 meter). Desain profesional dengan belokan dan terowongan. Menjadi daya tarik utama untuk event besar.'
-            ],
-            [
-                'name' => 'Obstacle/Rintangan @1pcs',
-                'type' => 'track',
-                'price' => 150000,
-                'stock' => 100,
-                'weight_kg' => 1.0,
-                'description' => 'Obstacle/rintangan satuan untuk arena off-road. Berbagai bentuk: tanjakan, jembatan, terowongan. Menambah tantangan dan keseruan bermain.'
-            ],
+            // Peralatan & Perlengkapan
+            ['name' => 'Standing banner', 'price' => 35000, 'type' => 'equipment', 'weight_kg' => 1, 'description' => 'Banner promosi berdiri.'],
+            ['name' => 'Kompor 1 tungku', 'price' => 500000, 'type' => 'equipment', 'weight_kg' => 3, 'description' => 'Kompor gas 1 tungku SNI.'],
+            ['name' => 'Selang+regulator', 'price' => 250000, 'type' => 'equipment', 'weight_kg' => 1, 'description' => 'Selang gas dan regulator aman.'],
+            ['name' => 'Kaos', 'price' => 150000, 'type' => 'merchandise', 'weight_kg' => 0.2, 'description' => 'Kaos seragam Tahu Krax.'],
+            ['name' => 'Topi', 'price' => 75000, 'type' => 'merchandise', 'weight_kg' => 0.1, 'description' => 'Topi seragam Tahu Krax.'],
+            ['name' => 'Celemek', 'price' => 65000, 'type' => 'merchandise', 'weight_kg' => 0.1, 'description' => 'Celemek/Apron masak.'],
+            ['name' => 'Serok besar', 'price' => 60000, 'type' => 'equipment', 'weight_kg' => 0.5, 'description' => 'Serok penggorengan ukuran besar.'],
+            ['name' => 'Serok kecil', 'price' => 40000, 'type' => 'equipment', 'weight_kg' => 0.3, 'description' => 'Serok penggorengan ukuran kecil.'],
+            ['name' => 'Wajan', 'price' => 200000, 'type' => 'equipment', 'weight_kg' => 2, 'description' => 'Wajan penggorengan khusus.'],
+            ['name' => 'Saringan minyak', 'price' => 50000, 'type' => 'equipment', 'weight_kg' => 0.2, 'description' => 'Saringan untuk meniriskan minyak.'],
+
+            // Bumbu Tabur
+            ['name' => 'BB Tabur Extra Hot', 'price' => 43400, 'type' => 'material', 'weight_kg' => 0.5, 'description' => 'Bumbu tabur pedas level ekstra.'],
+            ['name' => 'BB Tabur Lv 3', 'price' => 49100, 'type' => 'material', 'weight_kg' => 0.5, 'description' => 'Bumbu tabur pedas level 3.'],
+            ['name' => 'BB Tabur Lv 5', 'price' => 54200, 'type' => 'material', 'weight_kg' => 0.5, 'description' => 'Bumbu tabur pedas level 5.'],
+            ['name' => 'BB Tabur Lv 6', 'price' => 59500, 'type' => 'material', 'weight_kg' => 0.5, 'description' => 'Bumbu tabur pedas level 6.'],
+            ['name' => 'BB Tabur Lv 7', 'price' => 64700, 'type' => 'material', 'weight_kg' => 0.5, 'description' => 'Bumbu tabur pedas level 7.'],
+            ['name' => 'BB Tabur Keju', 'price' => 37800, 'type' => 'material', 'weight_kg' => 0.5, 'description' => 'Bumbu tabur rasa keju.'],
+            ['name' => 'BB Tabur Pizza', 'price' => 42800, 'type' => 'material', 'weight_kg' => 0.5, 'description' => 'Bumbu tabur rasa pizza.'],
+            ['name' => 'BB Tabur Sapi Panggang', 'price' => 37800, 'type' => 'material', 'weight_kg' => 0.5, 'description' => 'Bumbu tabur rasa sapi panggang.'],
+            ['name' => 'BB Tabur Balado', 'price' => 37800, 'type' => 'material', 'weight_kg' => 0.5, 'description' => 'Bumbu tabur rasa balado.'],
+            ['name' => 'BB Tabur BBQ', 'price' => 37800, 'type' => 'material', 'weight_kg' => 0.5, 'description' => 'Bumbu tabur rasa BBQ.'],
+            ['name' => 'BB Tabur Ikan Bakar', 'price' => 48500, 'type' => 'material', 'weight_kg' => 0.5, 'description' => 'Bumbu tabur rasa ikan bakar.'],
+            ['name' => 'BB Tabur Teriyaki', 'price' => 37800, 'type' => 'material', 'weight_kg' => 0.5, 'description' => 'Bumbu tabur rasa teriyaki.'],
+            ['name' => 'BB Tabur Jagung Mexiko', 'price' => 42800, 'type' => 'material', 'weight_kg' => 0.5, 'description' => 'Bumbu tabur rasa jagung mexiko.'],
+            ['name' => 'BB Tabur Rendang', 'price' => 43500, 'type' => 'material', 'weight_kg' => 0.5, 'description' => 'Bumbu tabur rasa rendang.'],
+            ['name' => 'BB Tabur Sambal Setan', 'price' => 75200, 'type' => 'material', 'weight_kg' => 0.5, 'description' => 'Bumbu tabur sambal setan (sangat pedas).'],
+            ['name' => 'BB Tabur Sambal Dewa', 'price' => 117000, 'type' => 'material', 'weight_kg' => 0.5, 'description' => 'Bumbu tabur sambal dewa (premium).'],
+            ['name' => 'BB Tabur Sambal Mercon', 'price' => 129000, 'type' => 'material', 'weight_kg' => 0.5, 'description' => 'Bumbu tabur sambal mercon (eksplosif).'],
+            ['name' => 'BB Tabur Basreng Original', 'price' => 49100, 'type' => 'material', 'weight_kg' => 0.5, 'description' => 'Bumbu khusus Basreng original.'],
+            ['name' => 'BB Tabur Basreng Lv 10', 'price' => 54200, 'type' => 'material', 'weight_kg' => 0.5, 'description' => 'Bumbu khusus Basreng level 10.'],
+            ['name' => 'BB Tabur Basreng Lv 15', 'price' => 64700, 'type' => 'material', 'weight_kg' => 0.5, 'description' => 'Bumbu khusus Basreng level 15.'],
+
+            // Bumbu Rendam & Lainnya
+            ['name' => 'Bumbu Rendam', 'price' => 38000, 'type' => 'material', 'weight_kg' => 0.5, 'description' => 'Bumbu marinasi rendam.'],
+            ['name' => 'Bungkus Reguler @100 pcs', 'price' => 32500, 'type' => 'packaging', 'weight_kg' => 0.5, 'description' => 'Kemasan bungkus reguler isi 100 pcs.'],
         ];
 
         foreach ($addons as $addon) {

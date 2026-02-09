@@ -10,15 +10,16 @@
             </a>
 
             <div class="hidden md:flex items-center gap-8">
-                <a href="#hero" class="text-primary font-bold text-sm tracking-wide uppercase">Beranda</a>
-                <a href="#about"
+                <a href="{{ request()->routeIs('home') ? '#hero' : url('/#hero') }}"
+                    class="text-primary font-bold text-sm tracking-wide uppercase">Beranda</a>
+                <a href="{{ request()->routeIs('home') ? '#about' : url('/#about') }}"
                     class="text-gray-600 hover:text-primary font-semibold text-sm tracking-wide uppercase transition-colors">Tentang</a>
-                <a href="#keuntungan"
+                <a href="{{ request()->routeIs('home') ? '#keuntungan' : url('/#keuntungan') }}"
                     class="text-gray-600 hover:text-primary font-semibold text-sm tracking-wide uppercase transition-colors">Keuntungan</a>
-                <a href="#packages"
+                <a href="{{ request()->routeIs('home') ? '#packages' : url('/#packages') }}"
                     class="text-gray-600 hover:text-primary font-semibold text-sm tracking-wide uppercase transition-colors">Paket
                     Usaha</a>
-                <a href="#bonus"
+                <a href="{{ request()->routeIs('home') ? '#bonus' : url('/#bonus') }}"
                     class="text-gray-600 hover:text-primary font-semibold text-sm tracking-wide uppercase transition-colors">Bonus</a>
             </div>
 
@@ -108,7 +109,8 @@
                     </div>
                     <div>
                         <p class="text-sm font-bold text-gray-800">
-                            {{ \Illuminate\Support\Str::limit(auth()->user()->name, 15) }}</p>
+                            {{ \Illuminate\Support\Str::limit(auth()->user()->name, 15) }}
+                        </p>
                         <p class="text-xs text-gray-500 truncate max-w-[150px]">{{ auth()->user()->email }}</p>
                     </div>
                 </div>
