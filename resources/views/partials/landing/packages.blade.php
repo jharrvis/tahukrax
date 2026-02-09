@@ -46,7 +46,8 @@
                     <div class="p-6 flex flex-col flex-grow">
                         <h3 class="text-xl font-bold mb-2 text-gray-800">{{ $p->name }}</h3>
                         <p class="text-gray-500 text-sm mb-4 flex-grow">
-                            {{ $p->description ?? 'Paket usaha lengkap siap jualan.' }}</p>
+                            {{ $p->description ?? 'Paket usaha lengkap siap jualan.' }}
+                        </p>
 
                         <!-- Optional Features List (Limited to 3) -->
                         @if($p->features && is_array($p->features))

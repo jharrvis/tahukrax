@@ -4,7 +4,7 @@
 
     <!-- Hero Image (85% height, no styles) -->
     <div class="hidden lg:block absolute top-1/2 right-24 -translate-y-1/2 h-[85%] w-[45%]">
-        <img src="{{ asset('assets/img/tahukrax.webp') }}" alt="Tahu Krax"
+        <img src="{{ asset('img/produk-tahukrax.png') }}" alt="Tahu Krax"
             class="w-full h-full object-contain object-right">
     </div>
 

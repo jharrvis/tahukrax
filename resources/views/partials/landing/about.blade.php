@@ -1,6 +1,5 @@
 <!-- ABOUT_SECTION -->
-<section id="about"
-    class="py-16 md:py-24 bg-gradient-to-br from-white via-cream to-orange-50 relative overflow-hidden">
+<section id="about" class="py-16 md:py-24 bg-gradient-to-br from-white via-cream to-orange-50 relative overflow-hidden">
     <!-- Decorative Elements -->
     <!-- Top Left Dotted Pattern -->
     <div class="absolute top-10 left-10 w-24 h-24 opacity-30">
@@ -23,8 +22,7 @@
     <!-- Large Circular Arc Behind Image -->
     <div class="absolute top-1/2 left-0 -translate-y-1/2 w-96 h-96 opacity-20">
         <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="100" cy="100" r="80" stroke="#FF6B35" stroke-width="4" fill="none"
-                stroke-dasharray="10 5" />
+            <circle cx="100" cy="100" r="80" stroke="#FF6B35" stroke-width="4" fill="none" stroke-dasharray="10 5" />
             <circle cx="100" cy="100" r="60" fill="#FF6B35" opacity="0.1" />
         </svg>
     </div>
@@ -46,7 +44,7 @@
     <div class="container mx-auto px-4 md:px-8 relative z-10">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div class="fade-up relative">
-                <img src="{{ asset('assets/img/tentang-tahukrax.webp') }}" alt="Tentang Tahu Krax" class="w-full relative z-10">
+                <img src="{{ asset('img/tahukrax.webp') }}" alt="Tentang Tahu Krax" class="w-full relative z-10">
             </div>
             <div class="fade-up text-center lg:text-left">
                 <h2 class="text-primary text-3xl md:text-4xl font-bold mb-6">

@@ -15,8 +15,8 @@
                     class="bg-gray-900 p-4 rounded-xl shadow-lg text-left border border-gray-800 hover:border-orange-500 transition-all duration-300 flex flex-col h-full group">
 
                     <div class="relative mb-3">
-                        <img src="{{ $addon->image_url ? asset('storage/' . $addon->image_url) : asset('assets/img/tahukrax.webp') }}"
-                            onerror="this.src='{{ asset("assets/img/tahukrax.webp") }}'" alt="{{ $addon->name }}"
+                        <img src="{{ $addon->image_url ? asset('storage/' . $addon->image_url) : asset('img/tahukrax.webp') }}"
+                            onerror="this.src='{{ asset("img/tahukrax.webp") }}'" alt="{{ $addon->name }}"
                             class="w-full h-32 md:h-40 object-contain rounded-lg bg-gray-950/50 p-2">
                         <div class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
                             <span class="bg-orange-500 text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-lg">

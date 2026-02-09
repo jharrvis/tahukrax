@@ -4,7 +4,7 @@
         <div class="flex items-center justify-between h-20">
             <!-- Logo -->
             <a href="#" class="flex items-center gap-3">
-                <img src="{{ asset('img/tahukrax-logo.png') }}"
+                <img src="{{ asset('img/logo.svg') }}"
                     onerror="this.src='https://placehold.co/150x50/png?text=TahuKrax'" alt="Tahu Krax Logo"
                     class="h-12 w-auto">
             </a>

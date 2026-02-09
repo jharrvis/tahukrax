@@ -44,7 +44,7 @@
                     @php
                         $packageModel = $allPackages->firstWhere('id', $pkg['id']);
                         $imageUrl = null;
-                        $imageSrc = asset('assets/img/tahukrax.webp'); // default
+                        $imageSrc = asset('img/tahukrax.webp'); // default
                         
                         if ($packageModel && $packageModel->image_url) {
                             $imageUrl = $packageModel->image_url;
@@ -64,7 +64,7 @@
                         <div class="w-full md:w-32 lg:w-40 h-24 md:h-auto bg-gray-800 cursor-pointer relative group flex-shrink-0"
                              @click="openModal('{{ $imageSrc }}', '{{ $pkg['name'] }}')">
                             <img src="{{ $imageSrc }}" 
-                                onerror="this.onerror=null; this.src='{{ asset('assets/img/tahukrax.webp') }}'"
+                                onerror="this.onerror=null; this.src='{{ asset('img/tahukrax.webp') }}'"
                                 alt="{{ $pkg['name'] }}" 
                                 class="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform">
                             <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
