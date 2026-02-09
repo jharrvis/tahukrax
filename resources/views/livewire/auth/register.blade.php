@@ -1,93 +1,95 @@
-<div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+<div
+    class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden bg-[#FFFBF5]">
     <!-- Background Effects -->
-    <div class="absolute inset-0 opacity-20 pointer-events-none">
-        <div class="absolute top-20 right-10 w-80 h-80 bg-orange-500 rounded-full blur-3xl"></div>
-        <div class="absolute bottom-20 left-10 w-72 h-72 bg-orange-600 rounded-full blur-3xl"></div>
+    <div class="absolute inset-0 opacity-10 pointer-events-none">
+        <div class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-orange-300 rounded-full blur-[100px]"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-orange-200 rounded-full blur-[100px]"></div>
     </div>
 
     <div class="max-w-md w-full space-y-8 relative z-10">
         <!-- Logo & Title -->
         <div class="text-center">
             <div class="flex justify-center mb-6">
-                <a href="{{ route('home') }}"
-                    class="drop-shadow-[0_0_15px_rgba(255,165,0,0.5)] hover:scale-105 transition-transform cursor-pointer">
-                    <span class="text-3xl font-bold text-primary">TahuKrax</span>
+                <a href="{{ route('home') }}">
+                    <img src="{{ asset('img/logo.svg') }}"
+                        onerror="this.src='https://placehold.co/150x50/png?text=TahuKrax'" alt="Tahu Krax Logo"
+                        class="h-16 md:h-20 drop-shadow-md hover:scale-105 transition-transform cursor-pointer">
                 </a>
             </div>
-            <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">Bergabung Bersama Kami</h2>
-            <p class="text-sm text-gray-400">
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">Bergabung Bersama Kami</h2>
+            <p class="text-sm text-gray-500">
                 Daftar Kemitraan TahuKrax Sekarang
             </p>
         </div>
 
         <!-- Register Card -->
-        <div class="bg-gray-900/50 backdrop-blur-lg p-8 rounded-2xl border border-gray-800 shadow-2xl">
-            <form wire:submit.prevent="register" class="space-y-5">
-                <!-- Full Name Field -->
+        <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-xl shadow-orange-500/5">
+            <form wire:submit.prevent="register" class="space-y-6">
+                <!-- Name Field -->
                 <div>
-                    <label for="name" class="block text-sm font-semibold text-gray-300 mb-2">
+                    <label for="name" class="block text-sm font-bold text-gray-700 mb-2">
                         Nama Lengkap
                     </label>
                     <div class="relative">
-                        <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-500">
+                        <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-400">
                             <i class="fas fa-user"></i>
                         </span>
                         <input wire:model="name" id="name" name="name" type="text" required
-                            class="block w-full pl-12 pr-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition-all"
+                            class="block w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-medium"
                             placeholder="John Doe">
                     </div>
                     @error('name')
-                        <span class="text-red-400 text-xs mt-1 block">{{ $message }}</span>
+                        <span class="text-red-500 text-xs font-medium mt-1 block">{{ $message }}</span>
                     @enderror
                 </div>
 
                 <!-- Email Field -->
                 <div>
-                    <label for="email" class="block text-sm font-semibold text-gray-300 mb-2">
+                    <label for="email" class="block text-sm font-bold text-gray-700 mb-2">
                         Email Address
                     </label>
                     <div class="relative">
-                        <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-500">
+                        <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-400">
                             <i class="fas fa-envelope"></i>
                         </span>
                         <input wire:model="email" id="email" name="email" type="email" required
-                            class="block w-full pl-12 pr-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition-all"
-                            placeholder="john@example.com">
+                            class="block w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-medium"
+                            placeholder="nama@email.com">
                     </div>
                     @error('email')
-                        <span class="text-red-400 text-xs mt-1 block">{{ $message }}</span>
+                        <span class="text-red-500 text-xs font-medium mt-1 block">{{ $message }}</span>
                     @enderror
                 </div>
 
                 <!-- Password Fields -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label for="password" class="block text-sm font-semibold text-gray-300 mb-2">
+                        <label for="password" class="block text-sm font-bold text-gray-700 mb-2">
                             Password
                         </label>
                         <div class="relative">
-                            <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-500">
+                            <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-400">
                                 <i class="fas fa-lock"></i>
                             </span>
                             <input wire:model="password" id="password" name="password" type="password" required
-                                class="block w-full pl-12 pr-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition-all">
+                                class="block w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-medium">
                         </div>
                         @error('password')
-                            <span class="text-red-400 text-xs mt-1 block">{{ $message }}</span>
+                            <span class="text-red-500 text-xs font-medium mt-1 block">{{ $message }}</span>
                         @enderror
                     </div>
 
                     <div>
-                        <label for="password_confirmation" class="block text-sm font-semibold text-gray-300 mb-2">
+                        <label for="password_confirmation" class="block text-sm font-bold text-gray-700 mb-2">
                             Konfirmasi
                         </label>
                         <div class="relative">
-                            <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-500">
+                            <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-400">
                                 <i class="fas fa-check-double"></i>
                             </span>
                             <input wire:model="password_confirmation" id="password_confirmation"
                                 name="password_confirmation" type="password" required
-                                class="block w-full pl-12 pr-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition-all">
+                                class="block w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-medium">
                         </div>
                     </div>
                 </div>
@@ -96,15 +98,14 @@
                 <div class="flex items-start">
                     <div class="flex items-center h-5">
                         <input id="terms" name="terms" type="checkbox" required
-                            class="h-4 w-4 text-orange-500 focus:ring-orange-500 border-gray-600 rounded bg-gray-800">
+                            class="h-4 w-4 text-orange-500 focus:ring-orange-500 border-gray-300 rounded bg-gray-50">
                     </div>
                     <div class="ml-3">
-                        <label for="terms" class="text-sm text-gray-400">
+                        <label for="terms" class="text-sm text-gray-500">
                             Saya menyetujui
-                            <a href="#"
-                                class="font-semibold text-orange-500 hover:text-orange-400 transition-colors">Syarat &
-                                Ketentuan</a>
-                            kemitraan TahuKrax
+                            <a href="#" class="font-bold text-orange-600 hover:text-orange-500 transition-colors">Syarat
+                                & Ketentuan</a>
+                            kemitraan
                         </label>
                     </div>
                 </div>
@@ -112,9 +113,10 @@
                 <!-- Submit Button -->
                 <div>
                     <button type="submit"
-                        class="btn-cta-primary w-full flex justify-center items-center gap-3 py-4 px-6 text-white font-bold text-lg rounded-lg shadow-lg hover:shadow-orange-500/50 transition-all">
-                        <i class="fas fa-user-plus"></i>
-                        DAFTAR SEKARANG
+                        class="w-full flex justify-center items-center gap-3 py-4 px-6 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold text-lg rounded-xl shadow-lg shadow-orange-500/30 hover:shadow-orange-500/40 transform hover:-translate-y-0.5 transition-all">
+                        <span wire:loading.remove>DAFTAR SEKARANG</span>
+                        <span wire:loading><i class="fas fa-spinner fa-spin"></i> Loading...</span>
+                        <i class="fas fa-user-plus" wire:loading.remove></i>
                     </button>
                 </div>
             </form>
@@ -123,28 +125,29 @@
             <div class="mt-8">
                 <div class="relative">
                     <div class="absolute inset-0 flex items-center">
-                        <div class="w-full border-t border-gray-700"></div>
+                        <div class="w-full border-t border-gray-200"></div>
                     </div>
                     <div class="relative flex justify-center text-sm">
-                        <span class="px-4 bg-gray-900/50 text-gray-400">Atau lanjutkan dengan</span>
+                        <span class="px-4 bg-white text-gray-500 font-medium">Atau lanjutkan dengan</span>
                     </div>
                 </div>
 
                 <!-- Google SSO -->
                 <div class="mt-6">
                     <a href="{{ route('google.login') }}"
-                        class="w-full flex justify-center items-center gap-3 py-3 px-4 bg-white hover:bg-gray-100 text-gray-900 font-semibold rounded-lg border border-gray-300 transition-all shadow-md hover:shadow-lg">
-                        <i class="fab fa-google text-orange-500 text-lg"></i>
-                        Daftar dengan Google
+                        class="w-full flex justify-center items-center gap-3 py-3 px-4 bg-white hover:bg-gray-50 text-gray-700 font-bold rounded-xl border border-gray-200 transition-all shadow-sm hover:shadow-md group">
+                        <img src="https://www.svgrepo.com/show/475656/google-color.svg"
+                            class="w-5 h-5 group-hover:scale-110 transition-transform">
+                        <span>Daftar dengan Google</span>
                     </a>
                 </div>
             </div>
 
             <!-- Login Link -->
-            <p class="mt-8 text-center text-sm text-gray-400">
+            <p class="mt-8 text-center text-sm text-gray-500">
                 Sudah punya akun?
                 <a href="{{ route('login') }}"
-                    class="font-semibold text-orange-500 hover:text-orange-400 transition-colors">
+                    class="font-bold text-orange-600 hover:text-orange-500 transition-colors">
                     Masuk Sekarang
                 </a>
             </p>
@@ -153,7 +156,7 @@
         <!-- Back to Home -->
         <div class="text-center">
             <a href="{{ route('home') }}"
-                class="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-orange-500 transition-colors">
+                class="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-orange-600 transition-colors">
                 <i class="fas fa-arrow-left"></i>
                 Kembali ke Beranda
             </a>
