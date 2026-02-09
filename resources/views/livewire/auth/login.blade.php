@@ -10,8 +10,9 @@
         <div class="text-center">
             <div class="flex justify-center mb-6">
                 <a href="{{ route('home') }}">
-                    <img src="{{ asset('img/rcgo-logo.svg') }}" alt="RCGO Logo"
-                        class="h-16 md:h-20 drop-shadow-[0_0_15px_rgba(255,165,0,0.5)] hover:scale-105 transition-transform cursor-pointer">
+                    <span class="text-3xl font-bold text-primary">TahuKrax</span>
+                    class="h-16 md:h-20 drop-shadow-[0_0_15px_rgba(255,165,0,0.5)] hover:scale-105 transition-transform
+                    cursor-pointer">
                 </a>
             </div>
             <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">Selamat Datang Kembali</h2>
@@ -34,7 +35,7 @@
                         </span>
                         <input wire:model="email" id="email" name="email" type="email" required
                             class="block w-full pl-12 pr-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition-all"
-                            placeholder="admin@rcgo.test">
+                            placeholder="admin@tahukrax.test">
                     </div>
                 </div>
 

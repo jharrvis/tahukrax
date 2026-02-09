@@ -1,122 +1,186 @@
-<!-- SECTION 6: TESTIMONI -->
-<section class="py-16 md:py-24 bg-gray-950 overflow-hidden">
-    <div class="max-w-7xl mx-auto px-4 text-center">
-        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
-            Apa Kata <span class="text-orange-500">Mitra Kami?</span>
+<!-- Testimonials Carousel -->
+<section id="testimoni" class="py-16 md:py-24 bg-cream overflow-hidden">
+    <div class="max-w-4xl mx-auto text-center mb-16">
+        <p class="text-primary font-bold uppercase tracking-widest text-sm mb-4">💬 Kata Mereka</p>
+        <h2 class="text-3xl md:text-5xl font-black leading-tight mb-6 text-gray-800">
+            Testimoni Mitra<br>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-orange-500">Tahu Krax</span>
         </h2>
-        <p class="text-gray-300 text-lg max-w-3xl mx-auto mb-12">
-            Dengarkan pengalaman nyata dari para mitra RC GO yang telah sukses mengembangkan bisnis rental RC
-            mereka.
-        </p>
+    </div>
 
-        <!-- SWIPER TESTIMONIALS -->
-        <div class="swiper swiper-testimonials pb-12">
-            <div class="swiper-wrapper">
-                @php
-                    $testis = [
-                        ['name' => 'Andi', 'role' => 'Usaha RC di CFD', 'text' => 'Awalnya cuma coba satu unit drift. Ternyata ramai, anak-anak repeat terus. Sekarang sudah nambah unit dan pakai sistem timer.', 'image' => 'testimoni-andi.png'],
-                        ['name' => 'Rina', 'role' => 'Usaha RC Rumahan', 'text' => 'Saya pemula banget, tapi sistemnya gampang. ADD-ON bisa nyusul belakangan, jadi nggak berat di awal.', 'image' => 'testimoni-rina.png'],
-                        ['name' => 'Budi', 'role' => 'Event & Booth RC', 'text' => 'Asisten AI-nya bantu banget buat bikin caption dan promo. Jadi walau nggak jago marketing, tetap bisa posting.', 'image' => 'testimoni-budi.png'],
-                        ['name' => 'Dewi', 'role' => 'Event Sekolah & Komunitas', 'text' => 'Main di event sekolah, ternyata cepat muter. Anak-anak nggak cuma sekali main, tapi balik lagi. RC Go cukup bantu buat usaha harian.', 'image' => 'testimoni-dewi.png'],
-                        ['name' => 'Yuni', 'role' => 'Usaha Keluarga', 'text' => 'Awalnya ragu karena belum pernah usaha mainan. Tapi ternyata sistemnya simpel dan gampang dijalanin. Anak saya juga ikut bantu jaga booth.', 'image' => 'testimoni-yuni.png'],
-                        ['name' => 'Rizky', 'role' => 'Usaha RC Taman Kota', 'text' => 'Lokasi saya di taman sore hari. Dengan sistem sewa 15 menit, perputaran cepat. AI-nya juga bantu bikin teks promo buat WhatsApp.', 'image' => 'testimoni-rizky.png'],
-                        ['name' => 'Arif', 'role' => 'Usaha RC Keliling', 'text' => 'Saya pilih paket dasar dulu karena modal terbatas. Setelah jalan, baru tambah baterai dan banner. Enaknya bisa bertahap, nggak dipaksa.', 'image' => 'testimoni-arif.png'],
-                    ];
-                @endphp
+    <!-- Carousel Container -->
+    <div class="relative max-w-6xl mx-auto">
+        <!-- Slides Container -->
+        <div id="testimonialSlider" class="overflow-hidden">
+            <div id="testimonialTrack" class="flex transition-transform duration-500 ease-out">
 
-                @foreach($testis as $t)
-                    <div class="swiper-slide h-auto">
-                        <div
-                            class="bg-gray-900 p-8 rounded-2xl shadow-lg text-left border border-gray-800 h-full flex flex-col">
-                            <div class="flex items-center mb-6">
-                                @if(isset($t['image']) && $t['image'])
-                                    <div
-                                        class="w-14 h-14 rounded-full mr-4 shrink-0 border border-orange-500/30 overflow-hidden">
-                                        <img src="{{ asset('img/testimonials/' . $t['image']) }}" alt="{{ $t['name'] }}"
-                                            class="w-full h-full object-cover">
+                <!-- Slide 1: Rina & Dedi -->
+                <div class="w-full flex-shrink-0 px-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Card 1: Rina -->
+                        <div class="bg-white rounded-2xl p-6 shadow-lg">
+                            <div class="flex gap-1 text-yellow-400 mb-4">⭐⭐⭐⭐⭐ <span
+                                    class="text-dark font-bold ml-2">(5.0)</span></div>
+                            <p class="text-gray-600 text-sm leading-relaxed mb-6">"Awalnya cuma iseng, pengen
+                                nambah pemasukan di rumah. Nggak nyangka, baru jalan beberapa minggu sudah
+                                repeat order terus. Sekarang malah berani nambah varian karena pelanggan minta
+                                sendiri."</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop"
+                                        alt="Rina" class="w-12 h-12 rounded-full object-cover">
+                                    <div>
+                                        <p class="font-bold text-gray-800">Rina</p>
+                                        <p class="text-gray-500 text-sm">Usaha Rumahan</p>
                                     </div>
-                                @else
-                                    <div
-                                        class="w-14 h-14 bg-orange-500/20 rounded-full flex items-center justify-center mr-4 shrink-0 border border-orange-500/30">
-                                        <i class="fas fa-user text-orange-500 text-xl"></i>
-                                    </div>
-                                @endif
-                                <div>
-                                    <p class="text-white font-bold text-lg">{{ $t['name'] }}</p>
-                                    <p class="text-gray-400 text-sm">{{ $t['role'] }}</p>
                                 </div>
                             </div>
-                            <p class="text-gray-300 leading-relaxed italic relative flex-grow">
-                                <span class="text-orange-500 text-4xl absolute -top-4 -left-2 opacity-20">"</span>
-                                {{ $t['text'] }}
-                            </p>
+                        </div>
+                        <!-- Card 2: Dedi -->
+                        <div class="bg-white rounded-2xl p-6 shadow-lg">
+                            <div class="flex gap-1 text-yellow-400 mb-4">⭐⭐⭐⭐⭐ <span
+                                    class="text-dark font-bold ml-2">(5.0)</span></div>
+                            <p class="text-gray-600 text-sm leading-relaxed mb-6">"Saya suka karena sistem
+                                ADD-ON-nya fleksibel. Bisa mulai kecil dulu, nggak dipaksa beli paket mahal di
+                                awal. Cocok buat yang mau usaha tapi tetap jaga modal aman."</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop"
+                                        alt="Dedi" class="w-12 h-12 rounded-full object-cover">
+                                    <div>
+                                        <p class="font-bold text-gray-800">Dedi</p>
+                                        <p class="text-gray-500 text-sm">Booth Pinggir Jalan</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                @endforeach
+                </div>
+
+                <!-- Slide 2: Andi & Siska -->
+                <div class="w-full flex-shrink-0 px-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Card 3: Andi -->
+                        <div class="bg-white rounded-2xl p-6 shadow-lg">
+                            <div class="flex gap-1 text-yellow-400 mb-4">⭐⭐⭐⭐⭐ <span
+                                    class="text-dark font-bold ml-2">(5.0)</span></div>
+                            <p class="text-gray-600 text-sm leading-relaxed mb-6">"Yang paling kerasa bedanya
+                                itu di asistennya. Asisten AI bantu saya bikin caption, promo, sampai ide
+                                konten. Tinggal pakai, dan hasilnya langsung keliatan di penjualan."</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop"
+                                        alt="Andi" class="w-12 h-12 rounded-full object-cover">
+                                    <div>
+                                        <p class="font-bold text-gray-800">Andi</p>
+                                        <p class="text-gray-500 text-sm">Jualan Online & Offline</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card 4: Siska -->
+                        <div class="bg-white rounded-2xl p-6 shadow-lg">
+                            <div class="flex gap-1 text-yellow-400 mb-4">⭐⭐⭐⭐⭐ <span
+                                    class="text-dark font-bold ml-2">(5.0)</span></div>
+                            <p class="text-gray-600 text-sm leading-relaxed mb-6">"Ini usaha F&B pertama saya,
+                                jujur sempat takut salah langkah. Tapi SOP-nya jelas, alurnya rapi, dan
+                                keuntungannya benar-benar bisa jadi milik sendiri. Jadi lebih pede jalaninnya."
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop"
+                                        alt="Siska" class="w-12 h-12 rounded-full object-cover">
+                                    <div>
+                                        <p class="font-bold text-gray-800">Siska</p>
+                                        <p class="text-gray-500 text-sm">Pemula</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 3: Bayu & Novi -->
+                <div class="w-full flex-shrink-0 px-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Card 5: Bayu -->
+                        <div class="bg-white rounded-2xl p-6 shadow-lg">
+                            <div class="flex gap-1 text-yellow-400 mb-4">⭐⭐⭐⭐⭐ <span
+                                    class="text-dark font-bold ml-2">(5.0)</span></div>
+                            <p class="text-gray-600 text-sm leading-relaxed mb-6">"Banyak pelanggan bilang
+                                rasanya konsisten, nggak berubah-ubah. Itu yang bikin mereka balik lagi.
+                                Resepnya simpel dan ada video tutorial, jadi gampang diikutin walaupun baru."
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop"
+                                        alt="Bayu" class="w-12 h-12 rounded-full object-cover">
+                                    <div>
+                                        <p class="font-bold text-gray-800">Bayu</p>
+                                        <p class="text-gray-500 text-sm">Jualan Depan Sekolah</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card 6: Novi -->
+                        <div class="bg-white rounded-2xl p-6 shadow-lg">
+                            <div class="flex gap-1 text-yellow-400 mb-4">⭐⭐⭐⭐⭐ <span
+                                    class="text-dark font-bold ml-2">(5.0)</span></div>
+                            <p class="text-gray-600 text-sm leading-relaxed mb-6">"Saya cari usaha yang modalnya
+                                aman dan nggak ribet. TAHU KRAX masuk banget. Bisa jalan dari rumah, nggak makan
+                                waktu, tapi tetap jalan."</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&fit=crop"
+                                        alt="Novi" class="w-12 h-12 rounded-full object-cover">
+                                    <div>
+                                        <p class="font-bold text-gray-800">Novi</p>
+                                        <p class="text-gray-500 text-sm">Ibu Rumah Tangga</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 4: Arief (single centered) -->
+                <div class="w-full flex-shrink-0 px-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Card 7: Arief -->
+                        <div class="bg-white rounded-2xl p-6 shadow-lg md:col-span-1">
+                            <div class="flex gap-1 text-yellow-400 mb-4">⭐⭐⭐⭐⭐ <span
+                                    class="text-dark font-bold ml-2">(5.0)</span></div>
+                            <p class="text-gray-600 text-sm leading-relaxed mb-6">"Awalnya cuma buat sampingan
+                                setelah pulang kerja. Tapi lama-lama hasilnya stabil dan sekarang sudah jadi
+                                penghasilan utama."</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop"
+                                        alt="Arief" class="w-12 h-12 rounded-full object-cover">
+                                    <div>
+                                        <p class="font-bold text-gray-800">Arief</p>
+                                        <p class="text-gray-500 text-sm">Karyawan</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Empty placeholder for balance -->
+                        <div class="hidden md:block"></div>
+                    </div>
+                </div>
+
             </div>
-            <!-- Pagination -->
-            <div class="swiper-pagination translate-y-8"></div>
-            <!-- Navigation -->
-            <div class="swiper-button-prev !hidden md:!flex text-orange-500 hover:text-white transition-colors"></div>
-            <div class="swiper-button-next !hidden md:!flex text-orange-500 hover:text-white transition-colors"></div>
+        </div>
+
+        <!-- Dots Indicator -->
+        <div id="testimonialDots" class="flex justify-center gap-3 mt-10">
+            <button class="testimonial-dot w-3 h-3 rounded-full bg-primary transition-all" data-index="0"></button>
+            <button class="testimonial-dot w-3 h-3 rounded-full bg-gray-300 hover:bg-gray-400 transition-all"
+                data-index="1"></button>
+            <button class="testimonial-dot w-3 h-3 rounded-full bg-gray-300 hover:bg-gray-400 transition-all"
+                data-index="2"></button>
+            <button class="testimonial-dot w-3 h-3 rounded-full bg-gray-300 hover:bg-gray-400 transition-all"
+                data-index="3"></button>
         </div>
     </div>
 </section>
-
-<style>
-    .swiper-pagination-bullet {
-        background: #fff;
-        opacity: 0.5;
-    }
-
-    .swiper-pagination-bullet-active {
-        background: #FFA500 !important;
-        opacity: 1;
-    }
-
-    .swiper-button-prev::after,
-    .swiper-button-next::after {
-        font-size: 24px;
-        font-weight: bold;
-    }
-
-    .swiper-testimonials {
-        padding-bottom: 60px !important;
-        /* Make room for lower pagination */
-    }
-</style>
-
-<!-- Initialize Swiper -->
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Check if Swiper is already loaded, if not wait or assuming it is loaded in layout
-        var swiper = new Swiper(".swiper-testimonials", {
-            slidesPerView: 1,
-            spaceBetween: 24,
-            loop: true,
-            autoplay: {
-                delay: 2500,
-                disableOnInteraction: false,
-            },
-            pagination: {
-                el: ".swiper-pagination",
-                clickable: true,
-            },
-            navigation: {
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev",
-            },
-            breakpoints: {
-                640: {
-                    slidesPerView: 1,
-                },
-                768: {
-                    slidesPerView: 2,
-                },
-                1024: {
-                    slidesPerView: 3,
-                },
-            },
-        });
-    });
-</script>

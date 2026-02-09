@@ -1,182 +1,190 @@
-<section id="ai-bonus" class="py-16 md:py-24 bg-gray-900 border-t border-gray-800 relative overflow-hidden">
-    <!-- Background Accents -->
+<!-- Bonus Section -->
+<section id="bonus" class="py-16 md:py-24 bg-black text-white relative overflow-hidden">
+    <!-- Decorative background glow -->
     <div
-        class="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none">
-    </div>
-    <div
-        class="absolute bottom-0 left-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 pointer-events-none">
+        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-red-900/40 rounded-full blur-[100px]">
     </div>
 
-    <div class="max-w-7xl mx-auto px-4 relative z-10 space-y-24">
-        <!-- Header Section -->
-        <div class="text-center">
+    <div class="container mx-auto px-4 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <!-- Left Side: Content -->
+            <div class="fade-up order-2 lg:order-1">
+                <div class="flex items-center gap-3 mb-6">
+                    <span class="text-3xl">🤖</span>
+                    <h2 class="text-xl md:text-2xl font-bold uppercase tracking-wide">
+                        BONUS EKSKLUSIF: ASISTEN AI TAHU KRAX
+                    </h2>
+                </div>
+
+                <div
+                    class="mb-8 p-6 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-sm relative overflow-hidden">
+                    <div
+                        class="absolute top-0 right-0 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-bl-xl uppercase">
+                        Hanya Bulan Ini
+                    </div>
+                    <p class="text-gray-400 text-lg mb-1">Senilai <span
+                            class="line-through text-red-500 font-bold decoration-2 text-xl">Rp 15.900.000</span>
+                    </p>
+                    <h3 class="text-5xl md:text-7xl font-black text-white leading-none mb-2 tracking-tight">
+                        GRATIS
+                    </h3>
+                    <p class="text-2xl md:text-3xl font-bold text-white/90">UNTUK MITRA</p>
+                </div>
+
+                <div class="space-y-6">
+                    <p class="text-lg text-gray-300 leading-relaxed">
+                        Kamu <span class="text-white font-bold border-b-2 border-primary">tidak hanya dapat produk &
+                            resep</span>.
+                        Kamu juga dapat <span class="bg-primary/20 text-white px-1 font-bold">asisten digital</span>
+                        yang membantu jualan
+                        dan operasional, terutama kalau kamu:
+                    </p>
+                    <ul class="space-y-4">
+                        <li class="flex items-center gap-4 bg-gray-900/50 p-3 rounded-xl border border-gray-800">
+                            <span
+                                class="w-8 h-8 rounded-full bg-red-500/20 text-red-500 flex items-center justify-center font-bold">❌</span>
+                            <span class="text-gray-200 font-medium">Belum jago marketing</span>
+                        </li>
+                        <li class="flex items-center gap-4 bg-gray-900/50 p-3 rounded-xl border border-gray-800">
+                            <span
+                                class="w-8 h-8 rounded-full bg-red-500/20 text-red-500 flex items-center justify-center font-bold">❌</span>
+                            <span class="text-gray-200 font-medium">Nggak punya tim</span>
+                        </li>
+                        <li class="flex items-center gap-4 bg-gray-900/50 p-3 rounded-xl border border-gray-800">
+                            <span
+                                class="w-8 h-8 rounded-full bg-red-500/20 text-red-500 flex items-center justify-center font-bold">❌</span>
+                            <span class="text-gray-200 font-medium">Jualan sendirian</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Right Side: Image -->
+            <div class="fade-up text-center lg:text-right order-1 lg:order-2">
+                <div class="relative perspective-1000 group">
+                    <!-- Glow behind laptop -->
+                    <div
+                        class="absolute inset-0 bg-primary/30 blur-3xl rounded-full transform scale-75 group-hover:scale-90 transition-transform duration-700">
+                    </div>
+
+                    <!-- Laptop Image -->
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop&q=80"
+                        alt="Dashboard AI Tahu Krax"
+                        class="relative z-10 w-full max-w-xl mx-auto rounded-xl shadow-2xl border-4 border-gray-800 rotate-3d">
+
+                    <!-- Floating Badge -->
+                    <div
+                        class="absolute -bottom-6 -left-6 z-20 bg-white text-dark p-4 rounded-xl shadow-xl transform rotate-3 animate-bounce-slow hidden md:block">
+                        <p class="font-bold text-sm">🔥 8 Asisten AI</p>
+                        <p class="text-xs text-gray-500">Siap bantu 24/7</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Assistants Grid -->
+        <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+            <!-- 1. Naya (Orange) -->
             <div
-                class="inline-flex items-center justify-center p-3 bg-gray-800 rounded-2xl mb-6 shadow-lg border border-gray-700 animate-bounce-slow">
-                <i
-                    class="fas fa-robot text-4xl text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500"></i>
+                class="group bg-gray-900/80 border border-orange-500/30 p-4 rounded-2xl flex items-center gap-4 hover:bg-gray-800 transition-all hover:scale-105 hover:shadow-[0_0_20px_rgba(249,115,22,0.3)]">
+                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&h=100&fit=crop" alt="Naya"
+                    class="w-12 h-12 rounded-full object-cover ring-2 ring-orange-500">
+                <div>
+                    <h4 class="font-bold text-white text-lg leading-none">Naya</h4>
+                    <p class="text-orange-400 text-xs mt-1">Content Creator</p>
+                </div>
             </div>
-            <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">
-                Bonus <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Asisten
-                    AI</span> RC Go
-            </h2>
+
+            <!-- 2. Freya (Yellow) -->
             <div
-                class="bg-gray-800/50 backdrop-blur-sm border border-gray-700 p-6 md:p-8 rounded-3xl max-w-4xl mx-auto shadow-2xl">
-                <p class="text-gray-300 text-lg leading-relaxed">
-                    Untuk membantu Anda menjalankan usaha dengan lebih rapi dan konsisten, <span
-                        class="text-white font-bold">RC Go menghadirkan Asisten AI senilai <span
-                            class="text-green-400 border-b-2 border-green-500/50">Rp18.900.000</span> yang bisa
-                        digunakan <span
-                            class="text-yellow-400 font-extrabold bg-yellow-400/10 px-2 py-0.5 rounded">GRATIS</span>.</span>
-                    <br><br>
-                    Asisten AI ini siap menemani aktivitas harian usaha Anda, mulai dari membantu operasional hingga
-                    promosi, sehingga usaha terasa lebih ringan dan mudah dijalankan, bahkan jika Anda baru pertama kali
-                    memulai.
-                </p>
-            </div>
-        </div>
-
-        <!-- AI Roles Grid -->
-        <div style="margin-top: 50px;">
-            <h3 class="text-2xl font-bold text-white mb-10 text-center flex items-center justify-center gap-3">
-                <i class="fas fa-layer-group text-blue-500"></i> Beberapa peran <span
-                    class="italic underline decoration-blue-500 underline-offset-4">Asisten AI RC Go</span> :
-            </h3>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Racer -->
-                <div
-                    class="bg-gray-800 p-6 rounded-2xl border border-gray-700 hover:border-blue-500/50 transition-all hover:bg-gray-800/80 group text-center">
-                    <img src="{{ asset('assets/img/ai/Racer.png') }}"
-                        class="w-full h-80 object-contain mb-2 mx-auto drop-shadow-lg group-hover:scale-105 transition-transform"
-                        alt="Racer AI">
-                    <div>
-
-                        <p class="text-xs text-blue-300 italic mb-2">Gesit & Tangkas</p>
-                        <p class="text-gray-400 text-sm leading-relaxed">
-                            AI spesialis manajemen durasi sewa, sistem antrean penyewa, dan pengingat waktu main.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Pitstop -->
-                <div
-                    class="bg-gray-800 p-6 rounded-2xl border border-gray-700 hover:border-red-500/50 transition-all hover:bg-gray-800/80 group text-center">
-                    <img src="{{ asset('assets/img/ai/Pitstop.png') }}"
-                        class="w-full h-80 object-contain mb-2 mx-auto drop-shadow-lg group-hover:scale-105 transition-transform"
-                        alt="Pitstop AI">
-                    <div>
-
-                        <p class="text-xs text-red-300 italic mb-2">Siaga & Teliti</p>
-                        <p class="text-gray-400 text-sm leading-relaxed">
-                            AI pengecekan kondisi unit (baterai, fisik mobil) sebelum dan sesudah disewakan agar aset
-                            tetap aman.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Vibe -->
-                <div
-                    class="bg-gray-800 p-6 rounded-2xl border border-gray-700 hover:border-purple-500/50 transition-all hover:bg-gray-800/80 group text-center">
-                    <img src="{{ asset('assets/img/ai/Vibe.png') }}"
-                        class="w-full h-80 object-contain mb-2 mx-auto drop-shadow-lg group-hover:scale-105 transition-transform"
-                        alt="Vibe AI">
-                    <div>
-
-                        <p class="text-xs text-purple-300 italic mb-2">Atraktif & Seru</p>
-                        <p class="text-gray-400 text-sm leading-relaxed">
-                            AI pembuat konten promosi di lokasi (dokumentasi keseruan penyewa) untuk menarik orang
-                            datang ke booth.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Scripta -->
-                <div
-                    class="bg-gray-800 p-6 rounded-2xl border border-gray-700 hover:border-teal-500/50 transition-all hover:bg-gray-800/80 group text-center">
-                    <img src="{{ asset('assets/img/ai/Scripta.png') }}"
-                        class="w-full h-80 object-contain mb-2 mx-auto drop-shadow-lg group-hover:scale-105 transition-transform"
-                        alt="Scripta AI">
-                    <div>
-
-                        <p class="text-xs text-teal-300 italic mb-2">Ramah & Informatif</p>
-                        <p class="text-gray-400 text-sm leading-relaxed">
-                            AI pengolah kata untuk brosur harga, aturan sewa, dan broadcast promo ke database pelanggan.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Boost -->
-                <div
-                    class="bg-gray-800 p-6 rounded-2xl border border-gray-700 hover:border-orange-500/50 transition-all hover:bg-gray-800/80 group text-center">
-                    <img src="{{ asset('assets/img/ai/Boost.png') }}"
-                        class="w-full h-80 object-contain mb-2 mx-auto drop-shadow-lg group-hover:scale-105 transition-transform"
-                        alt="Boost AI">
-                    <div>
-
-                        <p class="text-xs text-orange-300 italic mb-2">Persuasif & Viral</p>
-                        <p class="text-gray-400 text-sm leading-relaxed">
-                            AI perancang promo paket (misal: main 3x gratis 1x) dan strategi agar arena selalu ramai
-                            saat akhir pekan.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Buddy -->
-                <div
-                    class="bg-gray-800 p-6 rounded-2xl border border-gray-700 hover:border-pink-500/50 transition-all hover:bg-gray-800/80 group text-center">
-                    <img src="{{ asset('assets/img/ai/Buddy.png') }}"
-                        class="w-full h-80 object-contain mb-2 mx-auto drop-shadow-lg group-hover:scale-105 transition-transform"
-                        alt="Buddy AI">
-                    <div>
-
-                        <p class="text-xs text-pink-300 italic mb-2">Sabar & Edukatif</p>
-                        <p class="text-gray-400 text-sm leading-relaxed">
-                            AI konsultan cara pakai untuk pemula/anak-anak agar mobil tidak mudah rusak dan penyewa
-                            senang.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Tracka -->
-                <div
-                    class="bg-gray-800 p-6 rounded-2xl border border-gray-700 hover:border-cyan-500/50 transition-all hover:bg-gray-800/80 group text-center">
-                    <img src="{{ asset('assets/img/ai/Tracka.png') }}"
-                        class="w-full h-80 object-contain mb-2 mx-auto drop-shadow-lg group-hover:scale-105 transition-transform"
-                        alt="Tracka AI">
-                    <div>
-
-                        <p class="text-xs text-cyan-300 italic mb-2">Efisien & Teratur</p>
-                        <p class="text-gray-400 text-sm leading-relaxed">
-                            AI pengelola jadwal lokasi (jika berpindah-pindah event/CFD) dan laporan pendapatan harian.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Scope -->
-                <div
-                    class="bg-gray-800 p-6 rounded-2xl border border-gray-700 hover:border-indigo-500/50 transition-all hover:bg-gray-800/80 group text-center">
-                    <img src="{{ asset('assets/img/ai/Scope.png') }}"
-                        class="w-full h-80 object-contain mb-2 mx-auto drop-shadow-lg group-hover:scale-105 transition-transform"
-                        alt="Scope AI">
-                    <div>
-
-                        <p class="text-xs text-indigo-300 italic mb-2">Target Luas</p>
-                        <p class="text-gray-400 text-sm leading-relaxed">
-                            AI spesialis iklan lokal (Meta Ads radius 5-10km) untuk menargetkan orang tua atau anak muda
-                            di sekitar lokasi usaha.
-                        </p>
-                    </div>
+                class="group bg-gray-900/80 border border-yellow-500/30 p-4 rounded-2xl flex items-center gap-4 hover:bg-gray-800 transition-all hover:scale-105 hover:shadow-[0_0_20px_rgba(234,179,8,0.3)]">
+                <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=100&h=100&fit=crop" alt="Freya"
+                    class="w-12 h-12 rounded-full object-cover ring-2 ring-yellow-500">
+                <div>
+                    <h4 class="font-bold text-white text-lg leading-none">Freya</h4>
+                    <p class="text-yellow-400 text-xs mt-1">Customer Service</p>
                 </div>
             </div>
-        </div>
 
-        <!-- Conclusion Box -->
-        <div style="margin-top: 50px;"
-            class="bg-gradient-to-r from-blue-900/40 to-purple-900/40 border border-blue-500/30 rounded-3xl p-8 text-center max-w-5xl mx-auto backdrop-blur-md">
-            <p class="text-lg md:text-xl text-gray-200">
-                👉 Dengan Asisten AI, usaha RC Go Anda menjadi <span class="text-white font-bold">lebih tertata, lebih
-                    aktif promosi, dan lebih mudah dijalankan, bahkan untuk pemula.</span>
-            </p>
+            <!-- 3. Vezia (Peach) -->
+            <div
+                class="group bg-gray-900/80 border border-red-300/30 p-4 rounded-2xl flex items-center gap-4 hover:bg-gray-800 transition-all hover:scale-105 hover:shadow-[0_0_20px_rgba(253,164,175,0.3)]">
+                <img src="https://images.unsplash.com/photo-1598550874175-4d7112ee7f8e?w=100&h=100&fit=crop" alt="Vezia"
+                    class="w-12 h-12 rounded-full object-cover ring-2 ring-red-300">
+                <div>
+                    <h4 class="font-bold text-white text-lg leading-none">Vezia</h4>
+                    <p class="text-red-300 text-xs mt-1">Sales Admin</p>
+                </div>
+            </div>
+
+            <!-- 4. Liora (Cyan) -->
+            <div
+                class="group bg-gray-900/80 border border-cyan-400/30 p-4 rounded-2xl flex items-center gap-4 hover:bg-gray-800 transition-all hover:scale-105 hover:shadow-[0_0_20px_rgba(34,211,238,0.3)]">
+                <img src="https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?w=100&h=100&fit=crop" alt="Liora"
+                    class="w-12 h-12 rounded-full object-cover ring-2 ring-cyan-400">
+                <div>
+                    <h4 class="font-bold text-white text-lg leading-none">Liora</h4>
+                    <p class="text-cyan-400 text-xs mt-1">Data Analyst</p>
+                </div>
+            </div>
+
+            <!-- 5. Manda (Purple) -->
+            <div
+                class="group bg-gray-900/80 border border-purple-500/30 p-4 rounded-2xl flex items-center gap-4 hover:bg-gray-800 transition-all hover:scale-105 hover:shadow-[0_0_20px_rgba(168,85,247,0.3)]">
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop" alt="Manda"
+                    class="w-12 h-12 rounded-full object-cover ring-2 ring-purple-500">
+                <div>
+                    <h4 class="font-bold text-white text-lg leading-none">Manda</h4>
+                    <p class="text-purple-400 text-xs mt-1">Sosmed Specialist</p>
+                </div>
+            </div>
+
+            <!-- 6. Hestia (Red) -->
+            <div
+                class="group bg-gray-900/80 border border-red-500/30 p-4 rounded-2xl flex items-center gap-4 hover:bg-gray-800 transition-all hover:scale-105 hover:shadow-[0_0_20px_rgba(239,68,68,0.3)]">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop"
+                    alt="Hestia" class="w-12 h-12 rounded-full object-cover ring-2 ring-red-500">
+                <div>
+                    <h4 class="font-bold text-white text-lg leading-none">Hestia</h4>
+                    <p class="text-red-400 text-xs mt-1">Ads Manager</p>
+                </div>
+            </div>
+
+            <!-- 7. Dion (Blue) -->
+            <div
+                class="group bg-gray-900/80 border border-blue-500/30 p-4 rounded-2xl flex items-center gap-4 hover:bg-gray-800 transition-all hover:scale-105 hover:shadow-[0_0_20px_rgba(59,130,246,0.3)]">
+                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop" alt="Dion"
+                    class="w-12 h-12 rounded-full object-cover ring-2 ring-blue-500">
+                <div>
+                    <h4 class="font-bold text-white text-lg leading-none">Dion</h4>
+                    <p class="text-blue-400 text-xs mt-1">Shop Manager</p>
+                </div>
+            </div>
+
+            <!-- 8. Odelia (Green) -->
+            <div
+                class="group bg-gray-900/80 border border-green-500/30 p-4 rounded-2xl flex items-center gap-4 hover:bg-gray-800 transition-all hover:scale-105 hover:shadow-[0_0_20px_rgba(34,197,94,0.3)]">
+                <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=100&h=100&fit=crop"
+                    alt="Odelia" class="w-12 h-12 rounded-full object-cover ring-2 ring-green-500">
+                <div>
+                    <h4 class="font-bold text-white text-lg leading-none">Odelia</h4>
+                    <p class="text-green-400 text-xs mt-1">Finance Admin</p>
+                </div>
+            </div>
         </div>
     </div>
+    <style>
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+
+        .rotate-3d {
+            transform: rotateY(-12deg) rotateX(6deg);
+            transition: transform 0.7s ease;
+        }
+
+        .group:hover .rotate-3d {
+            transform: rotateY(0) rotateX(0);
+        }
+    </style>
 </section>

@@ -15,7 +15,7 @@ class AddonIndex extends Component
     public $search = '';
 
     #[Layout('layouts.dashboard')]
-    #[Title('Add-on Produk | RCGO Admin')]
+    #[Title('Add-on Produk | TahuKrax Admin')]
     public function render()
     {
         $addons = Addon::query()

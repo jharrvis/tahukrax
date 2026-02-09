@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
 #[Layout('layouts.dashboard')]
-#[Title('Pengaturan Website - RCGO')]
+#[Title('Pengaturan Website - TahuKrax')]
 class Index extends Component
 {
 

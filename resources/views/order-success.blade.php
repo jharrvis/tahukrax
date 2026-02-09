@@ -11,7 +11,7 @@
                 <i class="fas fa-check text-5xl text-green-600"></i>
             </div>
             <h1 class="text-3xl font-bold text-slate-900 dark:text-white mb-2">Pesanan Berhasil Dibuat!</h1>
-            <p class="text-slate-500 dark:text-slate-400">Terima kasih telah bergabung menjadi Mitra RCGO.</p>
+            <p class="text-slate-500 dark:text-slate-400">Terima kasih telah bergabung menjadi Mitra TahuKrax.</p>
         </div>
 
         <!-- Order Detail Card -->
@@ -27,7 +27,8 @@
                 <div class="text-right">
                     <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Total Tagihan</h2>
                     <p class="text-xl font-bold text-brand-600">Rp
-                        {{ number_format($order->total_amount, 0, ',', '.') }}</p>
+                        {{ number_format($order->total_amount, 0, ',', '.') }}
+                    </p>
                 </div>
             </div>
 
@@ -108,7 +109,7 @@
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 // Clear shopping cart
-                localStorage.removeItem('rcgo_cart_v4');
+                localStorage.removeItem('tahukrax_cart_v1');
                 // Optional: Dispatch event if using Livewire or Alpine for cart elsewhere
             });
         </script>

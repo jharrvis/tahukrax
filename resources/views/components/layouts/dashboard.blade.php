@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $title ?? 'RCGO - Dashboard' }}</title>
+    <title>{{ $title ?? 'TahuKrax - Dashboard' }}</title>
 
     <!-- Scripts & Styles -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -112,7 +112,8 @@
 
             <!-- Footer -->
             <footer class="p-6 text-center text-slate-500 text-xs">
-                &copy; {{ date('Y') }} <span class="font-bold text-brand-500">RCGO Operations</span>. Build with Speed
+                &copy; {{ date('Y') }} <span class="font-bold text-brand-500">TahuKrax Operations</span>. Build with
+                Speed
                 and Performance.
             </footer>
         </main>

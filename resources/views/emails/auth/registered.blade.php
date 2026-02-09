@@ -1,7 +1,7 @@
 <x-mail::message>
     # Selamat Datang, {{ $user->name }}!
 
-    Terima kasih telah bergabung menjadi mitra RCGO Indonesia. Akun Anda telah berhasil dibuat.
+    Terima kasih telah bergabung menjadi mitra TahuKrax. Akun Anda telah berhasil dibuat.
 
     Login ke dashboard untuk melihat paket kemitraan dan melakukan pemesanan.
 

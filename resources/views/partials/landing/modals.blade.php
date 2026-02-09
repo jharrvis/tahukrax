@@ -25,8 +25,9 @@
                     <button onclick="closeModal('modal-{{ $m['id'] }}')"
                         class="text-gray-400 hover:text-white text-2xl">&times;</button>
                 </div>
-                <img src="{{ asset('assets/img/' . $imgName) }}" onerror="this.src='{{ asset("assets/img/rcgo.webp") }}'"
-                    alt="Paket {{ $m['name'] }}" class="w-full h-40 object-contain mb-4">
+                <img src="{{ asset('assets/img/' . $imgName) }}"
+                    onerror="this.src='{{ asset("assets/img/tahukrax.webp") }}'" alt="Paket {{ $m['name'] }}"
+                    class="w-full h-40 object-contain mb-4">
                 <p class="text-orange-500 font-bold text-2xl mb-4">{{ $m['price'] }}</p>
                 <h4 class="text-white font-semibold mb-3">Yang Anda Dapatkan:</h4>
                 <ul class="space-y-2 text-gray-300 text-sm mb-6">
@@ -35,7 +36,7 @@
                     @endforeach
                 </ul>
                 <a href="{{ route('checkout.cart') }}"
-                    onclick="if(window.RCGOCart) RCGOCart.set({ slug: '{{ $m['id'] }}', name: '{{ $m['name'] }}', price: {{ (int) preg_replace('/[^0-9]/', '', $m['price']) * 1000 }} })"
+                    onclick="if(window.TahuKraxCart) TahuKraxCart.addToCart('{{ $m['id'] }}', '{{ $m['name'] }}', {{ (int) preg_replace('/[^0-9]/', '', $m['price']) * 1000 }}, 'package')">
                     class="w-full btn-primary py-3 rounded-full text-white font-semibold text-center block">
                     <i class="fas fa-cart-plus mr-1"></i> Beli Sekarang
                 </a>

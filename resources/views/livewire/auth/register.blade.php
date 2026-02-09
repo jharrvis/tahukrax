@@ -9,14 +9,14 @@
         <!-- Logo & Title -->
         <div class="text-center">
             <div class="flex justify-center mb-6">
-                <a href="{{ route('home') }}">
-                    <img src="{{ asset('img/rcgo-logo.svg') }}" alt="RCGO Logo"
-                        class="h-16 md:h-20 drop-shadow-[0_0_15px_rgba(255,165,0,0.5)] hover:scale-105 transition-transform cursor-pointer">
+                <a href="{{ route('home') }}"
+                    class="drop-shadow-[0_0_15px_rgba(255,165,0,0.5)] hover:scale-105 transition-transform cursor-pointer">
+                    <span class="text-3xl font-bold text-primary">TahuKrax</span>
                 </a>
             </div>
             <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">Bergabung Bersama Kami</h2>
             <p class="text-sm text-gray-400">
-                Daftar Kemitraan RCGO Sekarang
+                Daftar Kemitraan TahuKrax Sekarang
             </p>
         </div>
 
@@ -104,7 +104,7 @@
                             <a href="#"
                                 class="font-semibold text-orange-500 hover:text-orange-400 transition-colors">Syarat &
                                 Ketentuan</a>
-                            kemitraan RCGO
+                            kemitraan TahuKrax
                         </label>
                     </div>
                 </div>

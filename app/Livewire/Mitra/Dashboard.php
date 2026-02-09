@@ -9,7 +9,7 @@ use Livewire\Attributes\Title;
 class Dashboard extends Component
 {
     #[Layout('layouts.dashboard')]
-    #[Title('Mitra Dashboard - RCGO')]
+    #[Title('Mitra Dashboard - TahuKrax')]
     public function render()
     {
         $userId = \Illuminate\Support\Facades\Auth::id();

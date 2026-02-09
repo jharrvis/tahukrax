@@ -1,81 +1,88 @@
 <!-- SECTION 6: PAKET USAHA -->
-<section id="paket" class="py-16 md:py-24 bg-black">
-    <div class="max-w-7xl mx-auto px-4 text-center">
-        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
-            Pilih <span class="text-orange-500">Paket Usaha</span> Anda
-        </h2>
-        <p class="text-gray-300 text-lg max-w-3xl mx-auto mb-12">
-            Tersedia berbagai jenis paket RC sesuai kebutuhan dan target pasar Anda. Semua paket dilengkapi dengan
-            pelatihan dan dukungan penuh.
-        </p>
+<section id="packages" class="py-16 md:py-24 bg-white">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-primary">PAKET USAHA TAHU KRAX</h2>
+        <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">Pilih paket yang paling sesuai dengan target
+            bisnismu</p>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
             @foreach($packages as $p)
-                <div
-                    class="bg-gray-900 p-6 rounded-2xl shadow-lg text-left border {{ $p->price >= 2500000 && $p->price <= 3000000 ? 'border-2 border-orange-500 relative' : 'border-gray-800' }} hover:border-orange-500 transition-all duration-300 flex flex-col h-full group checker-bg">
-                    @if($p->price >= 2500000 && $p->price <= 3000000)
-                        <span
-                            class="absolute -top-3 left-1/2 -translate-x-1/2 bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">Populer</span>
+                <div class="bg-cream overflow-hidden hover-lift fade-up relative flex flex-col h-full rounded-2xl group">
+                    <!-- Best Seller Badge Logic -->
+                    @if($p->price >= 2500000 && $p->price <= 3500000)
+                        <div
+                            class="absolute top-4 right-4 bg-yellow-400 text-dark px-3 py-1 text-xs font-bold z-10 rounded shadow-md">
+                            BEST SELLER
+                        </div>
                     @endif
 
-                    <h3 class="text-xl font-bold text-white mb-4">
+                    <!-- Image Section -->
+                    <div
+                        class="h-48 bg-gradient-to-br from-primary to-red-700 flex items-center justify-center overflow-hidden">
                         @if($p->image_url)
                             @php
                                 $imageUrl = $p->image_url;
-                                // Check if it's already a path starting with /storage or a full URL
                                 if (!Str::startsWith($imageUrl, ['/storage', 'http', 'https'])) {
                                     $imageUrl = Storage::url($imageUrl);
                                 }
                             @endphp
                             <img src="{{ asset($imageUrl) }}" alt="Paket {{ $p->name }}"
-                                class="w-full h-48 object-contain rounded-xl mb-2 bg-gray-800/50">
+                                class="w-full h-full object-cover opacity-90 group-hover:scale-110 transition-transform duration-500">
                         @else
-                            <!-- Fallback for legacy/hardcoded demo items if no image uploaded -->
+                            <!-- Fallback Image Logic -->
                             @php
                                 $extension = in_array($p->slug, ['drift', 'offroad', 'stunt']) ? 'svg' : 'webp';
-                                $imgName = 'paket-' . $p->slug . '.' . $extension;
-                                if ($p->slug == 'alat-berat-mix')
-                                    $imgName = 'paket-alatberat-mix.webp';
+                                // Simple fallback mapping if specific assets don't exist, generic tahukrax image
+                                $imgName = 'tahukrax.webp'; 
                             @endphp
-                            <img src="{{ asset('assets/img/' . $imgName) }}"
-                                onerror="this.src='{{ asset("assets/img/rcgo.webp") }}'" alt="Paket {{ $p->name }}"
-                                class="w-full h-48 object-contain rounded-xl mb-2">
+                            <img src="{{ asset('img/' . $imgName) }}"
+                                onerror="this.src='https://placehold.co/600x400/png?text=Paket+{{ $p->name }}'"
+                                alt="Paket {{ $p->name }}"
+                                class="w-full h-full object-cover opacity-80 group-hover:scale-110 transition-transform duration-500">
                         @endif
-                    </h3>
-                    <p class="text-gray-400 text-sm mb-4 flex-grow">{{ $p->description }}</p>
-                    <div class="mb-6">
-                        <p class="text-gray-400 text-xs uppercase tracking-wider mb-1">Mulai Dari</p>
-                        <p class="text-sm line-through text-gray-500">Rp {{ number_format($p->price * 1.2, 0, ',', '.') }}
-                        </p>
-                        <div class="text-3xl font-bold text-white">Rp {{ number_format($p->price / 1000000, 1, ',', '.') }}
-                            Jt</div>
                     </div>
-                    <ul class="space-y-2 text-gray-300 text-sm mb-6">
+
+                    <!-- Body Section -->
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">{{ $p->name }}</h3>
+                        <p class="text-gray-500 text-sm mb-4 flex-grow">
+                            {{ $p->description ?? 'Paket usaha lengkap siap jualan.' }}</p>
+
+                        <!-- Optional Features List (Limited to 3) -->
                         @if($p->features && is_array($p->features))
-                            @foreach($p->features as $f)
-                                <li class="flex items-center gap-2"><i class="fas fa-check text-orange-500 text-xs"></i> {{ $f }}
-                                </li>
-                            @endforeach
+                            <ul class="mb-4 space-y-1 text-xs text-gray-600">
+                                @foreach(array_slice($p->features, 0, 3) as $f)
+                                    <li class="flex items-start gap-2">
+                                        <span class="text-green-500 mt-0.5">✔</span>
+                                        <span>{{ Str::limit($f, 40) }}</span>
+                                    </li>
+                                @endforeach
+                            </ul>
                         @endif
-                    </ul>
-                    <div class="flex gap-2 mt-auto">
-                        <button onclick="openModal('modal-{{ $p->slug }}')"
-                            class="w-12 h-10 flex items-center justify-center border border-orange-500 text-orange-500 rounded-lg hover:bg-orange-500 hover:text-white transition-all"
-                            title="Lihat Detail Fasilitas">
-                            <i class="fas fa-list-ul"></i>
-                        </button>
+
+                        <!-- Price Section -->
+                        <div class="flex items-center gap-2 mb-6 mt-auto">
+                            <span class="text-gray-400 line-through text-sm">Rp
+                                {{ number_format($p->price * 1.5, 0, ',', '.') }}</span>
+                            <span class="text-2xl font-black text-primary">Rp
+                                {{ number_format($p->price / 1000000, 1, ',', '.') }} jt</span>
+                        </div>
+
+                        <!-- Action Button -->
                         <a href="{{ route('checkout.wizard', $p->slug) }}"
-                            class="flex-1 btn-primary h-10 rounded-lg text-white font-bold text-sm hover:shadow-lg transition-all flex items-center justify-center gap-2">
-                            <i class="fas fa-shopping-bag"></i> Beli Sekarang
+                            class="block w-full bg-primary text-white py-3 font-bold hover:bg-secondary transition-colors text-center rounded-xl shadow-lg hover:shadow-xl">
+                            Pilih Paket
                         </a>
                     </div>
                 </div>
             @endforeach
         </div>
 
-        <p class="text-gray-500 text-sm mt-8">
-            <i class="fas fa-info-circle text-orange-500 mr-2"></i>
-            Hubungi kami untuk konsultasi paket yang sesuai dengan lokasi dan target pasar Anda.
-        </p>
+        <!-- Link to detailed comparison or more packages if needed -->
+        <div class="text-center mt-12">
+            <p class="text-gray-500 text-sm">
+                *Harga belum termasuk ongkos kirim ke lokasi Anda.
+            </p>
+        </div>
     </div>
 </section>

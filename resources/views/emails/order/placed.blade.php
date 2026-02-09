@@ -3,7 +3,7 @@
 
     Halo {{ $order->user->name }},
 
-    Terima kasih telah melakukan pemesanan di RCGO Indonesia.
+    Terima kasih telah melakukan pemesanan di TahuKrax.
     Nomor Invoice: **#{{ $order->id }}**
 
     ## Detail Pesanan

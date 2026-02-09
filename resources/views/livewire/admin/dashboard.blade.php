@@ -53,7 +53,7 @@
             class="bg-gradient-to-br from-brand-500 to-orange-600 p-6 rounded-3xl text-white shadow-xl shadow-brand-500/20 relative overflow-hidden group">
             <div class="relative z-10 flex flex-col h-full justify-between">
                 <div>
-                    <h2 class="text-3xl font-black italic tracking-tighter mb-1">RCGO Core</h2>
+                    <h2 class="text-3xl font-black italic tracking-tighter mb-1">TahuKrax Core</h2>
                     <p class="text-brand-100 text-sm">v5.1.0 Stable Build</p>
                 </div>
                 <div class="flex items-center gap-4 mt-6">

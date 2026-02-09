@@ -9,7 +9,7 @@ use Livewire\Attributes\Title;
 class Dashboard extends Component
 {
     #[Layout('layouts.dashboard')]
-    #[Title('Admin Dashboard - RCGO')]
+    #[Title('Admin Dashboard - TahuKrax')]
     public function render()
     {
         $stats = [

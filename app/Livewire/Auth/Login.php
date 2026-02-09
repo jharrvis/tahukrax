@@ -36,7 +36,7 @@ class Login extends Component
     }
 
     #[Layout('layouts.auth')]
-    #[Title('Login | RCGO')]
+    #[Title('Login | TahuKrax')]
     public function render()
     {
         return view('livewire.auth.login');

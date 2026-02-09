@@ -17,10 +17,10 @@ class LandingPageSeeder extends Seeder
     {
         // Content
         $contents = [
-            'site_title' => ['type' => 'text', 'content' => ['value' => 'RCGO | Paket Usaha Rental RC Offroad Extreme']],
-            'hero_badge' => ['type' => 'text', 'content' => ['value' => 'BISNIS ANTI-MAINSTREAM']],
-            'hero_title' => ['type' => 'text', 'content' => ['value' => 'TRAJANG <br class="hidden md:block"> <span class="text-warning">LUMPUR</span> CUAN!']],
-            'hero_desc' => ['type' => 'text', 'content' => ['value' => 'Bangun kerajaan rental mobil RC Offroad. Kami sediakan unit "Badak" dan strategi bisnis paling gahar!']],
+            'site_title' => ['type' => 'text', 'content' => ['value' => 'TahuKrax | Peluang Usaha Tahu Crispy']],
+            'hero_badge' => ['type' => 'text', 'content' => ['value' => 'PELUANG USAHA KEKINIAN']],
+            'hero_title' => ['type' => 'text', 'content' => ['value' => 'Renyah, Gurih, <br class="hidden md:block"> <span class="text-warning">Untung Melimpah!</span>']],
+            'hero_desc' => ['type' => 'text', 'content' => ['value' => 'Bukan sekadar jualan tahu, ini adalah "Mesin Uang" yang sudah kami siapkan kuncinya.']],
         ];
 
         foreach ($contents as $key => $data) {
@@ -30,28 +30,52 @@ class LandingPageSeeder extends Seeder
         // Packages
         $packages = [
             [
-                'name' => 'SCOUT MISSION',
-                'slug' => 'scout-mission',
-                'price' => 5500000,
-                'weight_kg' => 15,
-                'features' => ['6 Unit RC Rock Crawler 4WD', '12 Baterai High-Torque', 'Banner "Waspada Cuan"'],
-                'description' => 'Paket pemula untuk memulai bisnis di lokasi kecil.',
+                'name' => 'Paket Tanpa Booth',
+                'slug' => 'paket-tanpa-booth',
+                'price' => 1900000,
+                'weight_kg' => 10,
+                'features' => ['Bahan Baku Awal', 'Peralatan Masak Dasar', 'Video Training'],
+                'description' => 'Cocok untuk jualan di rumah atau booth sendiri.',
             ],
             [
-                'name' => 'TANKER ELITE',
-                'slug' => 'tanker-elite',
-                'price' => 12500000,
-                'weight_kg' => 35,
-                'features' => ['12 Unit RC Monster Truck', 'Sirkuit Kayu Portable', 'Toolbox & Suku Cadang'],
-                'description' => 'Paket paling populer untuk hasil maksimal.',
+                'name' => 'Paket Hemat',
+                'slug' => 'paket-hemat',
+                'price' => 2999000,
+                'weight_kg' => 25,
+                'features' => ['Booth Portable', 'Bahan Baku Awal', 'Peralatan Masak Lengkap', 'Banner Promosi'],
+                'description' => 'Booth portable yang mudah dibawa-bawa. Best Seller!',
             ],
             [
-                'name' => 'COMMANDER',
-                'slug' => 'commander',
-                'price' => 25000000,
-                'weight_kg' => 80,
-                'features' => ['25 Unit Mixed Arena', 'Full Arena Design Support', 'Branding Booth Besi Custom'],
-                'description' => 'Paket lengkap untuk pengusaha serius.',
+                'name' => 'Paket Signature',
+                'slug' => 'paket-signature',
+                'price' => 4900000,
+                'weight_kg' => 40,
+                'features' => ['Booth Premium', 'Bahan Baku Banyak', 'Full Equipment', 'Seragam Crew'],
+                'description' => 'Tampilan lebih premium & elegan.',
+            ],
+            [
+                'name' => 'Paket Booth',
+                'slug' => 'paket-booth',
+                'price' => 5400000,
+                'weight_kg' => 50,
+                'features' => ['Booth Standard', 'Equipment Standard', 'Bahan Baku'],
+                'description' => 'Pilihan standar untuk memulai usaha.',
+            ],
+            [
+                'name' => 'Paket Ultimate',
+                'slug' => 'paket-ultimate',
+                'price' => 6900000,
+                'weight_kg' => 60,
+                'features' => ['Booth Ultimate', 'Equipment Lengkap', 'Bahan Baku Extra', 'Marketing Support'],
+                'description' => 'Paket lengkap untuk hasil maksimal.',
+            ],
+            [
+                'name' => 'Paket Kontainer',
+                'slug' => 'paket-kontainer',
+                'price' => 7500000,
+                'weight_kg' => 100,
+                'features' => ['Booth Kontainer', 'Full Equipment Pro', 'Bahan Baku Jumbo', 'Premium Support'],
+                'description' => 'Outlet semi-permanen dengan tampilan mencolok.',
             ],
         ];
 
@@ -61,9 +85,9 @@ class LandingPageSeeder extends Seeder
 
         // Addons
         $addons = [
-            ['name' => 'Baterai Cadangan 3000mAh', 'price' => 150000, 'stock' => 50, 'weight_kg' => 0.2, 'type' => 'sparepart'],
-            ['name' => 'Ban Crawler Super Grip (Set)', 'price' => 350000, 'stock' => 20, 'weight_kg' => 0.5, 'type' => 'sparepart'],
-            ['name' => 'Charger Fast-Charge 4-Slot', 'price' => 450000, 'stock' => 10, 'weight_kg' => 0.8, 'type' => 'equipment'],
+            ['name' => 'Tepung Bumbu Rahasia (1kg)', 'price' => 25000, 'stock' => 100, 'weight_kg' => 1, 'type' => 'bahan_baku'],
+            ['name' => 'Kemasan Paper Bag (100pcs)', 'price' => 45000, 'stock' => 50, 'weight_kg' => 0.5, 'type' => 'packaging'],
+            ['name' => 'Minyak Goreng Padat (15kg)', 'price' => 350000, 'stock' => 20, 'weight_kg' => 15, 'type' => 'bahan_baku'],
         ];
 
         foreach ($addons as $addon) {

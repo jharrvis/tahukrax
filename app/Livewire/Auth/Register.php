@@ -46,7 +46,7 @@ class Register extends Component
     }
 
     #[Layout('layouts.auth')]
-    #[Title('Daftar Kemitraan | RCGO')]
+    #[Title('Daftar Kemitraan | TahuKrax')]
     public function render()
     {
         return view('livewire.auth.register');

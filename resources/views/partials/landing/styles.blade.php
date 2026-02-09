@@ -1,167 +1,122 @@
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+<script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                colors: {
+                    'primary': '#C41E3A',
+                    'secondary': '#FF6B35',
+                    'cream': '#FFF5E6',
+                    'dark': '#1a1a1a'
+                },
+                fontFamily: {
+                    'poppins': ['Poppins', 'sans-serif']
+                }
+            }
+        }
+    }
+</script>
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+    * {
+        scroll-behavior: smooth;
+    }
 
     body {
         font-family: 'Poppins', sans-serif;
-        background-color: #000;
     }
 
-    [x-cloak] {
-        display: none !important;
+    /* Wave divider */
+    .wave-top {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        overflow: hidden;
+        line-height: 0;
     }
 
-    .btn-primary {
-        background: linear-gradient(135deg, #FFA500 0%, #FF8C00 100%);
-        transition: all 0.3s ease;
-    }
-
-    .btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(255, 165, 0, 0.4);
-    }
-
-    /* Checkerboard Pattern */
-    .checker-bg {
+    .wave-top svg {
         position: relative;
+        display: block;
+        width: calc(100% + 1.3px);
+        height: 80px;
     }
 
-    .checker-bg::after {
-        content: '';
+    .wave-bottom {
         position: absolute;
         bottom: 0;
         left: 0;
-        right: 0;
-        height: 40px;
-        background-image:
-            linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%),
-            linear-gradient(-45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%),
-            linear-gradient(45deg, transparent 75%, rgba(255, 255, 255, 0.15) 75%),
-            linear-gradient(-45deg, transparent 75%, rgba(255, 255, 255, 0.15) 75%);
-        background-size: 20px 20px;
-        background-position: 0 0, 0 10px, 10px -10px, -10px 0;
-        pointer-events: none;
-        opacity: 0.8;
-        mask-image: linear-gradient(to top, black, transparent);
-        border-radius: inherit;
+        width: 100%;
+        overflow: hidden;
+        line-height: 0;
+        transform: rotate(180deg);
     }
 
-    /* Scroll to Top */
-    #scroll-top {
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        width: 50px;
-        height: 50px;
-        background: linear-gradient(135deg, #FFA500 0%, #FF8C00 100%);
-        color: white;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        z-index: 1000;
-        transition: all 0.3s ease;
+    .wave-bottom svg {
+        position: relative;
+        display: block;
+        width: calc(100% + 1.3px);
+        height: 80px;
+    }
+
+    /* Animations */
+    .fade-up {
         opacity: 0;
-        visibility: hidden;
-        box-shadow: 0 4px 15px rgba(255, 165, 0, 0.3);
+        transform: translateY(40px);
+        transition: all 0.6s ease-out;
     }
 
-    #scroll-top.show {
+    .fade-up.visible {
         opacity: 1;
-        visibility: visible;
+        transform: translateY(0);
     }
 
-    #scroll-top:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 25px rgba(255, 165, 0, 0.5);
-    }
-
-    .btn-cta-primary {
-        background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF4500 100%);
-        background-size: 200% auto;
-        transition: 0.5s;
-        animation: pulse-orange 2s infinite;
-    }
-
-    .btn-cta-primary:hover {
-        background-position: right center;
-        transform: scale(1.02);
-    }
-
-    @keyframes pulse-orange {
-        0% {
-            box-shadow: 0 0 0 0 rgba(255, 165, 0, 0.4);
-        }
-
-        70% {
-            box-shadow: 0 0 0 20px rgba(255, 165, 0, 0);
-        }
-
-        100% {
-            box-shadow: 0 0 0 0 rgba(255, 165, 0, 0);
-        }
-    }
-
-    .hero-bg {
-        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)),
-            url('{{ asset('assets/img/hero-background.webp') }}?v=2');
-        background-size: cover, cover;
-        background-position: center;
-        background-attachment: fixed;
-    }
-
-    .granite-texture {
-        background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('{{ asset('assets/img/background.webp') }}');
-        background-size: cover, cover;
-        background-attachment: fixed;
-    }
-
-    @media (max-width: 768px) {
-
-        .hero-bg,
-        .granite-texture {
-            background-attachment: scroll;
-        }
-    }
-
-    /* Live Notifications */
-    #live-notifications-container {
-        position: fixed;
-        bottom: 20px;
-        left: 20px;
-        z-index: 999;
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        max-width: 320px;
-    }
-
-    .live-notification {
-        background: linear-gradient(135deg, rgba(17, 24, 39, 0.95) 0%, rgba(31, 41, 55, 0.95) 100%);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(249, 115, 22, 0.3);
-        border-radius: 12px;
-        padding: 12px 16px;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-        transform: translateX(-120%);
+    .fade-in {
         opacity: 0;
-        transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        transition: opacity 0.6s ease-out;
     }
 
-    .live-notification.show {
-        transform: translateX(0);
+    .fade-in.visible {
         opacity: 1;
     }
 
-    @media (max-width: 640px) {
-        #live-notifications-container {
-            bottom: 10px;
-            left: 10px;
-            max-width: 280px;
-        }
+    /* Hover effects */
+    .hover-lift {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
 
-        .live-notification {
-            padding: 10px 12px;
-        }
+    .hover-lift:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #C41E3A;
+        border-radius: 4px;
+    }
+
+    /* Perspective classes */
+    .perspective-1000 {
+        perspective: 1000px;
+    }
+
+    .rotate-3d {
+        transform: rotateY(-12deg) rotateX(6deg);
+        transition: transform 0.7s ease;
+    }
+
+    .group:hover .rotate-3d {
+        transform: rotateY(0) rotateX(0);
     }
 </style>

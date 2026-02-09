@@ -11,6 +11,6 @@
         Lihat Pesanan
     </x-mail::button>
 
-    Terima kasih telah berbelanja di RCGO Indonesia!<br>
+    Terima kasih telah berbelanja di TahuKrax!<br>
     {{ config('app.name') }}
 </x-mail::message>

@@ -348,7 +348,7 @@ class Checkout extends Component
 
         // 5. Xendit Invoice
         $xenditService = app(\App\Services\XenditService::class);
-        $description = "Pembayaran Paket RCGO: " . count($this->selectedPackages) . " item";
+        $description = "Pembayaran Paket TahuKrax: " . count($this->selectedPackages) . " item";
 
         $invoice = $xenditService->createInvoice([
             'external_id' => 'ORDER-' . $order->id . '-' . time(),

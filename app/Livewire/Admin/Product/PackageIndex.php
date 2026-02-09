@@ -15,7 +15,7 @@ class PackageIndex extends Component
     public $search = '';
 
     #[Layout('layouts.dashboard')]
-    #[Title('Paket Usaha | RCGO Admin')]
+    #[Title('Paket Usaha | TahuKrax Admin')]
     public function render()
     {
         $packages = Package::query()

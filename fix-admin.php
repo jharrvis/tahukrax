@@ -7,7 +7,7 @@ require __DIR__ . '/vendor/autoload.php';
 $app = require_once __DIR__ . '/bootstrap/app.php';
 $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
 
-$email = 'admin@rcgo.test';
+$email = 'admin@tahukrax.test';
 $pass = 'password';
 
 $user = User::where('email', $email)->first();
@@ -17,7 +17,7 @@ if (!$user) {
     $user->email = $email;
 }
 
-$user->name = 'Admin RCGO';
+$user->name = 'Admin TahuKrax';
 $user->password = Hash::make($pass);
 $user->role = 'admin';
 $user->save();

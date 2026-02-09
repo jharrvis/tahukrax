@@ -2,7 +2,7 @@
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
             <h1 class="text-2xl font-bold tracking-tight">Manajemen Mitra</h1>
-            <p class="text-slate-500 text-sm mt-1">Daftar mitra usaha RCGO.</p>
+            <p class="text-slate-500 text-sm mt-1">Daftar mitra usaha TahuKrax.</p>
         </div>
     </div>
 

@@ -27,7 +27,7 @@ class TestEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Test Email Configuration - RCGO',
+            subject: 'Test Email Configuration - TahuKrax',
         );
     }
 

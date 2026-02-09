@@ -1,226 +1,215 @@
-<script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script>
-    // Smooth Scroll
+    // Notification Pop-up Simulator
+    const notifData = [
+        { name: 'Rina', city: 'Bekasi', package: 'Paket Hemat' },
+        { name: 'Arief', city: 'Malang', package: 'Paket Signature' },
+        { name: 'Doni', city: 'Jakarta', package: 'Paket Booth' },
+        { name: 'Siska', city: 'Surabaya', package: 'Paket Tanpa Booth' },
+        { name: 'Budi', city: 'Medan', package: 'Paket Ultimate' },
+        { name: 'Maya', city: 'Bandung', package: 'Paket Hemat' }
+    ];
+
+    let slotLeft = 15;
+    const popup = document.getElementById('popup-notif');
+    const popupText = document.getElementById('popup-text');
+
+    function showNotification() {
+        if (!popup || !popupText) return;
+
+        const data = notifData[Math.floor(Math.random() * notifData.length)];
+        const isSlotReduction = Math.random() > 0.7;
+
+        if (isSlotReduction && slotLeft > 1) {
+            slotLeft--;
+            popupText.innerHTML = `✅ Slot live berkurang. Tersisa <span class="text-red-600 font-bold">${slotLeft} slot</span> hari ini`;
+        } else {
+            popupText.innerHTML = `✅ <strong>${data.name} – ${data.city}</strong> baru saja mengambil <strong>${data.package}</strong>`;
+        }
+
+        popup.classList.remove('translate-y-20', 'opacity-0');
+        popup.classList.add('translate-y-0', 'opacity-100');
+
+        setTimeout(() => {
+            popup.classList.add('translate-y-20', 'opacity-0');
+            popup.classList.remove('translate-y-0', 'opacity-100');
+        }, 4000);
+    }
+
+    // Show first notification after 3 seconds, then every 8-15 seconds
+    setTimeout(() => {
+        showNotification();
+        setInterval(showNotification, Math.floor(Math.random() * 7000) + 8000);
+    }, 3000);
+
+    // Scroll Animation
+    function handleScroll() {
+        const elements = document.querySelectorAll('.fade-up, .fade-in');
+        elements.forEach(el => {
+            const rect = el.getBoundingClientRect();
+            if (rect.top < window.innerHeight - 100) {
+                el.classList.add('visible');
+            }
+        });
+    }
+
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('load', handleScroll);
+
+    // Off-Canvas Mobile Menu Logic
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const closeMobileMenuBtn = document.getElementById('closeMobileMenuBtn');
+    const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+    const mobileMenuPanel = document.getElementById('mobileMenuPanel');
+    const mobileLinks = document.querySelectorAll('.mobile-link');
+
+    function openMobileMenu() {
+        if (!mobileMenuOverlay || !mobileMenuPanel) return;
+        mobileMenuOverlay.classList.remove('hidden');
+        // heavy timeout to allow display:block to apply before opacity transition
+        setTimeout(() => {
+            mobileMenuOverlay.classList.remove('opacity-0');
+            mobileMenuPanel.classList.remove('translate-x-full');
+        }, 10);
+    }
+
+    function closeMobileMenu() {
+        if (!mobileMenuOverlay || !mobileMenuPanel) return;
+        mobileMenuOverlay.classList.add('opacity-0');
+        mobileMenuPanel.classList.add('translate-x-full');
+        setTimeout(() => {
+            mobileMenuOverlay.classList.add('hidden');
+        }, 300);
+    }
+
+    if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', openMobileMenu);
+    if (closeMobileMenuBtn) closeMobileMenuBtn.addEventListener('click', closeMobileMenu);
+    if (mobileMenuOverlay) mobileMenuOverlay.addEventListener('click', closeMobileMenu);
+
+    if (mobileLinks) {
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', closeMobileMenu);
+        });
+    }
+
+    // Smooth scroll for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
-            const href = this.getAttribute('href');
-            if (href === '#') return;
             e.preventDefault();
-            const target = document.querySelector(href);
-            if (target) target.scrollIntoView({ behavior: 'smooth' });
-        });
-    });
-
-    // Modals
-    function openModal(modalId) {
-        const modal = document.getElementById(modalId);
-        if (!modal) return;
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeModal(modalId) {
-        const modal = document.getElementById(modalId);
-        if (!modal) return;
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-        document.body.style.overflow = 'auto';
-    }
-
-    // Close modal when clicking outside
-    document.querySelectorAll('[id^="modal-"]').forEach(modal => {
-        modal.addEventListener('click', function (e) {
-            if (e.target === this) {
-                closeModal(this.id);
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            const target = document.querySelector(targetId);
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         });
     });
 
-    // Close modal with Escape key
-    document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') {
-            document.querySelectorAll('[id^="modal-"]').forEach(modal => {
-                if (!modal.classList.contains('hidden')) {
-                    closeModal(modal.id);
-                }
-            });
+    // Testimonial Carousel Logic
+    (function () {
+        const track = document.getElementById('testimonialTrack');
+        const dots = document.querySelectorAll('.testimonial-dot');
+        const totalSlides = 4;
+        let currentSlide = 0;
+        let autoSlideInterval;
+
+        if (!track) return;
+
+        function goToSlide(index) {
+            if (index < 0) index = totalSlides - 1;
+            if (index >= totalSlides) index = 0;
+            currentSlide = index;
+            track.style.transform = `translateX(-${currentSlide * 100}%)`;
+            updateDots();
         }
-    });
 
-    // Calculator Logic
-    const unitsInput = document.getElementById('calc-units');
-    const priceInput = document.getElementById('calc-price');
-    const hppInput = document.getElementById('calc-hpp');
-    const trxInput = document.getElementById('calc-trx');
-    const resultDisplay = document.getElementById('calc-result');
-
-    function calculateProfit() {
-        if (!unitsInput || !priceInput || !hppInput || !trxInput || !resultDisplay) return;
-
-        const units = parseInt(unitsInput.value) || 0;
-        const price = parseInt(priceInput.value) || 0;
-        const hpp = parseInt(hppInput.value) || 0;
-        const trx = parseInt(trxInput.value) || 0;
-
-        const labaBersihPerSesi = price - hpp;
-        const totalLabaBersihPerBulan = labaBersihPerSesi * trx * units * 30;
-
-        resultDisplay.innerText = new Intl.NumberFormat('id-ID', {
-            style: 'currency',
-            currency: 'IDR',
-            maximumFractionDigits: 0
-        }).format(totalLabaBersihPerBulan);
-    }
-
-    if (unitsInput) {
-        [unitsInput, priceInput, hppInput, trxInput].forEach(input => {
-            input.addEventListener('input', calculateProfit);
-        });
-        calculateProfit();
-    }
-
-    // Scroll to Top
-    document.addEventListener('DOMContentLoaded', function () {
-        const scrollTopBtn = document.getElementById('scroll-top');
-        if (scrollTopBtn) {
-            window.addEventListener('scroll', () => {
-                if (window.pageYOffset > 300) {
-                    scrollTopBtn.classList.add('show');
+        function updateDots() {
+            dots.forEach((dot, i) => {
+                if (i === currentSlide) {
+                    dot.classList.remove('bg-gray-300');
+                    dot.classList.add('bg-primary');
                 } else {
-                    scrollTopBtn.classList.remove('show');
+                    dot.classList.remove('bg-primary');
+                    dot.classList.add('bg-gray-300');
                 }
             });
+        }
 
-            scrollTopBtn.addEventListener('click', () => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+        function nextSlide() {
+            goToSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            goToSlide(currentSlide - 1);
+        }
+
+        function startAutoSlide() {
+            autoSlideInterval = setInterval(nextSlide, 5000);
+        }
+
+        function stopAutoSlide() {
+            clearInterval(autoSlideInterval);
+        }
+
+        // Dots click event
+        dots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                const index = parseInt(dot.dataset.index);
+                goToSlide(index);
+                stopAutoSlide();
+                startAutoSlide();
+            });
+        });
+
+        // Touch/Swipe Support
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const slider = document.getElementById('testimonialSlider');
+
+        if (slider) {
+            slider.addEventListener('touchstart', e => {
+                touchStartX = e.changedTouches[0].screenX;
+            });
+
+            slider.addEventListener('touchend', e => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
             });
         }
-    });
-    // Confirm Modal Logic
-    let confirmCallback = null;
-    const confirmModal = document.getElementById('confirm-modal');
 
-    function openConfirmModal(title, message, callback) {
-        if (!confirmModal) return;
-
-        document.getElementById('confirm-title').innerText = title || 'Konfirmasi';
-        document.getElementById('confirm-message').innerText = message || 'Apakah Anda yakin?';
-        confirmCallback = callback;
-
-        confirmModal.classList.remove('hidden');
-        confirmModal.classList.add('flex');
-
-        // Animation trigger
-        setTimeout(() => {
-            confirmModal.classList.remove('opacity-0');
-        }, 10);
-    }
-
-    function closeConfirmModal(confirmed) {
-        if (!confirmModal) return;
-
-        if (confirmed && confirmCallback) {
-            confirmCallback();
+        function handleSwipe() {
+            const diff = touchStartX - touchEndX;
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) {
+                    nextSlide();
+                } else {
+                    prevSlide();
+                }
+                stopAutoSlide();
+                startAutoSlide();
+            }
         }
 
-        confirmModal.classList.add('opacity-0');
+        // Start auto-slide
+        startAutoSlide();
+    })();
 
-        setTimeout(() => {
-            confirmModal.classList.add('hidden');
-            confirmModal.classList.remove('flex');
-            confirmCallback = null;
-        }, 300);
+    // Scroll to Top Logic
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+    if (scrollTopBtn) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollTopBtn.classList.remove('opacity-0', 'invisible', 'translate-y-10');
+            } else {
+                scrollTopBtn.classList.add('opacity-0', 'invisible', 'translate-y-10');
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
     }
-
-    // Live Notification Pop-ups
-    const notificationNames = [
-        'Rina', 'Arief', 'Budi', 'Siti', 'Dewi', 'Ahmad', 'Fitri', 'Joko', 'Ani', 'Rudi',
-        'Maya', 'Hendra', 'Lina', 'Agus', 'Putri', 'Dian', 'Eko', 'Ratna', 'Bambang', 'Sri',
-        'Yanto', 'Wati', 'Andi', 'Nur', 'Tono', 'Indra', 'Sari', 'Rizky', 'Mega', 'Bayu',
-        'Fajar', 'Intan', 'Guntur', 'Laras', 'Dimas', 'Citra', 'Satria', 'Wulan', 'Bagus', 'Ratih',
-        'Adit', 'Nisa', 'Fikri', 'Ayu', 'Gilang', 'Tari', 'Reza', 'Vina', 'Dedi', 'Yuni',
-        'Hadi', 'Widya', 'Lukman', 'Rini', 'Ferry', 'Nadia', 'Ilham', 'Desi', 'Arif', 'Lilis',
-        'Rendy', 'Dina', 'Fauzi', 'Gina', 'Herry', 'Kiki', 'Iwan', 'Lia', 'Jaya', 'Nita',
-        'Kevin', 'Rika', 'Yoga', 'Tiara', 'Zainal', 'Puput', 'Rian', 'Siska', 'Teguh', 'Yulia',
-        'Aldi', 'Bella', 'Cahyo', 'Dini', 'Edwin', 'Farah', 'Galih', 'Heni', 'Imam', 'Juli',
-        'Koko', 'Lusi', 'Miko', 'Nana', 'Oscar', 'Pina', 'Qori', 'Rahmat', 'Santi', 'Tommy'
-    ];
-
-    const notificationCities = [
-        'Jakarta', 'Surabaya', 'Bandung', 'Medan', 'Semarang', 'Bekasi', 'Tangerang', 'Depok',
-        'Palembang', 'Makassar', 'Batam', 'Bogor', 'Malang', 'Yogyakarta', 'Denpasar',
-        'Balikpapan', 'Pontianak', 'Banjarmasin', 'Samarinda', 'Manado', 'Solo', 'Cirebon',
-        'Pekanbaru', 'Jambi', 'Padang', 'Bandar Lampung', 'Mataram', 'Kupang', 'Jayapura', 'Ambon',
-        'Bengkulu', 'Kendari', 'Palu', 'Sukabumi', 'Tegal', 'Tasikmalaya', 'Magelang', 'Probolinggo',
-        'Kediri', 'Madiun', 'Purwokerto', 'Banyuwangi', 'Jember', 'Garut', 'Cimahi', 'Salatiga',
-        'Blitar', 'Mojokerto', 'Pasuruan', 'Batu', 'Serang', 'Cilegon', 'Pangkal Pinang', 'Tanjung Pinang',
-        'Dumai', 'Binjai', 'Pematang Siantar', 'Tebing Tinggi', 'Lhokseumawe', 'Langsa', 'Palangkaraya',
-        'Tarakan', 'Bontang', 'Banjarbaru', 'Singkawang', 'Gorontalo', 'Ternate', 'Sorong', 'Merauke'
-    ];
-
-    const notificationPackages = [
-        'Paket Drift', 'Paket Offroad', 'Paket Stunt', 'Paket Mix RC Car', 'Paket Excavator', 'Paket Mix Alat Berat'
-    ];
-
-    function createNotification() {
-        const name = notificationNames[Math.floor(Math.random() * notificationNames.length)];
-        const city = notificationCities[Math.floor(Math.random() * notificationCities.length)];
-        const packageName = notificationPackages[Math.floor(Math.random() * notificationPackages.length)];
-
-        const notification = document.createElement('div');
-        notification.className = 'live-notification';
-        notification.innerHTML = `
-            <div class="flex items-start gap-3">
-                <div class="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center shrink-0">
-                    <i class="fas fa-check text-white text-sm"></i>
-                </div>
-                <div class="flex-1">
-                    <p class="text-sm font-semibold text-white">
-                        <span class="text-orange-400">${name}</span> – ${city}
-                    </p>
-                    <p class="text-xs text-gray-300">baru saja mengambil ${packageName}</p>
-                </div>
-            </div>
-        `;
-
-        const container = document.getElementById('live-notifications-container');
-        if (container) {
-            container.appendChild(notification);
-
-            // Trigger animation
-            setTimeout(() => {
-                notification.classList.add('show');
-            }, 100);
-
-            // Remove after 5 seconds
-            setTimeout(() => {
-                notification.classList.remove('show');
-                setTimeout(() => {
-                    notification.remove();
-                }, 300);
-            }, 5000);
-        }
-    }
-
-    // Start showing notifications after page load
-    document.addEventListener('DOMContentLoaded', function () {
-        function scheduleNextNotification() {
-            // Random delay between 15-40 seconds for more natural feel
-            const randomDelay = Math.random() * 25000 + 15000;
-            
-            setTimeout(() => {
-                createNotification();
-                scheduleNextNotification(); // Schedule the next one
-            }, randomDelay);
-        }
-
-        // Show first notification after 8-12 seconds (random)
-        const initialDelay = Math.random() * 4000 + 8000;
-        setTimeout(() => {
-            createNotification();
-            scheduleNextNotification();
-        }, initialDelay);
-    });
 </script>

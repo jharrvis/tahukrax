@@ -28,7 +28,7 @@ class UserRegistered extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Selamat Datang di RCGO Indonesia!',
+            subject: 'Selamat Datang di TahuKrax Indonesia!',
         );
     }
 

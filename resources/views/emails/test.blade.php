@@ -3,7 +3,7 @@
 
     Halo,
 
-    Ini adalah email percobaan dari sistem RCGO Indonesia.
+    Ini adalah email percobaan dari sistem TahuKrax.
     Jika Anda menerima email ini, berarti konfigurasi SMTP Anda sudah benar.
 
     **Waktu Pengiriman:** {{ now()->format('d M Y H:i:s') }}

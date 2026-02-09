@@ -1,47 +1,39 @@
-<!-- SECTION 1: HERO -->
-<section class="hero-bg h-[85vh] relative overflow-hidden">
-    <!-- Content Left Side -->
-    <div class="max-w-7xl mx-auto px-4 h-full flex items-center relative z-10">
-        <div class="w-full lg:w-1/2 text-white space-y-3 md:space-y-4 text-center lg:text-left -mt-8 md:-mt-12">
-            <div
-                class="inline-flex items-center gap-2 bg-orange-500/10 border border-orange-500 px-3 py-1.5 rounded-full text-xs md:text-sm">
-                <i class="fas fa-car text-orange-500"></i>
-                <span class="text-orange-500 font-semibold">RC Go – Peluang Usaha RC Paling Murah &
-                    Menguntungkan</span>
-            </div>
-            <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight">
-                Udah tau bisnis ini<br>
-                sekali transaksi<br>
-                <span class="text-orange-500">untungnya 900%?</span>
-            </h1>
-            <div
-                class="text-sm md:text-base lg:text-lg text-gray-300 leading-relaxed max-w-xl mx-auto lg:mx-0 space-y-2">
-                <p>Usaha permainan kendaraan <strong class="text-white">Remote Control (RC)</strong> yang seru,
-                    fleksibel, dan cepat balik modal.</p>
-                <p>Cocok untuk <span class="text-orange-400">event, mall, CFD, taman bermain</span>, hingga usaha
-                    rumahan.</p>
-            </div>
-            <!-- Modal Highlight -->
-            <div class="flex items-center gap-2 justify-center lg:justify-start">
-                <span class="text-xl">👉</span>
-                <span class="text-lg md:text-xl lg:text-2xl font-bold text-orange-500">MODAL RINGAN, MULAI 1
-                    JUTAAN!</span>
-            </div>
-            <div class="flex flex-col sm:flex-row gap-3 pt-2 justify-center lg:justify-start">
-                <a href="#paket"
-                    class="btn-primary px-5 md:px-6 py-2.5 md:py-3 rounded-full text-white font-bold text-sm md:text-base transition-all flex items-center justify-center gap-2">
-                    <i class="fas fa-tag"></i> Cek Harga
-                </a>
-                <a href="https://wa.me/6288221201998" target="_blank"
-                    class="bg-transparent border-2 border-white px-5 md:px-6 py-2.5 md:py-3 rounded-full text-white font-bold text-sm md:text-base hover:bg-white/10 transition-all flex items-center justify-center">
-                    Konsultasi Gratis
-                </a>
-            </div>
-        </div>
+<!-- HERO_SECTION -->
+<section id="hero"
+    class="relative bg-gradient-to-br from-primary via-primary to-cell-800 text-white min-h-[90vh] flex items-center overflow-hidden">
+
+    <!-- Hero Image (85% height, no styles) -->
+    <div class="hidden lg:block absolute top-1/2 right-24 -translate-y-1/2 h-[85%] w-[45%]">
+        <img src="{{ asset('assets/img/tahukrax.webp') }}" alt="Tahu Krax"
+            class="w-full h-full object-contain object-right">
     </div>
-    <!-- Image Right Side - Absolute positioned at bottom -->
-    <div class="hidden lg:block absolute right-0 bottom-0 w-1/2 h-full">
-        <img src="{{ asset('assets/img/rcgo.webp') }}?v=2" alt="RC Car"
-            class="absolute bottom-0 right-0 h-auto w-full max-h-[90%] object-contain object-bottom">
+
+    <div class="container mx-auto px-4 md:px-8 py-12 md:py-20 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <div class="fade-up text-center lg:text-left">
+                <h1 class="text-5xl sm:text-6xl md:text-7xl font-black leading-tight mb-6">
+                    {!! $contents['hero_title']['value'] ?? 'Renyah, Gurih,<br><span class="text-yellow-300">Untung Melimpah!</span>' !!}
+                </h1>
+                <p class="text-base md:text-lg max-w-xl mb-6 text-white/90 leading-relaxed mx-auto lg:mx-0">
+                    {{ $contents['hero_desc']['value'] ?? 'Bukan sekadar jualan tahu, ini adalah "Mesin Uang" yang sudah kami siapkan kuncinya. Kamu tinggal buka pintu, goreng, dan terima pesanan!' }}
+                </p>
+                <div
+                    class="inline-block bg-yellow-400 text-primary font-bold py-3 px-6 mb-8 text-lg md:text-xl shadow-lg">
+                    Modal Cuma 1 jutaan, Untung sampai 400%
+                </div>
+                <div class="flex flex-row justify-center lg:justify-start gap-3 sm:gap-4 flex-wrap sm:flex-nowrap">
+                    <a href="#packages"
+                        class="bg-white text-primary hover:bg-yellow-400 hover:text-primary transition-all font-bold py-3 px-5 sm:py-4 sm:px-8 text-sm sm:text-lg shadow-xl hover-lift inline-block text-center rounded-full flex-1 sm:flex-none">
+                        AMBIL PAKET SEKARANG
+                    </a>
+                    <a href="#about"
+                        class="border-2 border-white text-white hover:bg-white hover:text-primary transition-all font-bold py-3 px-5 sm:py-4 sm:px-8 text-sm sm:text-lg inline-block text-center rounded-full flex-1 sm:flex-none">
+                        PELAJARI LEBIH LANJUT
+                    </a>
+                </div>
+            </div>
+            <!-- Empty column for spacing on large screens -->
+            <div class="hidden lg:block"></div>
+        </div>
     </div>
 </section>

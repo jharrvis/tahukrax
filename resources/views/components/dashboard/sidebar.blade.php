@@ -7,7 +7,7 @@
     <!-- Logo Area -->
     <div class="flex items-center justify-between h-16 px-4 border-b border-slate-200 dark:border-slate-800">
         <a href="{{ route('home') }}" class="flex items-center gap-3 overflow-hidden group">
-            <img src="{{ asset('assets/img/rcgo-logo.svg') }}" alt="RCGO" class="h-8 w-auto">
+            <span class="text-2xl font-bold text-primary">TahuKrax</span>
         </a>
         <button @click="toggleSidebar()" class="hidden md:block p-1 text-slate-400 hover:text-brand-500">
             <i class="fas" :class="isSidebarOpen ? 'fa-angle-left' : 'fa-angle-right'"></i>
@@ -123,7 +123,7 @@
                 class="w-10 h-10 rounded-xl shrink-0">
             <div class="smooth-transition shrink-0"
                 :class="isSidebarOpen ? 'opacity-100 w-auto' : 'opacity-0 w-0 invisible'">
-                <p class="text-sm font-bold truncate">{{ Auth::user()->name ?? 'Admin RCGO' }}</p>
+                <p class="text-sm font-bold truncate">{{ Auth::user()->name ?? 'Admin TahuKrax' }}</p>
                 <p class="text-xs text-slate-500 truncate">{{ Auth::user()->email ?? 'Super Admin' }}</p>
             </div>
         </div>

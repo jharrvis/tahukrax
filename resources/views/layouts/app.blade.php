@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $title ?? 'Checkout | RCGO' }}</title>
+    <title>{{ $title ?? 'Checkout | TahuKrax' }}</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -164,7 +164,7 @@
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div class="flex h-16 justify-between items-center">
                     <div class="flex items-center gap-2">
-                        <img src="{{ asset('img/rcgo-logo.svg') }}" alt="RCGO Logo" class="h-6 md:h-8">
+                        <span class="text-xl font-bold">TahuKrax</span>
                     </div>
                     <div class="flex items-center gap-4">
                         <span class="text-sm font-bold uppercase italic text-stone-500">Checkout Secure</span>

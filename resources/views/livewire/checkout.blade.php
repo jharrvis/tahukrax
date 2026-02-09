@@ -6,12 +6,12 @@
 
         initCheckout() {
             @if(empty($selectedPackages))
-                // Try to get from global RCGOCart or directly from localStorage
-                let stored = localStorage.getItem('rcgo_cart_v4');
+                // Try to get from global TahuKraxCart or directly from localStorage
+                let stored = localStorage.getItem('tahukrax_cart_v1');
                 let cart = null;
 
-                if (window.RCGOCart) {
-                    cart = window.RCGOCart.get();
+                if (window.TahuKraxCart) {
+                    cart = window.TahuKraxCart.get();
                 } else if (stored) {
                     try {
                         let parsed = JSON.parse(stored);
@@ -41,7 +41,7 @@
                 // Packages already loaded via mount (from route), just sync addons
                 this.loading = false;
                 this.noPackage = false;
-                let cart = window.RCGOCart ? window.RCGOCart.get() : null;
+                let cart = window.TahuKraxCart ? window.TahuKraxCart.get() : null;
                 if (cart && cart.addons) {
                     // For single package route, we might want to respect cart addons too
                      $wire.loadAddonsFromCart(cart.addons.reduce((acc, curr) => { acc[curr.id] = curr.qty; return acc; }, {}));
@@ -49,10 +49,10 @@
             @endif
         }
     }" x-init="initCheckout()" @addons-changed.window="
-        if (window.RCGOCart) {
-            let cart = window.RCGOCart.get();
+        if (window.TahuKraxCart) {
+            let cart = window.TahuKraxCart.get();
             if (cart && cart.package) {
-                window.RCGOCart.set(cart.package, $event.detail.addons);
+                window.TahuKraxCart.set(cart.package, $event.detail.addons);
             }
         }
     ">
