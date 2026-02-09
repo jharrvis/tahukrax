@@ -12,7 +12,7 @@ class LandingPageController extends Controller
 {
     public function index()
     {
-        $packages = Package::all();
+        $packages = Package::orderBy('price', 'asc')->get();
         $addons = Addon::all();
         return view('welcome', compact('packages', 'addons'));
     }
