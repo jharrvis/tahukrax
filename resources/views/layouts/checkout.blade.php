@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checkout | RC GO</title>
+    <title>Checkout | TahuKrax</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -16,11 +16,11 @@
     @livewireStyles
 </head>
 
-<body class="bg-black text-white selection:bg-orange-500 selection:text-white">
+<body class="bg-[#FFFBF5] text-gray-800 selection:bg-orange-500 selection:text-white font-sans antialiased">
 
     @include('partials.landing.nav')
 
-    <main class="granite-texture min-h-screen py-16 md:py-24">
+    <main class="min-h-screen py-16 md:py-24">
         {{ $slot }}
     </main>
 
