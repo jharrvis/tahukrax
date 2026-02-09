@@ -49,10 +49,10 @@
             <!-- Wizard Progress - Compact on Mobile -->
             <div class="flex items-center justify-between relative max-w-md md:max-w-2xl mx-auto">
                 <div
-                    class="absolute left-0 top-1/2 -translate-y-1/2 w-full h-0.5 md:h-1 bg-gray-200 -z-10 rounded-full">
+                    class="absolute left-0 top-4 md:top-5 -translate-y-1/2 w-full h-0.5 md:h-1 bg-gray-200 -z-10 rounded-full">
                 </div>
-                <div class="absolute left-0 top-1/2 -translate-y-1/2 h-0.5 md:h-1 bg-orange-500 -z-10 rounded-full transition-all duration-500"
-                    style="width: {{ ($step - 1) / 3 * 100 }}%"></div>
+                <div class="absolute left-0 top-4 md:top-5 -translate-y-1/2 h-0.5 md:h-1 bg-orange-500 -z-10 rounded-full transition-all duration-500"
+                    style="width: {{ ($step - 1) / 2 * 100 }}%"></div>
 
                 <!-- Step 1: Paket -->
                 <div class="flex flex-col items-center gap-1 md:gap-2 cursor-pointer" wire:click="goToStep(2)">
