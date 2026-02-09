@@ -65,7 +65,8 @@
                     </div>
 
                     <div class="text-sm">
-                        <a href="#" class="font-bold text-orange-600 hover:text-orange-500 transition-colors">
+                        <a href="{{ route('password.request') }}"
+                            class="font-bold text-orange-600 hover:text-orange-500 transition-colors">
                             Lupa Password?
                         </a>
                     </div>
