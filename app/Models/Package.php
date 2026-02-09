@@ -14,12 +14,14 @@ class Package extends Model
         'description',
         'price',
         'weight_kg',
+        'is_featured',
     ];
 
     protected $casts = [
         'features' => 'array',
         'price' => 'decimal:2',
         'weight_kg' => 'float',
+        'is_featured' => 'boolean',
     ];
 
     public function partnerships()
