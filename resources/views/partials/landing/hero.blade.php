@@ -1,6 +1,6 @@
 <!-- HERO_SECTION -->
 <section id="hero"
-    class="relative bg-gradient-to-br from-primary via-primary to-cell-800 text-white min-h-[90vh] flex items-center overflow-hidden">
+    class="relative bg-gradient-to-br from-red-700 via-orange-600 to-yellow-500 text-white min-h-[90vh] flex items-center overflow-hidden">
 
     <!-- Hero Image (85% height, no styles) -->
     <div class="hidden lg:block absolute top-1/2 right-24 -translate-y-1/2 h-[85%] w-[45%]">
