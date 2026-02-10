@@ -20,4 +20,5 @@ yarn-error.log
 
 # Agent files
 .agent/
-
+plan/
+docs/
