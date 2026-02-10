@@ -82,96 +82,16 @@
             </div>
         </div>
 
-        <!-- AI Assistants Grid -->
-        <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-            <!-- 1. Naya (Orange) -->
-            <div
-                class="group bg-gray-900/80 border border-orange-500/30 p-4 rounded-2xl flex items-center gap-4 hover:bg-gray-800 transition-all hover:scale-105 hover:shadow-[0_0_20px_rgba(249,115,22,0.3)]">
-                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&h=100&fit=crop" alt="Naya"
-                    class="w-12 h-12 rounded-full object-cover ring-2 ring-orange-500">
-                <div>
-                    <h4 class="font-bold text-white text-lg leading-none">Naya</h4>
-                    <p class="text-orange-400 text-xs mt-1">Content Creator</p>
+        <!-- AI Assistants Grid (Updated) -->
+        <div class="mt-16 grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+            @foreach(['dion.webp', 'freya.webp', 'liora.webp', 'manda.webp', 'naya.webp', 'odelia.webp', 'vezia.webp'] as $img)
+                <div class="group">
+                    <img src="{{ asset('img/ai-bonus/' . $img) }}" alt="AI Assistant"
+                        class="w-full h-auto rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300">
                 </div>
-            </div>
-
-            <!-- 2. Freya (Yellow) -->
-            <div
-                class="group bg-gray-900/80 border border-yellow-500/30 p-4 rounded-2xl flex items-center gap-4 hover:bg-gray-800 transition-all hover:scale-105 hover:shadow-[0_0_20px_rgba(234,179,8,0.3)]">
-                <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=100&h=100&fit=crop" alt="Freya"
-                    class="w-12 h-12 rounded-full object-cover ring-2 ring-yellow-500">
-                <div>
-                    <h4 class="font-bold text-white text-lg leading-none">Freya</h4>
-                    <p class="text-yellow-400 text-xs mt-1">Customer Service</p>
-                </div>
-            </div>
-
-            <!-- 3. Vezia (Peach) -->
-            <div
-                class="group bg-gray-900/80 border border-red-300/30 p-4 rounded-2xl flex items-center gap-4 hover:bg-gray-800 transition-all hover:scale-105 hover:shadow-[0_0_20px_rgba(253,164,175,0.3)]">
-                <img src="https://images.unsplash.com/photo-1598550874175-4d7112ee7f8e?w=100&h=100&fit=crop" alt="Vezia"
-                    class="w-12 h-12 rounded-full object-cover ring-2 ring-red-300">
-                <div>
-                    <h4 class="font-bold text-white text-lg leading-none">Vezia</h4>
-                    <p class="text-red-300 text-xs mt-1">Sales Admin</p>
-                </div>
-            </div>
-
-            <!-- 4. Liora (Cyan) -->
-            <div
-                class="group bg-gray-900/80 border border-cyan-400/30 p-4 rounded-2xl flex items-center gap-4 hover:bg-gray-800 transition-all hover:scale-105 hover:shadow-[0_0_20px_rgba(34,211,238,0.3)]">
-                <img src="https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?w=100&h=100&fit=crop" alt="Liora"
-                    class="w-12 h-12 rounded-full object-cover ring-2 ring-cyan-400">
-                <div>
-                    <h4 class="font-bold text-white text-lg leading-none">Liora</h4>
-                    <p class="text-cyan-400 text-xs mt-1">Data Analyst</p>
-                </div>
-            </div>
-
-            <!-- 5. Manda (Purple) -->
-            <div
-                class="group bg-gray-900/80 border border-purple-500/30 p-4 rounded-2xl flex items-center gap-4 hover:bg-gray-800 transition-all hover:scale-105 hover:shadow-[0_0_20px_rgba(168,85,247,0.3)]">
-                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop" alt="Manda"
-                    class="w-12 h-12 rounded-full object-cover ring-2 ring-purple-500">
-                <div>
-                    <h4 class="font-bold text-white text-lg leading-none">Manda</h4>
-                    <p class="text-purple-400 text-xs mt-1">Sosmed Specialist</p>
-                </div>
-            </div>
-
-            <!-- 6. Hestia (Red) -->
-            <div
-                class="group bg-gray-900/80 border border-red-500/30 p-4 rounded-2xl flex items-center gap-4 hover:bg-gray-800 transition-all hover:scale-105 hover:shadow-[0_0_20px_rgba(239,68,68,0.3)]">
-                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop"
-                    alt="Hestia" class="w-12 h-12 rounded-full object-cover ring-2 ring-red-500">
-                <div>
-                    <h4 class="font-bold text-white text-lg leading-none">Hestia</h4>
-                    <p class="text-red-400 text-xs mt-1">Ads Manager</p>
-                </div>
-            </div>
-
-            <!-- 7. Dion (Blue) -->
-            <div
-                class="group bg-gray-900/80 border border-blue-500/30 p-4 rounded-2xl flex items-center gap-4 hover:bg-gray-800 transition-all hover:scale-105 hover:shadow-[0_0_20px_rgba(59,130,246,0.3)]">
-                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop" alt="Dion"
-                    class="w-12 h-12 rounded-full object-cover ring-2 ring-blue-500">
-                <div>
-                    <h4 class="font-bold text-white text-lg leading-none">Dion</h4>
-                    <p class="text-blue-400 text-xs mt-1">Shop Manager</p>
-                </div>
-            </div>
-
-            <!-- 8. Odelia (Green) -->
-            <div
-                class="group bg-gray-900/80 border border-green-500/30 p-4 rounded-2xl flex items-center gap-4 hover:bg-gray-800 transition-all hover:scale-105 hover:shadow-[0_0_20px_rgba(34,197,94,0.3)]">
-                <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=100&h=100&fit=crop"
-                    alt="Odelia" class="w-12 h-12 rounded-full object-cover ring-2 ring-green-500">
-                <div>
-                    <h4 class="font-bold text-white text-lg leading-none">Odelia</h4>
-                    <p class="text-green-400 text-xs mt-1">Finance Admin</p>
-                </div>
-            </div>
+            @endforeach
         </div>
+    </div>
     </div>
     <style>
         .perspective-1000 {
