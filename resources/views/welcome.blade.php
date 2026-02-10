@@ -12,6 +12,7 @@
 
     @include('partials.landing.nav')
     @include('partials.landing.hero')
+    @include('partials.landing.slots-counter')
     @include('partials.landing.about')
     @include('partials.landing.sistem')
     @include('partials.landing.keunggulan')
