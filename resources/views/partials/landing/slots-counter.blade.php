@@ -19,25 +19,25 @@
             </p>
 
             <div
-                class="bg-blue-600 rounded-3xl p-8 md:p-10 shadow-xl max-w-2xl mx-auto text-white transform hover:scale-105 transition-transform duration-300 relative overflow-hidden">
+                class="bg-gradient-to-br from-red-600 to-orange-500 rounded-3xl p-8 md:p-10 shadow-2xl shadow-red-500/30 max-w-2xl mx-auto text-white transform hover:scale-105 transition-all duration-300 relative overflow-hidden border-4 border-white/10">
                 <!-- Shine Effect -->
                 <div
                     class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 translate-x-[-150%] animate-shine">
                 </div>
 
                 <div class="relative z-10">
-                    <h3 class="text-2xl md:text-3xl font-bold mb-4 tracking-wide">SLOT TERBATAS</h3>
+                    <h3 class="text-2xl md:text-3xl font-bold mb-4 tracking-wide drop-shadow-md">SLOT TERBATAS</h3>
 
                     <div class="space-y-2">
                         <div class="text-xl md:text-2xl opacity-90">
-                            Batch hari ini : <span class="font-bold underline decoration-red-400 decoration-4">40
+                            Batch hari ini : <span class="font-bold underline decoration-yellow-400 decoration-4">40
                                 slot</span>
                         </div>
 
                         <div class="text-2xl md:text-4xl font-bold mt-4 animate-pulse">
                             Tersisa : <span id="slots-count"
-                                class="text-yellow-300 underline decoration-red-500 decoration-4">...</span> <span
-                                class="text-yellow-300 underline decoration-red-500 decoration-4">slot</span>
+                                class="text-yellow-300 underline decoration-white decoration-4 drop-shadow-sm">...</span> <span
+                                class="text-yellow-300 underline decoration-white decoration-4 drop-shadow-sm">slot</span>
                         </div>
                     </div>
                 </div>
