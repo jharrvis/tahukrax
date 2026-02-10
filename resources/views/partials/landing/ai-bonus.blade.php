@@ -86,7 +86,7 @@
         <div class="mt-16 grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
             @foreach(['dion.webp', 'freya.webp', 'liora.webp', 'manda.webp', 'naya.webp', 'odelia.webp', 'vezia.webp'] as $img)
                 <div class="group">
-                    <img src="{{ asset('img/ai-bonus/' . $img) }}" alt="AI Assistant"
+                    <img src="{{ asset('storage/img/ai-bonus/' . $img) }}" alt="AI Assistant"
                         class="w-full h-auto rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300">
                 </div>
             @endforeach
